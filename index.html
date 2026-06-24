@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="ru">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Tailwind + GSAP + VW/VH Engine</title>
+      <!-- Tailwind CDN -->
+      <script src="https://cdn.tailwindcss.com"></script>
+      <!-- GSAP CDN -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+      <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+      <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet" />
+      <link
+         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+         rel="stylesheet"
+         />
+      <script>
+         tailwind.config = {
+             theme: {
+                 screens: {
+                     xl: { max: "1279px" },
+                     lg: { max: "1023px" },
+                     md: { max: "767px" },
+                     sm: { max: "639px" },
+                 },
+             },
+         };
+      </script>
+      <link
+         href="css/custom.css"
+         rel="stylesheet"
+         />
+   </head>
+   <body class="bg-[#C6C6CE] overflow-x-hidden inter-regular text-black body-main-page">
+      <div class="cursor"></div>
+      <div
+         class="
+         nav-overplay-absolute fixed inset-0 z-30 mix-blend-difference flex items-center justify-center hidden
+         sm:block
+         "
+         >
+         <div class="nav-overplay inset-0 z-30 bg-[#C6C6CE] h-[calc(400*var(--vw))] w-[calc(400*var(--vw))]">
+            <div
+               class="flex flex-col justify-between h-full gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))]"
+               >
+               <!-- Logo -->
+               <div
+                  class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"
+                  ></div>
+               <!-- Menu -->
+               <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block">
+                  <div class="overflow-hidden">
+                     <a
+                        href="studio.html"
+                        class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full
+                        sm:text-[calc(72*var(--vw-sm))] "
+                        >
+                     Studio
+                     </a>
+                  </div>
+                  <div class="overflow-hidden">
+                     <a
+                        href="/project.html"
+                        class="uppercase tracking-[.06em] underline hover:no-underline
+                        sm:text-[calc(72*var(--vw-sm))] "
+                        >
+                     Project
+                     </a>
+                  </div>
+                  <div class="overflow-hidden">
+                     <a
+                        href="/contact.html"
+                        class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full
+                        sm:text-[calc(72*var(--vw-sm))] "
+                        >
+                     Contact
+                     </a>
+                  </div>
+               </nav>
+               <!-- Language -->
+               <a
+                  href="#"
+                  class="inter-bold text-center underline hover:no-underline text-[calc(14*var(--vw))]
+                  sm:text-[calc(16*var(--vw-sm))] "
+                  >
+               UA
+               </a>
+            </div>
+         </div>
+      </div>
+      <div
+         id="preloader_overplay"
+         class="flex items-center justify-center h-screen w-screen bg-[#C6C6CE] absolute top-0 z-10"
+         >
+         <div id="box" class="bg-[#000000] h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] opacity-0"></div>
+      </div>
+      <div class="all_content opacity-0">
+         <div
+            class="
+            grid grid-cols-4 fixed z-30 inset-0 mix-blend-difference text-white h-10 header_nav gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))]
+
+            sm:mt-[calc(15*var(--vw-sm))]
+            "
+            >
+            <div
+               class="
+               text-[calc(16*var(--vw))]  leading-[calc(18*var(--vw))] roof_studio z-50
+               md:text-[calc(18*var(--vw-md))] md:leading-[calc(18*var(--vw-md))]
+               sm:text-[calc(18*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))] 
+               "
+               >
+               <a href="index.html">
+               <div class="overflow-hidden">
+                  <div>ROOF</div>
+               </div>
+               <div class="overflow-hidden">
+                  <div>STUDIO</div>
+               </div>
+
+               </a>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase">
+                  <a
+                     class="
+                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
+                     md:text-[calc(14*var(--vw-md))]
+                     sm:hidden
+                     "
+                     href="studio.html"
+                     >Studio</a
+                     >
+               </div>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase">
+                  <a
+                     class="
+                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
+                     md:text-[calc(14*var(--vw-md))]
+                     sm:hidden
+                     "
+                     href="projects.html"
+                     >Projects</a
+                     >
+               </div>
+            </div>
+            <div class="uppercase justify-between flex contact_and_lang">
+               <div class="overflow-hidden">
+                  <div>
+                     <a
+                        class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4
+                        md:text-[calc(14*var(--vw-md))]
+                        sm:hidden
+                        "
+                        href="contact.html"
+                        >Contact</a
+                        >
+                  </div>
+               </div>
+               <div class="overflow-hidden">
+                  <div>
+                     <a
+                        class="main_link inter-bold hover:underline underline hover:no-underline underline-offset-4 cursor-pointer 
+                        md:text-[calc(14*var(--vw-md))]
+                        sm:hidden
+                        "
+                        >UA</a
+                        >
+                     <a
+                        href=""
+                        class="
+                        menu-toggle relative block w-[calc(24*var(--vw-sm))] h-[calc(12*var(--vw-sm))] z-50 hidden
+                        sm:block
+                        "
+                        >
+                        <div class="line-1 absolute left-0 top-0 w-full h-[1px] bg-white"></div>
+                        <div class="line-2 absolute left-0 top-[6px] w-[50%] h-[1px] bg-white"></div>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="
+         header 
+         md:mt-[calc(54*var(--vw-md))]
+         sm:mt-[calc(60*var(--vw-sm))]
+         ">
+            <div
+               data-size
+               class="grid grid-cols-4 leading-[1] relative z-20 logo text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(50*var(--vw))]"
+               >
+               <div class="overflow-hidden">
+                  <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+               </div>
+               <div class="overflow-hidden">
+                  <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+               </div>
+               <div class="overflow-hidden">
+                  <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+               </div>
+               <div class="overflow-hidden">
+                  <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
+               </div>
+            </div>
+            <div class="grid grid-cols-4 gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(25*var(--vw))]">
+               <div
+                  class="video_block relative w-full overflow-hidden col-span-4 opacity-0 z-20 h-screen
+                  md:h-[50vh]
+                  "
+                  >
+                  <video
+                     id="bgVideo"
+                     class="absolute top-0 left-0 w-full h-full object-cover"
+                     autoplay
+                     muted
+                     loop
+                     playsinline
+                     >
+                     <source src="videos/video_bg.mp4" type="video/mp4" />
+                  </video>
+               </div>
+            </div>
+         </div>
+         <section
+            id="studio"
+            class="
+            h-screen place-items-center grid text-white mix-blend-difference pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))]
+            md:h-full md:mix-blend-normal md:text-black md:mt-[calc(115*var(--vw-md))]
+
+            "
+            >
+            <div class="w-full justify-between flex items-center relative z-10 text-white title_studio">
+               <div
+                  class="uppercase inter-medium tracking-[-0.02em] text-[calc(32*var(--vw))] md:hidden"
+                  >
+                  studio
+               </div>
+               <div
+                  class="inter-regular tracking-[-0.06em] text-[calc(14*var(--vw))] md:hidden"
+                  >
+                  Lviv, Ukraine
+               </div>
+            </div>
+            <div id="cursor-studio"></div>
+            <div class="text-center z-2 self-center">
+               <div
+                  class="
+                  tracking-[-0.05em] text-[calc(63*var(--vw))]  inter-semibol self-center we_are
+                  md:text-[calc(102*var(--vw-md))] md:text-justify
+                  sm:text-[calc(71*var(--vw-sm))] sm:leading-[1.2]
+                  "
+                  >
+                  We are architecture studio ROOF.<br />
+                  <span class="
+                  md:hidden
+                  ">Founded by Le Sauveterre.</span>
+               </div>
+            </div>
+            <div
+               class="
+               text-[calc(14*var(--vw))] inter-regular tracking-[-0.06em] self-end text-white Est relative
+               md:hidden
+               "
+               >
+               Est. 1992
+            </div>
+         </section>
+         <section id="projects" class="
+         mt-[calc(600*var(--vw))]
+         md:mt-[calc(250*var(--vw-md))]
+         ">
+            <div class="
+            title_projects justify-between text-center p-[calc(20*var(--vw))]
+            md:text-left 
+            ">
+               <div
+                  class="
+                  mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] uppercase inter-medium tracking-[-0.02em] projects_title
+                  md:text-[calc(24*var(--vw-md))] md:mb-[calc(61*var(--vw-md))]
+                  sm:text-[calc(24*var(--vw-sm))] md:mb-[calc(63*var(--vw-md))]
+                  "
+                  >
+                  Projects
+               </div>
+            </div>
+            <div class="container_custom">
+               <div class="projects_table">
+                  <div
+                     class="grid grid-cols-4 gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] text-[calc(308*var(--vw))] project_block"
+                     >
+                     <div class=""></div>
+                     <div
+                        class="
+                        uppercase text-[calc(14*var(--vw))]
+                        md:text-[calc(16*var(--vw-md))]
+                        sm:hidden
+                        "
+                        >
+                        category
+                     </div>
+                     <div
+                        class="
+                        uppercase text-[calc(14*var(--vw))]
+                        md:text-[calc(16*var(--vw-md))]
+                        sm:hidden
+                        "
+                        >
+                        location
+                     </div>
+                     <div
+                        class="
+                        uppercase text-[calc(14*var(--vw))]
+                        md:text-[calc(16*var(--vw-md))]
+                        sm:hidden
+                        "
+                        >
+                        Year
+                     </div>
+                  </div>
+                  <!--             project start -->
+                  <div
+                     class="
+                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] cursor-pointer project_block
+                     "
+                  >
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        SUSTAINABLE BUSINESS PARK
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        COMMERCIAL DEVELOPMENT
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        Amsterdam, Netherlands
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        2020-2025
+                     </div>
+                     <div class="preview w-[calc(440*var(--vw))]">
+                        <img src="images/thumb_project_5.jpg" />
+                     </div>
+                  </div>
+                  <!--             project end -->
+
+                  <!--             project start -->
+                  <div
+                     class="
+                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] cursor-pointer project_block
+                     "
+                  >
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        TECHNOLOGY CAMPUS EXPANSION
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        ARCHITECTURE / MASTERPLAN
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        Berlin, Germany
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        2019-2024
+                     </div>
+                     <div class="preview w-[calc(440*var(--vw))]">
+                        <img src="images/thumb_project_5.jpg" />
+                     </div>
+                  </div>
+                  <!--             project end -->
+
+                  <!--             project start -->
+                  <div
+                     class="
+                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] cursor-pointer project_block
+                     "
+                  >
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        LUXURY RESIDENTIAL TOWERS
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        ARCHITECTURE / RESIDENTIAL
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        Dubai, UAE
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        2018-2023
+                     </div>
+                     <div class="preview w-[calc(440*var(--vw))]">
+                        <img src="images/thumb_project_5.jpg" />
+                     </div>
+                  </div>
+                  <!--             project end -->
+
+                  <!--             project start -->
+                  <div
+                     class="
+                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] cursor-pointer project_block
+                     "
+                  >
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        MIXED-USE WATERFRONT DISTRICT
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        URBANISM / DEVELOPMENT
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        Barcelona, Spain
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        2017-2022
+                     </div>
+                     <div class="preview w-[calc(440*var(--vw))]">
+                        <img src="images/thumb_project_5.jpg" />
+                     </div>
+                  </div>
+                  <!--             project end -->
+
+                  <!--             project start -->
+                  <div
+                     class="
+                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] cursor-pointer project_block
+                     "
+                  >
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        CITY CULTURAL CENTER
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        PUBLIC BUILDINGS
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        Copenhagen, Denmark
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        2016-2021
+                     </div>
+                     <div class="preview w-[calc(440*var(--vw))]">
+                        <img src="images/thumb_project_5.jpg" />
+                     </div>
+                  </div>
+                  <!--             project end -->
+
+                  <!--             project start -->
+                  <div
+                     class="
+                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] cursor-pointer project_block
+                     "
+                  >
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        HIGH-SPEED RAIL TERMINAL
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:text-[calc(16*var(--vw-sm))] sm:col-span-2">
+                        TRANSPORTATION INFRASTRUCTURE
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        Milan, Italy
+                     </div>
+                     <div class="uppercase tracking-[0.10em] text-[calc(14*var(--vw))] md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:hidden">
+                        2015-2020
+                     </div>
+                     <div class="preview w-[calc(440*var(--vw))]">
+                        <img src="images/thumb_project_5.jpg" />
+                     </div>
+                  </div>
+                  <!--             project end -->
+
+
+               </div>
+            </div>
+         </section>
+         <section class="
+         clients mt-[calc(500*var(--vw))]
+         md:mt-[calc(250*var(--vw-md))]
+         ">
+            <div class="container_custom p-[calc(20*var(--vw))]">
+               <div class="clients_title justify-between">
+                  <div
+                     class="
+                     uppercase inter-medium tracking-[-0.02em] mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))]
+                     md:text-[calc(24*var(--vw-md))] md:mb-[calc(61*var(--vw-md))]
+                     sm:text-[calc(24*var(--vw-sm))] md:mb-[calc(63*var(--vw-md))]
+                     "
+                     >
+                     Clients
+                  </div>
+               </div>
+               <div class="grid grid-cols-4 gap-[calc(104*var(--vw))]">
+                  <div class="
+                  col-span-3
+                  md:col-span-4
+                  ">
+                     <div class="
+                     clients_block leading-[1.2] text-[calc(89*var(--vw))]
+                     md:text-[calc(65*var(--vw-md))]
+                     sm:text-[calc(40*var(--vw-sm))]
+
+
+                     ">
+                        <div>
+                           <a
+                              href="#"
+                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
+                              >SAGA DEVELOPMENT</a
+                              >
+                        </div>
+                        <div>
+                           <a
+                              href="#"
+                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
+                              >LVIV CITY COUNCIL</a
+                              >
+                        </div>
+                        <div>
+                           <a
+                              href="#"
+                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
+                              >UNIT.CITY</a
+                              >
+                        </div>
+                        <div>
+                           <a
+                              href="#"
+                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
+                              >KHORTYTSIA</a
+                              >
+                        </div>
+                        <div>
+                           <a
+                              href="#"
+                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
+                              >NATIONAL RESERVE</a
+                              >
+                        </div>
+                     </div>
+                  </div>
+                  <div
+                     class="
+                     col-span-1 text-right text-[calc(14*var(--vw))] leading-[calc(30*var(--vw))]
+                     md:hidden
+                     "
+                     >
+                     <div class="statistic_block">
+                        <span class="inter-bold tracking-[-0.08em]">340 000 m²</span> built area
+                     </div>
+                     <div class="statistic_block">
+                        <span class="inter-bold tracking-[-0.08em]">12</span> awards
+                     </div>
+                     <div class="statistic_block">
+                        <span class="inter-bold tracking-[-0.08em]">7</span> countries
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <section class="
+         awards mt-[calc(400*var(--vw))]
+         md:mt-[calc(250*var(--vw-md))]
+         ">
+            <div class="container_custom p-[calc(20*var(--vw))]">
+               <div class="title justify-between awards_title">
+                  <div
+                     class="
+                     uppercase inter-medium tracking-[-0.02em] mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))]
+                     md:text-[calc(24*var(--vw-md))] md:mb-[calc(61*var(--vw-md))]
+                     sm:text-[calc(24*var(--vw-sm))] md:mb-[calc(63*var(--vw-md))]
+                     "
+                     >
+                     Awards
+                  </div>
+               </div>
+            </div>
+               <!-- award block start -->
+               <div
+                  class="grid award_and_year grid-cols-4 border-t border-black table_stroke gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]"
+                  >
+                  <div class="year col-span-1">
+                     <div class="
+                     -rotate-90 text-[calc(500*var(--vw))] -mt-[calc(16*var(--vw))]
+                     md:text-[calc(224*var(--vw-md))] md:mt-[calc(3*var(--vw-md))]
+                     md:text-[calc(121*var(--vw-md))] 
+
+                     ">26</div>
+                  </div>
+                  <div class="awards_block col-span-3">
+                     <div
+                        class="
+                        award_block flex justify-between py-[calc(5*var(--vw))] text-[calc(24*var(--vw))] uppercase 
+                        md:text-[calc(16*var(--vw-md))]
+                        sm:text-[calc(16*var(--vw-sm))]
+                        "
+                        >
+                        <div class="award_name">World Architecture Festival</div>
+                        <div class="award_st">Winner</div>
+                     </div>
+
+
+
+                  </div>
+
+
+
+               </div>
+
+               <!--end -->
+
+
+        
+
+
+         </section>
+         <section class="
+         contacts mt-[calc(100*var(--vw))] 
+         md:mt-[calc(250*var(--vw-md))]
+         ">
+            <div
+               class="container_custom p-[calc(20*var(--vw))] "
+               >
+               <div class="title justify-between">
+                  <div
+                     class="
+                     text-[calc(32*var(--vw))] mb-[calc(115*var(--vw))] uppercase inter-medium tracking-[-0.02em] contacts_title
+                     md:text-[calc(24*var(--vw-md))] md:mb-[calc(61*var(--vw-md))]
+                     sm:text-[calc(24*var(--vw-sm))] md:mb-[calc(63*var(--vw-md))]
+                     "
+                     >
+                     Contacts
+                  </div>
+               </div>
+               <div class="grid grid-cols-4 leading-[24px] grid-flow-row auto-rows-max gap-[calc(104*var(--vw))]">
+                  <div class="
+                     contact_block col-span-2
+                     sm:col-span-4
+                     ">
+                     <div class="mb-[calc(50*var(--vw))]">
+                        <label
+                           class="
+                           tracking-[-0.08em] text-[calc(78*var(--vw))]
+                           md:text-[calc(46*var(--vw-md))]
+                           sm:text-[calc(46*var(--vw-sm))]
+                           "
+                           >
+
+                           Your Name: &nbsp;</label
+                           >
+                     </div>
+                     <input
+                        type="text"
+                        name="Name"
+                        class="
+                        w-full border-b border-black bg-transparent focus:outline-none pb-[calc(25*var(--vw))] text-[calc(14*var(--vw))] inter-regular
+
+                        md:text-[calc(16*var(--vw-md))]
+                        sm:text-[calc(16*var(--vw-sm))]
+                        "
+                        placeholder="Enter your name"
+                        />
+                  </div>
+                  <div class="
+                  contact_block col-span-2
+                  sm:col-span-4 sm:my-[calc(100*var(--vw))]
+                  ">
+                     <div class="mb-[calc(50*var(--vw))]">
+                        <label
+                           class="
+                           tracking-[-0.08em] text-[calc(78*var(--vw))]
+                           md:text-[calc(46*var(--vw-md))]
+                           sm:text-[calc(46*var(--vw-sm))]
+                           "
+                           >Your Email: &nbsp;</label
+                           >
+                     </div>
+                     <input
+                        type="text"
+                        name="Name"
+                        class="
+                        w-full border-b border-black bg-transparent focus:outline-none pb-[calc(25*var(--vw))] text-[calc(14*var(--vw))] inter-regular
+                        md:text-[calc(16*var(--vw-md))]
+                        sm:text-[calc(16*var(--vw-sm))]
+                        
+                        "
+                        placeholder="Enter your email"
+                        />
+                  </div>
+                  
+                  <div class="
+                  col-span-3
+                  md:col-span-4
+
+                  ">
+                     <div class="contact_block col-span-2 mt-[calc(89*var(--vw))]">
+                        <div class="mb-[calc(50*var(--vw))]">
+                        <label
+                           class="
+                           tracking-[-0.08em] text-[calc(78*var(--vw))]
+                           md:text-[calc(46*var(--vw-md))]
+                           sm:text-[calc(46*var(--vw-sm))]
+                           "
+                           >Tell us about your <div class="hidden sm:block"></div>project: &nbsp;</label
+                              >
+                        </div>
+                        <textarea
+                           type="text"
+                           name="Name"
+                           class="
+                           w-full border-b border-black bg-transparent focus:outline-none pb-[calc(100*var(--vw))] text-[calc(14*var(--vw))] inter-regular
+
+                           md:text-[calc(16*var(--vw-md))]
+                           sm:text-[calc(16*var(--vw-sm))]
+                           "
+                           placeholder="Tell us about your project"
+                           ></textarea>
+                     </div>
+                     <div class="col-span-4 text-right mt-[calc(100*var(--vw))]">
+                        <a
+                           href=""
+                           class="
+                           uppercase text-[calc(89*var(--vw))] tracking-[-0.08em] underline hover:no-underline underline-offset-4 send_bt
+                           sm:text-[calc(56*var(--vw-sm))]
+                           "
+                           >Send</a
+                           >
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <div
+            class="grid grid-cols-4 leading-[1] relative z-20 logo_footer text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(300*var(--vw))]"
+            >
+            <div class="overflow-hidden">
+               <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
+            </div>
+            <div
+               class="
+               col-span-4 text-[calc(18*var(--vw))] text-center mt-[calc(20*var(--vw))]
+               sm:text-[calc(16*var(--vw-sm))]
+               "
+               >
+               ROOF ©<br />2026 All rights reserved
+            </div>
+         </div>
+      </div>
+
+      <script src="js/menu_mobile.js"></script>
+      <script src="js/gsap_preloader.js"></script>
+      <script src="js/portfolio_hover.js"></script>
+      <script src="js/custom.js"></script>
+      <script>
+         if (window.innerWidth >= 1000) {
+             const desktopScripts = [
+                 "js/studio_section_interaction.js",
+                 "js/scroll_animation.js",
+             ];
+             desktopScripts.forEach((src) => {
+                 const script = document.createElement("script");
+                 script.src = src;
+                 script.async = true;
+                 document.body.appendChild(script);
+             });
+         }
+      </script>
+   </body>
+</html>

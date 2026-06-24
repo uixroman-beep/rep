@@ -1,0 +1,94 @@
+:root {
+--vw: calc(100vw / 1880);
+--vw-md: calc(100vw / 744);
+--vw-sm: calc(100vw / 440);
+}
+body.no-scroll {
+overflow: hidden;
+}
+/*section {
+opacity: 0;
+transform: translateY(200px);
+}*/
+.bbh-bartle-regular {
+font-family: "BBH Bartle", sans-serif;
+font-weight: 400;
+font-style: normal;
+}
+.inter-regular {
+font-family: "Inter", sans-serif;
+font-optical-sizing: auto;
+font-weight: 400;
+font-style: normal;
+}
+.inter-medium {
+font-family: "Inter", sans-serif;
+font-optical-sizing: auto;
+font-weight: 500;
+font-style: normal;
+}
+.inter-semibol {
+font-family: "Inter", sans-serif;
+font-optical-sizing: auto;
+font-weight: 600;
+font-style: normal;
+}
+.inter-bold {
+font-family: "Inter", sans-serif;
+font-optical-sizing: auto;
+font-weight: 700;
+font-style: normal;
+}
+#studio {
+cursor: none;
+}
+#cursor-studio,
+.trail-dot {
+  position: fixed;
+  height: 30vh;
+  width: 100%;
+  background: url("../images/owner.jpg") no-repeat center/contain;
+  pointer-events: none;
+  left: 0;
+  top: 0;
+  margin-left: -50%;
+  margin-top: -15vh; /* половина от height: 30vh */
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+
+body.studio-page #cursor-studio, body.studio-page  .trail-dot{
+  height: 65vh;
+}
+
+
+#cursor-studio {
+z-index: -1;
+opacity: 0;
+}
+.trail-dot {
+z-index: -2;
+opacity: 0;
+mix-blend-mode: difference;
+}
+.table_stroke {
+position: relative;
+}
+.preview {
+position: absolute;
+top: 0;
+left: 0;
+pointer-events: none;
+opacity: 0;
+transform: scale(0.98);
+will-change: transform, opacity;
+}
+.preview img {
+width: 20vh;
+object-fit: cover;
+}
+#bgVideo {
+transform-origin: center;
+will-change: transform;
+}
