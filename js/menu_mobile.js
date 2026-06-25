@@ -64,21 +64,20 @@ function unlockScroll() {
         ease: "power4.out",
         stagger: 0.2,
     }, "-=0.5")
-    // верхняя линия
-    .to(".line-1", {
-        top: "50%",
-        rotate: 45,
-        transformOrigin: "center center",
-        duration: 0.3
-    }, 0)
-    // нижняя линия
-    .to(".line-2", {
-        width: "100%",
-        top: "50%",
-        rotate: -45,
-        transformOrigin: "center center",
-        duration: 0.3
-    }, 0);
+.to(".line-1", {
+    y: 6,
+    rotate: 45,
+    transformOrigin: "center center",
+    duration: 0.3
+}, 0)
+
+.to(".line-2", {
+    width: "100%",
+    y: 0,
+    rotate: -45,
+    transformOrigin: "center center",
+    duration: 0.3
+}, 0)
 
     menuTl.eventCallback("onReverseComplete", () => {
         gsap.set(".nav-overplay", {
