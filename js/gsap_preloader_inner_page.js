@@ -46,8 +46,9 @@ title_inner_page.to('.all_content', {
 .from('.title-inner-page', {
   opacity: 0,
 
-  duration: 0.5,
+  duration: 2,
   filter: "blur(5px)",
+  clipPath: "inset(100% 0% 0% 0%)",
   ease: "power4.out"
 },"-=0.4")
 
@@ -58,6 +59,6 @@ title_inner_page.to('.all_content', {
   duration: 2,
   filter: "blur(50px)",
   ease: "power4.out"
-},"-=0.2")
+},"-=1.5")
 
 });

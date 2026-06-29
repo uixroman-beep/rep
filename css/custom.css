@@ -108,3 +108,25 @@ will-change: transform;
 .awards_block .award_block:first-child {
   border-top: 0px solid black;
 }
+
+
+
+a {
+transition: 1.5s;
+}
+
+a:hover {
+transition: 1.5s;
+}
+
+.project_carousel_image {
+
+    transform-origin: top right;
+
+}
+
+
+.black-theme .nav-overplay a{
+  color: black;
+
+}

@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ru">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Tailwind + GSAP + VW/VH Engine</title>
+      <!-- Tailwind CDN -->
+      <script src="https://cdn.tailwindcss.com"></script>
+      <!-- GSAP CDN -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+      <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+      <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet" />
+      <link
+         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+         rel="stylesheet"
+         />
+      <script>
+         tailwind.config = {
+             theme: {
+                 screens: {
+                     xl: { max: "1279px" },
+                     lg: { max: "1023px" },
+                     md: { max: "767px" },
+                     sm: { max: "639px" },
+                 },
+             },
+         };
+      </script>
+      <link
+         href="css/custom.css"
+         rel="stylesheet"
+         />
+   </head>
+   <body class="bg-[black] text-[#C6C6CE] overflow-x-hidden inter-regular black-theme">
+      <div class="cursor"></div>
+      <div
+         class="
+         nav-overplay-absolute fixed inset-0 z-30 mix-blend-difference flex items-center justify-center hidden
+
+         "
+         >
+         <div class="nav-overplay inset-0 z-30 bg-[#C6C6CE] h-[calc(400*var(--vw))] w-[calc(400*var(--vw))]">
+            <div
+               class="flex flex-col justify-between h-full gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))]"
+               >
+               <!-- Logo -->
+               <div
+                  class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"
+                  ></div>
+               <!-- Menu -->
+               <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block">
+                  <div class="overflow-hidden">
+                     <a
+                        href="studio.html"
+                        class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full
+                        sm:text-[calc(72*var(--vw-sm))] "
+                        >
+                     Studio
+                     </a>
+                  </div>
+                  <div class="overflow-hidden">
+                     <a
+                        href="/project.html"
+                        class="uppercase tracking-[.06em] underline hover:no-underline
+                        sm:text-[calc(72*var(--vw-sm))] "
+                        >
+                     Project
+                     </a>
+                  </div>
+                  <div class="overflow-hidden">
+                     <a
+                        href="/contact.html"
+                        class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full
+                        sm:text-[calc(72*var(--vw-sm))] "
+                        >
+                     Contact
+                     </a>
+                  </div>
+               </nav>
+               <!-- Language -->
+               <a
+                  href="#"
+                  class="inter-bold text-center underline hover:no-underline text-[calc(14*var(--vw))]
+                  sm:text-[calc(16*var(--vw-sm))] "
+                  >
+               UA
+               </a>
+            </div>
+         </div>
+      </div>
+<!--       <div
+         id="preloader_overplay"
+         class="flex items-center justify-center h-screen w-screen bg-[#C6C6CE] absolute top-0 z-10"
+         >
+         <div id="box" class="bg-[#000000] h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] opacity-0"></div>
+      </div> -->
+      <div class="all_content opacity-0">
+         <div
+            class="
+            grid grid-cols-4 fixed z-30 inset-0 mix-blend-difference text-white h-10 header_nav gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))] 
+
+            md:p-[calc(8*var(--vw-md))]
+            sm:py-[calc(20*var(--vw-sm))]
+
+
+            "
+            >
+            <div
+               class="
+               text-[calc(16*var(--vw))]  leading-[calc(18*var(--vw))] roof_studio z-50
+               md:text-[calc(18*var(--vw-md))] md:leading-[calc(18*var(--vw-md))]
+               sm:text-[calc(18*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))] 
+               "
+               >
+               <a href="index.html">
+               <div class="overflow-hidden">
+                  <div>ROOF</div>
+               </div>
+               <div class="overflow-hidden">
+                  <div>STUDIO</div>
+               </div>
+
+               </a>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase">
+                  <a
+                     class="
+                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
+                     md:text-[calc(14*var(--vw-md))]
+                     sm:hidden
+                     "
+                     href="studio.html"
+                     >Studio</a
+                     >
+               </div>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase">
+                  <a
+                     class="
+                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
+                     md:text-[calc(14*var(--vw-md))]
+                     sm:hidden
+                     "
+                     href="projects.html"
+                     >Projects</a
+                     >
+               </div>
+            </div>
+            <div class="uppercase justify-between flex contact_and_lang">
+               <div class="overflow-hidden">
+                  <div>
+                     <a
+                        class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4
+                        md:text-[calc(14*var(--vw-md))]
+                        sm:hidden
+                        "
+                        href="contact.html"
+                        >Contact</a
+                        >
+                  </div>
+               </div>
+               <div class="overflow-hidden">
+                  <div>
+                     <a
+                        class="main_link inter-bold hover:underline underline hover:no-underline underline-offset-4 cursor-pointer 
+                        md:text-[calc(14*var(--vw-md))]
+                        sm:hidden
+                        "
+                        >UA</a
+                        >
+                     <a
+                        href=""
+                        class="
+                        menu-toggle relative block w-[calc(24*var(--vw-sm))] h-[calc(12*var(--vw-sm))] z-50 hidden
+                        sm:block
+                        "
+                        >
+                        <div class="line-1 absolute left-0 top-0 w-[100%] h-[1px] bg-white"></div>
+                        <div class="line-2 absolute left-0 top-[6px] w-[50%] h-[1px] bg-white"></div>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+<!-- contect -->
+      
+         <section id="contact" class="
+         mt-[calc(200*var(--vw))]
+         md:mt-[calc(200*var(--vw-md))]
+
+         ">
+            <div class="
+            title_projects justify-between 
+            md:text-left 
+            ">
+               <div
+                  class="
+                  mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]
+                  md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))]
+                  sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]
+
+                  "
+                  >
+                  <div class="title-inner-page">Contact</div>
+
+                  <div class="col-start-2 title-inner-page
+                  md:col-start-3
+                  sm:col-start-4 sm:text-right
+                  ">us</div>
+
+               </div>
+            </div>
+
+            <div class="container_custom content_inner_page">
+               <div class="grid grid-cols-4 leading-[24px] grid-flow-row auto-rows-max gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))]
+
+                md:text-[calc(14*var(--vw-md))]
+                sm:text-[calc(14*var(--vw-sm))]">
+
+
+
+            <div class="col-span-1
+            md:col-span-2
+            sm:col-span-2">
+               <span>Rynok Square 1<br>
+               Lviv, 79006, UKRAINE</span>
+            </div>
+
+            <div class="col-span-3
+
+            md:col-start-3 md:mb-[calc(140*var(--vw-md))]
+            md:col-span-2
+            sm:text-right sm:col-span-2
+            ">
+               <span class="inter-bold">Email:</span>
+               <span>roof@gmail.com</span>
+               <br>
+
+               <span class="inter-bold">Phone:</span>
+               <span>+38 (063)-647-18-23</span>
+            </div>
+
+                  <div class="
+                     contact_block col-span-2 
+
+                     sm:col-span-4
+                     ">
+                     <div class="mb-[calc(60*var(--vw))]">
+                        <label
+                           class="
+                           tracking-[-0.08em] text-[calc(78*var(--vw))]
+                           md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] 
+                           sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]
+
+                           "
+                           >
+
+                           Your Name: &nbsp;</label
+                           >
+                     </div>
+                     <input
+                        type="text"
+                        name="Name"
+                        class="
+                        w-full border-b border-[#C6C6CE] bg-transparent focus:outline-none pb-[calc(21*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em]
+                        md:text-[calc(14*var(--vw-md))] md:traking-[0.05em]
+                        sm:text-[calc(16*var(--vw-sm))]
+
+                        "
+                        placeholder="Enter your name"
+                        />
+                  </div>
+
+
+
+                  <div class="
+                     contact_block col-span-2
+                     sm:col-span-4
+                     sm:mt-[calc(40*var(--vw-sm))]
+                     ">
+                     <div class="mb-[calc(60*var(--vw))]">
+                        <label
+                           class="
+                           tracking-[-0.08em] text-[calc(78*var(--vw))]
+                           md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] 
+                           sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]
+
+                           "
+                           >
+
+                           Your Email: &nbsp;</label
+                           >
+                     </div>
+                     <input
+                        type="text"
+                        name="Name"
+                        class="
+                        w-full border-b border-[#C6C6CE] bg-transparent focus:outline-none pb-[calc(21*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em]
+                        md:text-[calc(14*var(--vw-md))] md:traking-[0.05em]
+                        sm:text-[calc(16*var(--vw-sm))]
+
+
+                        "
+                        placeholder="Enter email"
+                        />
+                  </div>
+
+
+                  <div class="
+                     contact_block col-span-3 col-start-2 mt-[calc(80*var(--vw))]
+                     md:col-span-4 md:mt-[calc(90*var(--vw-md))]
+                     sm:mt-[calc(40*var(--vw-sm))]
+                     ">
+                     <div class="mb-[calc(60*var(--vw))]">
+                        <label
+                           class="
+                           tracking-[-0.08em] text-[calc(78*var(--vw))]
+                           md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] 
+                           sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]
+
+                           "
+                           >
+
+                           Tell us about your project: &nbsp;</label
+                           >
+                     </div>
+                     <textarea
+
+                        name="ideas"
+                        class="
+                        w-full border-b border-[#C6C6CE] bg-transparent focus:outline-none pb-[calc(100*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em] placeholder:text-[#9CA3AF]
+                        md:text-[calc(14*var(--vw-md))] md:traking-[0.05em]
+                        sm:text-[calc(16*var(--vw-sm))]
+                        "
+
+
+                        placeholder="Enter your ideas"
+                        >
+                     </textarea>
+                  </div>
+
+
+
+                  <div class="
+                     contact_block col-span-2 col-start-3 text-right 
+
+                     ">
+                        <a href="SEND" class="
+                        text-[calc(89*var(--vw))] uppercase underline hover:no-underline tracking-[-0.08em] inter-regular
+                        md:text-[calc(56*var(--vw-md))]
+                        sm:text-[calc(46*var(--vw-sm))]
+                        ">Send</a>
+                  </div>
+
+
+               </div>
+            </div>
+
+         </section>
+
+
+         <div
+            class="grid grid-cols-4 leading-[1] relative z-20 logo_footer text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(250*var(--vw))]"
+            >
+            <div class="overflow-hidden">
+               <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+            </div>
+            <div class="overflow-hidden">
+               <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
+            </div>
+            <div
+               class="
+               col-span-4 text-[calc(18*var(--vw))] text-center mb-[calc(20*var(--vw))]
+               sm:text-[calc(16*var(--vw-sm))]
+               "
+               >
+               ROOF ©<br />2026 All rights reserved
+            </div>
+         </div>
+      </div>
+
+      <script src="js/menu_mobile.js"></script>
+      <script src="js/gsap_preloader_inner_page.js"></script>
+      <script src="js/portfolio_hover.js"></script>
+      <script src="js/custom.js"></script>
+
+   </body>
+</html>
