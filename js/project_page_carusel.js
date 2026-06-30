@@ -1,35 +1,27 @@
 gsap.registerPlugin(ScrollTrigger);
 
 /* ---------------------------------------------------------
-   1. Lenis уже создаётся в custom.js (там же висит lerp,
-   обработка .no-scroll и т.д.) — здесь НЕ создаём второй
-   инстанс, а просто переиспользуем существующий через
-   window.lenis.
-
-   ВАЖНО: в custom.js нужно добавить window.lenis = lenis;
-   сразу после "lenis = new Lenis({ ... });", иначе тут
-   window.lenis будет undefined (let/const не попадают в
-   window автоматически, в отличие от var).
+   1. Lenis уже создаётся в custom.js — переиспользуем через
+   window.lenis. Добавь там: window.lenis = lenis;
 --------------------------------------------------------- */
 function withLenis(callback) {
   if (window.lenis) {
+    console.log('[carousel debug] window.lenis уже существует, запускаем сразу');
     callback(window.lenis);
     return;
   }
-  // на случай, если этот скрипт выполнился раньше, чем
-  // custom.js успел создать Lenis на DOMContentLoaded
+  console.log('[carousel debug] window.lenis ещё не существует, ждём...');
   const waitForLenis = setInterval(() => {
     if (window.lenis) {
       clearInterval(waitForLenis);
+      console.log('[carousel debug] window.lenis появился, запускаем');
       callback(window.lenis);
     }
   }, 50);
 }
 
-/* ---------------------------------------------------------
-   2. Анимации входа/выхода из "тёмного" состояния.
---------------------------------------------------------- */
 function enterDarkState() {
+  console.log('[carousel debug] enterDarkState()');
   gsap.timeline()
     .to('body', { backgroundColor: '#000000', duration: 1, ease: 'power4.out' }, 0)
     .to('.project_block_carusel', { color: '#ffffff', borderColor: '#ffffff', duration: 1, ease: 'power4.out' }, 0)
@@ -37,22 +29,13 @@ function enterDarkState() {
 }
 
 function leaveDarkState() {
+  console.log('[carousel debug] leaveDarkState()');
   gsap.timeline()
     .to('body', { backgroundColor: '#C6C6CE', duration: 1, ease: 'power4.out' }, 0)
     .to('.project_block_carusel', { color: 'black', borderColor: 'black', duration: 1, ease: 'power4.out' }, 0)
     .to('.project_carousel_image', { scale: 1, duration: 1, ease: 'power4.out' }, 0);
 }
 
-/* ---------------------------------------------------------
-   3. Карусель с responsive-логикой через matchMedia.
-
-   Desktop (>=1024px): прежнее поведение — пин секции +
-   горизонтальный драйв трека через scrub-анимацию.
-
-   Mobile/Tablet (<1024px): пин ОТКЛЮЧЕН. Трек двигается
-   вручную через touch (drag), а тап по карточке без
-   значимого сдвига пальца листает к следующему блоку.
---------------------------------------------------------- */
 const mm = gsap.matchMedia();
 
 withLenis(() => {
@@ -62,27 +45,31 @@ mm.add(
     isMobile: '(max-width: 1023px)',
   },
   (context) => {
-    const { isDesktop } = context.conditions;
+    const { isDesktop, isMobile } = context.conditions;
+    console.log('[carousel debug] matchMedia сработал. isDesktop =', isDesktop, 'isMobile =', isMobile);
 
     const wrapper = document.querySelector('.project_carousel_wrapper');
     const track = document.querySelector('.project_carousel_track');
     const items = gsap.utils.toArray('.project_block_carusel');
 
+    console.log('[carousel debug] wrapper найден:', !!wrapper, wrapper);
+    console.log('[carousel debug] track найден:', !!track, track);
+    console.log('[carousel debug] items.length =', items.length);
+
     if (!wrapper || !track || items.length === 0) {
-      console.warn(
-        'Карусель не инициализирована: не найден .project_carousel_wrapper или .project_carousel_track в DOM.'
-      );
+      console.warn('[carousel debug] СТОП: не найден .project_carousel_wrapper / .project_carousel_track / нет items в DOM.');
       return;
     }
 
     if (isDesktop) {
-      /* ---------- DESKTOP: пин + горизонтальный драйв ---------- */
+      console.log('[carousel debug] ветка DESKTOP');
 
       track.style.overflowX = '';
       track.style.removeProperty('-webkit-overflow-scrolling');
       gsap.set(track, { x: 0 });
 
       const getScrollDistance = () => track.scrollWidth - wrapper.offsetWidth;
+      console.log('[carousel debug] getScrollDistance() при инициализации =', getScrollDistance());
 
       const trigger = ScrollTrigger.create({
         trigger: wrapper,
@@ -102,19 +89,27 @@ mm.add(
         onLeaveBack: leaveDarkState,
       });
 
-      return () => trigger.kill();
+      return () => {
+        console.log('[carousel debug] DESKTOP cleanup, kill trigger');
+        trigger.kill();
+      };
     } else {
-      /* ---------- MOBILE / TABLET: ручной drag + тап-листание ---------- */
+      console.log('[carousel debug] ветка MOBILE/TABLET — вешаем touch-обработчики на track');
 
       track.style.overflowX = '';
       track.style.webkitOverflowScrolling = '';
       track.style.scrollSnapType = '';
-      track.style.touchAction = 'pan-y'; // вертикаль отдаём браузеру нативно с самого начала
+      track.style.touchAction = 'pan-y';
       items.forEach((item) => {
         item.style.scrollSnapAlign = '';
       });
 
+      items.forEach((item, i) => {
+        console.log(`[carousel debug] item[${i}] offsetLeft =`, item.offsetLeft, 'width =', item.getBoundingClientRect().width);
+      });
+
       const getMaxDrag = () => Math.max(0, track.scrollWidth - wrapper.offsetWidth);
+      console.log('[carousel debug] track.scrollWidth =', track.scrollWidth, 'wrapper.offsetWidth =', wrapper.offsetWidth, 'maxDrag =', getMaxDrag());
 
       let currentX = 0;
       gsap.set(track, { x: 0 });
@@ -122,11 +117,11 @@ mm.add(
       let startX = 0;
       let startY = 0;
       let startTrackX = 0;
-      let axisLock = null; // null | 'x' | 'y'
+      let axisLock = null;
       let tapOnInteractive = false;
-      let maxMovement = 0; // максимальное смещение пальца за жест (по любой оси)
-      const AXIS_THRESHOLD = 8; // px, после скольки пикселей фиксируем ось жеста
-      const TAP_THRESHOLD = 10; // px — если палец сдвинулся меньше, это тап, а не свайп
+      let maxMovement = 0;
+      const AXIS_THRESHOLD = 8;
+      const TAP_THRESHOLD = 10;
 
       function onTouchStart(e) {
         const touch = e.touches[0];
@@ -136,6 +131,7 @@ mm.add(
         axisLock = null;
         maxMovement = 0;
         tapOnInteractive = !!e.target.closest('a, button');
+        console.log('[carousel debug] touchstart. target =', e.target, 'tapOnInteractive =', tapOnInteractive, 'startX/Y =', startX, startY);
       }
 
       function onTouchMove(e) {
@@ -146,17 +142,14 @@ mm.add(
 
         if (axisLock === null) {
           if (Math.abs(deltaX) < AXIS_THRESHOLD && Math.abs(deltaY) < AXIS_THRESHOLD) {
-            return; // ещё не понятно, куда жест — ждём
+            return;
           }
           axisLock = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
+          console.log('[carousel debug] axisLock зафиксирован как', axisLock, 'deltaX =', deltaX, 'deltaY =', deltaY);
         }
 
-        if (axisLock === 'y') {
-          // вертикальный жест — ничего не делаем, отдаём браузеру/Lenis
-          return;
-        }
+        if (axisLock === 'y') return;
 
-        // горизонтальный жест — двигаем трек вручную, страницу не трогаем
         e.preventDefault();
         const maxDrag = getMaxDrag();
         let next = startTrackX + deltaX;
@@ -167,22 +160,22 @@ mm.add(
       }
 
       function onTouchEnd() {
+        console.log('[carousel debug] touchend. axisLock =', axisLock, 'maxMovement =', maxMovement, 'tapOnInteractive =', tapOnInteractive, 'TAP_THRESHOLD =', TAP_THRESHOLD);
+
         if (maxMovement < TAP_THRESHOLD && !tapOnInteractive) {
-          // палец почти не двигался за весь жест — это тап, а не свайп.
-          // Листаем трек к следующему блоку.
+          console.log('[carousel debug] -> распознано как ТАП, вызываем goToNextItem()');
           goToNextItem();
         } else if (axisLock === 'x') {
+          console.log('[carousel debug] -> распознано как горизонтальный СВАЙП, доводим до края');
           const maxDrag = getMaxDrag();
           const clamped = Math.min(0, Math.max(-maxDrag, currentX));
           currentX = clamped;
           gsap.to(track, { x: clamped, duration: 0.4, ease: 'power3.out' });
+        } else {
+          console.log('[carousel debug] -> вертикальный жест или тап по interactive-элементу, ничего не делаем');
         }
         axisLock = null;
       }
-
-      // --- точное определение текущего и следующего блока ---
-      // Ищем блок, ближайший к текущей позиции трека, и едем к offsetLeft
-      // СЛЕДУЮЩЕГО блока — точное попадание независимо от gap/ширины карточек.
 
       function getCurrentIndex() {
         let closestIndex = 0;
@@ -194,19 +187,36 @@ mm.add(
             closestIndex = i;
           }
         });
+        console.log('[carousel debug] getCurrentIndex() -> currentX =', currentX, 'closestIndex =', closestIndex);
         return closestIndex;
       }
 
       function goToNextItem() {
         const maxDrag = getMaxDrag();
-        if (maxDrag <= 0 || items.length === 0) return;
+        console.log('[carousel debug] goToNextItem(). maxDrag =', maxDrag, 'items.length =', items.length);
+
+        if (maxDrag <= 0) {
+          console.warn('[carousel debug] СТОП: maxDrag <= 0 — трек не шире wrapper, листать некуда. Проверь CSS-ширину track/items.');
+          return;
+        }
+        if (items.length === 0) {
+          console.warn('[carousel debug] СТОП: items.length === 0');
+          return;
+        }
 
         const currentIndex = getCurrentIndex();
         const nextIndex = Math.min(items.length - 1, currentIndex + 1);
         const nextItem = items[nextIndex];
 
+        console.log('[carousel debug] currentIndex =', currentIndex, 'nextIndex =', nextIndex, 'nextItem.offsetLeft =', nextItem.offsetLeft);
+
+        if (currentIndex === nextIndex) {
+          console.warn('[carousel debug] ВНИМАНИЕ: currentIndex === nextIndex — мы уже на последнем блоке, листать некуда.');
+        }
+
         let next = -nextItem.offsetLeft;
-        next = Math.max(-maxDrag, Math.min(0, next)); // не выходим за границы трека
+        next = Math.max(-maxDrag, Math.min(0, next));
+        console.log('[carousel debug] едем к x =', next);
         currentX = next;
         gsap.to(track, { x: next, duration: 0.5, ease: 'power3.out' });
       }
@@ -216,10 +226,10 @@ mm.add(
       track.addEventListener('touchend', onTouchEnd, { passive: true });
       track.addEventListener('touchcancel', onTouchEnd, { passive: true });
 
-      // на mobile/tablet фон body НЕ меняется — тёмное состояние
-      // только для десктопа (см. ветку isDesktop выше).
+      console.log('[carousel debug] touch-обработчики навешаны на track');
 
       return () => {
+        console.log('[carousel debug] MOBILE cleanup, снимаем обработчики');
         track.removeEventListener('touchstart', onTouchStart);
         track.removeEventListener('touchmove', onTouchMove);
         track.removeEventListener('touchend', onTouchEnd);
@@ -234,12 +244,8 @@ mm.add(
 ScrollTrigger.refresh();
 });
 
-/* ---------------------------------------------------------
-   4. Дополнительный пересчёт ScrollTrigger при полной загрузке
-   и ресайзе — на случай догрузки картинок/видео, меняющих
-   scrollWidth трека, либо смены ориентации экрана.
---------------------------------------------------------- */
 window.addEventListener('load', () => {
+  console.log('[carousel debug] window load -> ScrollTrigger.refresh()');
   ScrollTrigger.refresh();
 });
 
@@ -247,6 +253,7 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
+    console.log('[carousel debug] resize -> ScrollTrigger.refresh()');
     ScrollTrigger.refresh();
   }, 200);
 });
