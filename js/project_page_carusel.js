@@ -1,21 +1,25 @@
 gsap.registerPlugin(ScrollTrigger);
 
 /* ---------------------------------------------------------
-   0. Определяем тип устройства (для Lenis и логики ниже)
---------------------------------------------------------- */
-const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-
-/* ---------------------------------------------------------
    1. Lenis — плавный скролл.
-   На тач-устройствах включаем syncTouch, иначе на iOS
-   часто рассинхронизируется с нативным скроллом.
+   Если Lenis уже создан где-то в custom.js и положен в
+   window.lenis — переиспользуем его. Если нет — создаём здесь.
 --------------------------------------------------------- */
 window.lenis = window.lenis || new Lenis({
   duration: 1.2,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   smoothWheel: true,
-  syncTouch: isTouchDevice,
-  touchMultiplier: 1.5,
+  // syncTouch: false — ПРИНЦИПИАЛЬНО. При syncTouch:true Lenis
+  // перехватывает (preventDefault) ВСЕ touch-жесты на странице,
+  // включая те, что должны нативно скроллить overflow-x внутри
+  // трека карусели. Для исключённых через data-lenis-prevent
+  // элементов Lenis жест просто игнорирует, а нативного fallback
+  // нет (т.к. Lenis сам обычно блокирует overflow на html/body) —
+  // из-за этого скролл "проваливался в пустоту" после последней
+  // карточки. С syncTouch:false Lenis не трогает touch вообще,
+  // браузер скроллит нативно (и трек, и страницу), Lenis только
+  // слушает событие scroll, чтобы обновлять ScrollTrigger.
+  syncTouch: false,
 });
 
 window.lenis.on('scroll', ScrollTrigger.update);
