@@ -21,6 +21,7 @@ function enterDarkState() {
   gsap.timeline()
     .to('body', { backgroundColor: '#000000', duration: 1, ease: 'power4.out' }, 0)
     .to('.project_block_carusel', { color: '#ffffff', borderColor: '#ffffff', duration: 1, ease: 'power4.out' }, 0)
+    .to('.project_carousel_wrapper', { color: '#ffffff', borderColor: '#ffffff', duration: 1, ease: 'power4.out' }, 0)
     .to('.project_carousel_image', { scale: 0.8, duration: 1, ease: 'power4.out' }, 0);
 }
 
@@ -28,6 +29,7 @@ function leaveDarkState() {
   gsap.timeline()
     .to('body', { backgroundColor: '#C6C6CE', duration: 1, ease: 'power4.out' }, 0)
     .to('.project_block_carusel', { color: 'black', borderColor: 'black', duration: 1, ease: 'power4.out' }, 0)
+    .to('.project_carousel_wrapper', { color: '#ffffff', borderColor: 'black', duration: 1, ease: 'power4.out' }, 0)
     .to('.project_carousel_image', { scale: 1, duration: 1, ease: 'power4.out' }, 0);
 }
 
