@@ -156,7 +156,9 @@ mm.add(
       let startTrackX = 0;
       let axisLock = null; // null | 'x' | 'y'
       let tapOnInteractive = false;
+      let maxMovement = 0; // максимальное смещение пальца за жест (по любой оси)
       const AXIS_THRESHOLD = 8; // px, после скольки пикселей фиксируем ось жеста
+      const TAP_THRESHOLD = 10; // px — если палец сдвинулся меньше, это тап, а не свайп
 
       function onTouchStart(e) {
         const touch = e.touches[0];
@@ -164,6 +166,7 @@ mm.add(
         startY = touch.clientY;
         startTrackX = currentX;
         axisLock = null;
+        maxMovement = 0;
         // если тап пришёлся на ссылку/кнопку внутри карточки —
         // не вмешиваемся вообще, даём ей отработать как обычно
         tapOnInteractive = !!e.target.closest('a, button');
@@ -173,6 +176,7 @@ mm.add(
         const touch = e.touches[0];
         const deltaX = touch.clientX - startX;
         const deltaY = touch.clientY - startY;
+        maxMovement = Math.max(maxMovement, Math.abs(deltaX), Math.abs(deltaY));
 
         if (axisLock === null) {
           if (Math.abs(deltaX) < AXIS_THRESHOLD && Math.abs(deltaY) < AXIS_THRESHOLD) {
@@ -198,16 +202,16 @@ mm.add(
       }
 
       function onTouchEnd() {
-        console.log('[tap debug] touchend. axisLock =', axisLock, 'tapOnInteractive =', tapOnInteractive);
-        if (axisLock === 'x') {
+        console.log('[tap debug] touchend. axisLock =', axisLock, 'maxMovement =', maxMovement, 'tapOnInteractive =', tapOnInteractive);
+        if (maxMovement < TAP_THRESHOLD && !tapOnInteractive) {
+          // палец почти не двигался за весь жест — это тап, а не свайп.
+          // Листаем трек к следующему блоку.
+          goToNextItem();
+        } else if (axisLock === 'x') {
           const maxDrag = getMaxDrag();
           const clamped = Math.min(0, Math.max(-maxDrag, currentX));
           currentX = clamped;
           gsap.to(track, { x: clamped, duration: 0.4, ease: 'power3.out' });
-        } else if (axisLock === null && !tapOnInteractive) {
-          // палец почти не двигался — это тап, а не свайп.
-          // Листаем трек к следующему блоку.
-          goToNextItem();
         }
         axisLock = null;
       }
