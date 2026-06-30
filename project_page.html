@@ -61,16 +61,16 @@
                   </div>
                   <div class="overflow-hidden">
                      <a
-                        href="/project.html"
+                        href="projects.html"
                         class="uppercase tracking-[.06em] underline hover:no-underline
                         sm:text-[calc(72*var(--vw-sm))] "
                         >
-                     Project
+                     Projects
                      </a>
                   </div>
                   <div class="overflow-hidden">
                      <a
-                        href="/contact.html"
+                        href="contact.html"
                         class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full
                         sm:text-[calc(72*var(--vw-sm))] "
                         >
@@ -336,6 +336,7 @@ parameter_blocks
   md:col-span-2
   md:col-start-1
   md:row-start-1
+    sm:text-[calc(27*var(--vw-sm))]
   ">
     Location
     <div class="
@@ -418,6 +419,7 @@ sm:h-[1vh] sm:w-[1vh]
   md:col-span-2
   md:row-start-3
   md:text-left
+    sm:text-[calc(27*var(--vw-sm))]
   ">
     Size
     <div class="
@@ -449,6 +451,7 @@ sm:h-[1vh] sm:w-[1vh]
   md:col-span-2
   md:row-start-3
   md:text-right
+    sm:text-[calc(27*var(--vw-sm))]
   ">
     Typologies
     <div class="
@@ -657,97 +660,66 @@ The interior design concept aims to connect the complimentary conditions of near
 <div class="
 border-t border-b border-black height h-[90vh] project_carousel_wrapper overflow-hidden text-black mt-[calc(250*var(--vw))]
  md:h-[90vh] md:mt-[calc(100*var(--vw-md))]
-
 ">
-
  <div class="
- flex px-[calc(20*var(--vw))] text-[calc(14*var(--vw))]   project_carousel_track
-
+ flex px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] project_carousel_track
  ">
 <!-- project start -->
-
    <div class="
-   project_block_carusel shrink-0 w-[50%]   flex border-l border-black px-[calc(51*var(--vw))] transition-all  ease-out duration-700 py-[10vh] h-[90vh]
-
-   md:w-[100%] md:py-[10vh]
-   sm:block
-
+   project_block_carusel shrink-0 w-[50%] flex border-l border-black px-[calc(51*var(--vw))] transition-all ease-out duration-700 h-[90vh] items-center
+   sm:block sm:overflow-y-auto
    ">
-
       <div class="
-      left  w-[50%] flex flex-col justify-between
-      md:justify-normal
-      sm:w-[100%]
+      flex w-full gap-[calc(20*var(--vw))]
+      sm:flex-col sm:py-[5vh]
       ">
-         <div class="name_project text-[calc(78*var(--vw))] inner_page_text leading-[calc(85*var(--vw))] 
-         md:text-[calc(32*var(--vw-md))]
-         sm:text-[calc(32*var(--vw-sm))]
-         ">
-            <a href="#" class="underline hover:no-underline ">
-               Mandarin Oriental
+        <!-- LEFT -->
+        <div class="left w-[50%] flex flex-col justify-between
+          sm:w-full
+        ">
+          <div class="name_project text-[calc(78*var(--vw))] inner_page_text leading-[calc(85*var(--vw))]
+            md:text-[calc(32*var(--vw-md))]
+            sm:text-[calc(32*var(--vw-sm))]
+          ">
+            <a href="#" class="underline hover:no-underline">
+              Mandarin Oriental
             </a>
-         </div>
+          </div>
 
+          <div class="
+            des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase hidden
+            md:text-left md:block md:text-[calc(14*var(--vw-md))] md:mt-[calc(60*var(--vw-md))]
+            sm:text-[calc(14*var(--vw-sm))]
+          ">
+            Architecture<br>
+            Landscape Architecture<br>
+            Interior Architecture
+          </div>
+        </div>
 
-   <div class="
-   des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right hidden
-   md:text-left  md:block md:text-[calc(14*var(--vw-md))] md:mt-[calc(60*var(--vw-md))]
-   sm:text-[calc(14*var(--vw-sm))]
-   ">
-                     Architecture<br>
-                     Landscape Architecture<br>
-                     Interior Architecture
+        <!-- RIGHT -->
+        <div class="right w-[50%] flex flex-col justify-between
+          sm:w-full
+        ">
+          <div class="image_project">
+            <img src="images/projects_thumb/1.png" class="project_carousel_image w-full max-w-[392px] aspect-[392/660] object-cover block ml-auto
+              sm:max-h-[55vh] sm:mt-[calc(50*var(--vw-sm))]
+            ">
+          </div>
 
-</div>
-
-
-
+          <div class="
+            des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right
+            md:hidden
+          ">
+            Architecture<br>
+            Landscape Architecture<br>
+            Interior Architecture
+          </div>
+        </div>
       </div>
-
-      <div class="right w-[50%] h-full flex flex-col justify-between  origin-top 
-      sm:w-[100%]
-      ">
-
-      <div class="image_project text-[calc(78*var(--vw))] min-h-[50%]  ">
-   <img src="images/projects_thumb/1.png" class="  project_carousel_image w-full max-w-[392px]   aspect-[392/660] object-cover block ml-auto 
-   sm:max-h-[55vh] sm:mt-[calc(50*var(--vw-sm))]">
-
-
-
-      </div>
-
-   <div class="
-   des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right
-   md:hidden
-   ">
-                     Architecture<br>
-                     Landscape Architecture<br>
-                     Interior Architecture
-
-</div>
-
-
-</div>
-
-
-
-      
    </div>
 <!-- project end -->
-
-
-
-
-
-
-
-
-
-
  </div>
-
-
-
 </div>
 
 </div>
