@@ -63,7 +63,7 @@ function unlockScroll() {
         duration: 1,
         ease: "power4.out",
         stagger: 0.2,
-    }, "-=0.5")
+    }, "-=2")
 .to(".line-1", {
     y: 6,
     rotate: 45,
