@@ -155,6 +155,7 @@ mm.add(
       let startY = 0;
       let startTrackX = 0;
       let axisLock = null; // null | 'x' | 'y'
+      let tapOnInteractive = false;
       const AXIS_THRESHOLD = 8; // px, после скольки пикселей фиксируем ось жеста
 
       function onTouchStart(e) {
@@ -163,6 +164,9 @@ mm.add(
         startY = touch.clientY;
         startTrackX = currentX;
         axisLock = null;
+        // если тап пришёлся на ссылку/кнопку внутри карточки —
+        // не вмешиваемся вообще, даём ей отработать как обычно
+        tapOnInteractive = !!e.target.closest('a, button');
       }
 
       function onTouchMove(e) {
@@ -179,7 +183,6 @@ mm.add(
 
         if (axisLock === 'y') {
           // вертикальный жест — ничего не делаем, отдаём браузеру/Lenis
-          console.log('[carousel debug] vertical gesture detected, не вмешиваемся. window.scrollY =', window.scrollY);
           return;
         }
 
@@ -195,22 +198,34 @@ mm.add(
       }
 
       function onTouchEnd() {
+        console.log('[tap debug] touchend. axisLock =', axisLock, 'tapOnInteractive =', tapOnInteractive);
         if (axisLock === 'x') {
           const maxDrag = getMaxDrag();
           const clamped = Math.min(0, Math.max(-maxDrag, currentX));
           currentX = clamped;
           gsap.to(track, { x: clamped, duration: 0.4, ease: 'power3.out' });
-
-          // дотащили трек до последнего блока — возвращаем дефолтный
-          // фон и больше не мешаем нормальному вертикальному скроллу
-          if (maxDrag > 0 && Math.abs(clamped + maxDrag) < 2) {
-            leaveDarkState();
-          } else if (Math.abs(clamped) < 2) {
-            // вернулись к первому блоку — снова тёмное состояние
-            enterDarkState();
-          }
+        } else if (axisLock === null && !tapOnInteractive) {
+          // палец почти не двигался — это тап, а не свайп.
+          // Листаем трек к следующему блоку.
+          goToNextItem();
         }
         axisLock = null;
+      }
+
+      function goToNextItem() {
+        const maxDrag = getMaxDrag();
+        console.log('[tap debug] goToNextItem. maxDrag =', maxDrag, 'items[0] =', items[0]);
+        if (maxDrag <= 0 || !items[0]) return;
+        // ширина одного блока — берём реальную отрендеренную ширину
+        // первого элемента (у вас все блоки одной ширины: 50% на
+        // телефоне, 100% на планшете — см. project_block_carusel)
+        const itemWidth = items[0].getBoundingClientRect().width;
+        console.log('[tap debug] itemWidth =', itemWidth, 'currentX =', currentX);
+        if (!itemWidth) return;
+        const next = Math.max(-maxDrag, currentX - itemWidth);
+        currentX = next;
+        gsap.to(track, { x: next, duration: 0.5, ease: 'power3.out' });
+        console.log('[tap debug] animating to x =', next);
       }
 
       track.addEventListener('touchstart', onTouchStart, { passive: true });
@@ -218,25 +233,10 @@ mm.add(
       track.addEventListener('touchend', onTouchEnd, { passive: true });
       track.addEventListener('touchcancel', onTouchEnd, { passive: true });
 
-      // тёмное состояние включаем при входе в секцию (обычный
-      // вертикальный ScrollTrigger). Выключаем НЕ по позиции
-      // скролла (как было раньше — это не совпадало с прогрессом
-      // карусели), а явно из onTouchEnd выше, когда трек реально
-      // докручен до последнего блока. onLeave/onLeaveBack оставляем
-      // как страховку — если секция полностью ушла из вьюпорта,
-      // в любом случае сбрасываем фон.
-      const trigger = ScrollTrigger.create({
-        trigger: wrapper,
-        start: 'top center',
-        end: 'bottom center',
-        onEnter: enterDarkState,
-        onEnterBack: enterDarkState,
-        onLeave: leaveDarkState,
-        onLeaveBack: leaveDarkState,
-      });
+      // на mobile/tablet фон body НЕ меняется — тёмное состояние
+      // только для десктопа (см. ветку isDesktop выше).
 
       return () => {
-        trigger.kill();
         track.removeEventListener('touchstart', onTouchStart);
         track.removeEventListener('touchmove', onTouchMove);
         track.removeEventListener('touchend', onTouchEnd);
