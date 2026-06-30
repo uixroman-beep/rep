@@ -46,27 +46,18 @@ function leaveDarkState() {
 /* ---------------------------------------------------------
    3. Карусель с responsive-логикой через matchMedia.
 
-   Desktop (>=992px): прежнее поведение — пин секции +
+   Desktop (>=1024px): прежнее поведение — пин секции +
    горизонтальный драйв трека через scrub-анимацию.
 
-   Mobile/Tablet (<992px): пин ОТКЛЮЧЕН (на телефонах пин
-   горизонтальных секций почти всегда даёт прыжки/залипания
-   и конфликтует с нативным свайпом). Вместо этого:
-     - трек становится обычным горизонтально скроллящимся
-       блоком (overflow-x: auto, со свайпом пальцем),
-     - тёмное состояние body включается/выключается по
-       обычному вертикальному ScrollTrigger без pin.
+   Mobile/Tablet (<1024px): пин ОТКЛЮЧЕН. Трек двигается
+   вручную через touch (drag), а тап по карточке без
+   значимого сдвига пальца листает к следующему блоку.
 --------------------------------------------------------- */
 const mm = gsap.matchMedia();
 
 withLenis(() => {
 mm.add(
   {
-    // 1024px — стандартная граница "планшет / десктоп". Phones и
-    // tablets (включая то, что у вас в разметке переключается по
-    // md: на 768px) получают touch-скролл; pin + горизонтальный
-    // драйв остаётся только настоящему десктопу.
-    // Если у вас другая граница для десктопа — поменяйте оба числа.
     isDesktop: '(min-width: 1024px)',
     isMobile: '(max-width: 1023px)',
   },
@@ -87,7 +78,6 @@ mm.add(
     if (isDesktop) {
       /* ---------- DESKTOP: пин + горизонтальный драйв ---------- */
 
-      // на десктопе убеждаемся, что нативный overflow-x не мешает gsap-анимации
       track.style.overflowX = '';
       track.style.removeProperty('-webkit-overflow-scrolling');
       gsap.set(track, { x: 0 });
@@ -112,32 +102,10 @@ mm.add(
         onLeaveBack: leaveDarkState,
       });
 
-      // возвращаем функцию очистки — matchMedia вызовет её
-      // автоматически при переходе на mobile-брейкпоинт
       return () => trigger.kill();
     } else {
-      /* ---------- MOBILE / TABLET: ручной drag трека через touch ----------
-         Вместо нативного overflow-x используем тот же принцип, что и
-         на десктопе — двигаем track через transform: translateX.
-         Разница только в том, кто "водит" анимацию: на десктопе это
-         делает scroll (через scrub), на мобильном — палец пользователя.
+      /* ---------- MOBILE / TABLET: ручной drag + тап-листание ---------- */
 
-         Ключевой момент против предыдущих багов: ось жеста (горизонталь
-         или вертикаль) определяется один раз в начале каждого touch-
-         жеста по первым нескольким пикселям движения:
-           - если жест горизонтальный — preventDefault() и двигаем
-             track вручную через GSAP;
-           - если жест вертикальный — НИЧЕГО не делаем и НЕ вызываем
-             preventDefault, жест полностью уходит браузеру/Lenis,
-             страница скроллится как обычна, без всякого "захвата".
-         Поскольку решение принимается заново на КАЖДЫЙ новый touchstart,
-         после того как трек докручен до конца, следующий вертикальный
-         свайп — это уже новый, чистый жест, который браузер обработает
-         штатно с первого же пикселя. */
-
-      // wrapper уже имеет overflow-hidden в разметке (project_carousel_wrapper),
-      // поэтому track просто переполняет его по горизонтали — обрезка идёт
-      // средствами CSS, а не overflow-x на самом track.
       track.style.overflowX = '';
       track.style.webkitOverflowScrolling = '';
       track.style.scrollSnapType = '';
@@ -167,8 +135,6 @@ mm.add(
         startTrackX = currentX;
         axisLock = null;
         maxMovement = 0;
-        // если тап пришёлся на ссылку/кнопку внутри карточки —
-        // не вмешиваемся вообще, даём ей отработать как обычно
         tapOnInteractive = !!e.target.closest('a, button');
       }
 
@@ -194,7 +160,6 @@ mm.add(
         e.preventDefault();
         const maxDrag = getMaxDrag();
         let next = startTrackX + deltaX;
-        // лёгкое сопротивление за границами, без полной "резины"
         if (next > 0) next = next * 0.3;
         if (next < -maxDrag) next = -maxDrag + (next + maxDrag) * 0.3;
         currentX = next;
@@ -202,7 +167,6 @@ mm.add(
       }
 
       function onTouchEnd() {
-        console.log('[tap debug] touchend. axisLock =', axisLock, 'maxMovement =', maxMovement, 'tapOnInteractive =', tapOnInteractive);
         if (maxMovement < TAP_THRESHOLD && !tapOnInteractive) {
           // палец почти не двигался за весь жест — это тап, а не свайп.
           // Листаем трек к следующему блоку.
@@ -216,20 +180,35 @@ mm.add(
         axisLock = null;
       }
 
+      // --- точное определение текущего и следующего блока ---
+      // Ищем блок, ближайший к текущей позиции трека, и едем к offsetLeft
+      // СЛЕДУЮЩЕГО блока — точное попадание независимо от gap/ширины карточек.
+
+      function getCurrentIndex() {
+        let closestIndex = 0;
+        let closestDist = Infinity;
+        items.forEach((item, i) => {
+          const dist = Math.abs(item.offsetLeft + currentX);
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestIndex = i;
+          }
+        });
+        return closestIndex;
+      }
+
       function goToNextItem() {
         const maxDrag = getMaxDrag();
-        console.log('[tap debug] goToNextItem. maxDrag =', maxDrag, 'items[0] =', items[0]);
-        if (maxDrag <= 0 || !items[0]) return;
-        // ширина одного блока — берём реальную отрендеренную ширину
-        // первого элемента (у вас все блоки одной ширины: 50% на
-        // телефоне, 100% на планшете — см. project_block_carusel)
-        const itemWidth = items[0].getBoundingClientRect().width;
-        console.log('[tap debug] itemWidth =', itemWidth, 'currentX =', currentX);
-        if (!itemWidth) return;
-        const next = Math.max(-maxDrag, currentX - itemWidth);
+        if (maxDrag <= 0 || items.length === 0) return;
+
+        const currentIndex = getCurrentIndex();
+        const nextIndex = Math.min(items.length - 1, currentIndex + 1);
+        const nextItem = items[nextIndex];
+
+        let next = -nextItem.offsetLeft;
+        next = Math.max(-maxDrag, Math.min(0, next)); // не выходим за границы трека
         currentX = next;
         gsap.to(track, { x: next, duration: 0.5, ease: 'power3.out' });
-        console.log('[tap debug] animating to x =', next);
       }
 
       track.addEventListener('touchstart', onTouchStart, { passive: true });
