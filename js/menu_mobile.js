@@ -24,6 +24,7 @@ function unlockScroll() {
     });
     gsap.set(".nav_item_block > div > a", {
         y: "100%",
+        opacity: 0,
         display: "block"
     });
 
@@ -60,10 +61,12 @@ function unlockScroll() {
     })
     .to(".nav_item_block > div > a", {
         y: "0%", 
+        opacity: 1,
         duration: 1,
         ease: "power4.out",
         stagger: 0.2,
-    }, "-=2")
+    }, "-=1")
+
 .to(".line-1", {
     y: 6,
     rotate: 45,

@@ -48,7 +48,7 @@ title_inner_page.to('.all_content', {
 
   duration: 2,
   filter: "blur(5px)",
-  clipPath: "inset(100% 0% 0% 0%)",
+
   ease: "power4.out"
 },"-=0.4")
 
