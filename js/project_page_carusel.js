@@ -1,33 +1,30 @@
 gsap.registerPlugin(ScrollTrigger);
 
 /* ---------------------------------------------------------
-   1. Lenis — плавный скролл.
-   Если Lenis уже создан где-то в custom.js и положен в
-   window.lenis — переиспользуем его. Если нет — создаём здесь.
+   1. Lenis уже создаётся в custom.js (там же висит lerp,
+   обработка .no-scroll и т.д.) — здесь НЕ создаём второй
+   инстанс, а просто переиспользуем существующий через
+   window.lenis.
+
+   ВАЖНО: в custom.js нужно добавить window.lenis = lenis;
+   сразу после "lenis = new Lenis({ ... });", иначе тут
+   window.lenis будет undefined (let/const не попадают в
+   window автоматически, в отличие от var).
 --------------------------------------------------------- */
-window.lenis = window.lenis || new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-  // syncTouch: false — ПРИНЦИПИАЛЬНО. При syncTouch:true Lenis
-  // перехватывает (preventDefault) ВСЕ touch-жесты на странице,
-  // включая те, что должны нативно скроллить overflow-x внутри
-  // трека карусели. Для исключённых через data-lenis-prevent
-  // элементов Lenis жест просто игнорирует, а нативного fallback
-  // нет (т.к. Lenis сам обычно блокирует overflow на html/body) —
-  // из-за этого скролл "проваливался в пустоту" после последней
-  // карточки. С syncTouch:false Lenis не трогает touch вообще,
-  // браузер скроллит нативно (и трек, и страницу), Lenis только
-  // слушает событие scroll, чтобы обновлять ScrollTrigger.
-  syncTouch: false,
-});
-
-window.lenis.on('scroll', ScrollTrigger.update);
-
-gsap.ticker.add((time) => {
-  window.lenis.raf(time * 1000);
-});
-gsap.ticker.lagSmoothing(0);
+function withLenis(callback) {
+  if (window.lenis) {
+    callback(window.lenis);
+    return;
+  }
+  // на случай, если этот скрипт выполнился раньше, чем
+  // custom.js успел создать Lenis на DOMContentLoaded
+  const waitForLenis = setInterval(() => {
+    if (window.lenis) {
+      clearInterval(waitForLenis);
+      callback(window.lenis);
+    }
+  }, 50);
+}
 
 /* ---------------------------------------------------------
    2. Анимации входа/выхода из "тёмного" состояния.
@@ -62,6 +59,7 @@ function leaveDarkState() {
 --------------------------------------------------------- */
 const mm = gsap.matchMedia();
 
+withLenis(() => {
 mm.add(
   {
     // 1024px — стандартная граница "планшет / десктоп". Phones и
@@ -118,33 +116,115 @@ mm.add(
       // автоматически при переходе на mobile-брейкпоинт
       return () => trigger.kill();
     } else {
-      /* ---------- MOBILE / TABLET: свайп + обычный триггер ---------- */
+      /* ---------- MOBILE / TABLET: ручной drag трека через touch ----------
+         Вместо нативного overflow-x используем тот же принцип, что и
+         на десктопе — двигаем track через transform: translateX.
+         Разница только в том, кто "водит" анимацию: на десктопе это
+         делает scroll (через scrub), на мобильном — палец пользователя.
 
-      // отдаём горизонтальный скролл нативному свайпу.
-      // КРИТИЧНО: Lenis перехватывает touch-скролл на всей
-      // странице, поэтому без data-lenis-prevent свайп внутри
-      // трека просто не доходит до браузера.
-      track.setAttribute('data-lenis-prevent', '');
-      track.style.overflowX = 'auto';
-      track.style.webkitOverflowScrolling = 'touch';
-      track.style.scrollSnapType = 'x mandatory';
-      // touch-action оставляем 'auto' (по умолчанию) — браузер сам
-      // решает по направлению первого движения пальца, куда вести
-      // жест: горизонталь остаётся в треке (overflow-x: auto),
-      // вертикаль chaining'ом уходит на body/Lenis. Явный pan-x тут
-      // был ошибкой — он, наоборот, ЗАПРЕЩАЕТ вертикальную панораму
-      // на этом элементе и не даёт скроллу "отпуститься" наверх.
-      // contain по горизонтали — чтобы "резиновый" отскок на границах
-      // трека не утаскивал за собой скролл всей страницы
-      track.style.overscrollBehaviorX = 'contain';
-      track.style.overscrollBehaviorY = 'auto';
+         Ключевой момент против предыдущих багов: ось жеста (горизонталь
+         или вертикаль) определяется один раз в начале каждого touch-
+         жеста по первым нескольким пикселям движения:
+           - если жест горизонтальный — preventDefault() и двигаем
+             track вручную через GSAP;
+           - если жест вертикальный — НИЧЕГО не делаем и НЕ вызываем
+             preventDefault, жест полностью уходит браузеру/Lenis,
+             страница скроллится как обычна, без всякого "захвата".
+         Поскольку решение принимается заново на КАЖДЫЙ новый touchstart,
+         после того как трек докручен до конца, следующий вертикальный
+         свайп — это уже новый, чистый жест, который браузер обработает
+         штатно с первого же пикселя. */
+
+      // wrapper уже имеет overflow-hidden в разметке (project_carousel_wrapper),
+      // поэтому track просто переполняет его по горизонтали — обрезка идёт
+      // средствами CSS, а не overflow-x на самом track.
+      track.style.overflowX = '';
+      track.style.webkitOverflowScrolling = '';
+      track.style.scrollSnapType = '';
+      track.style.touchAction = 'pan-y'; // вертикаль отдаём браузеру нативно с самого начала
       items.forEach((item) => {
-        item.style.scrollSnapAlign = 'center';
+        item.style.scrollSnapAlign = '';
       });
-      gsap.set(track, { x: 0, clearProps: 'transform' });
 
-      // тёмное состояние включаем/выключаем по обычному
-      // вертикальному прохождению блока, без пина
+      const getMaxDrag = () => Math.max(0, track.scrollWidth - wrapper.offsetWidth);
+
+      let currentX = 0;
+      gsap.set(track, { x: 0 });
+
+      let startX = 0;
+      let startY = 0;
+      let startTrackX = 0;
+      let axisLock = null; // null | 'x' | 'y'
+      const AXIS_THRESHOLD = 8; // px, после скольки пикселей фиксируем ось жеста
+
+      function onTouchStart(e) {
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        startTrackX = currentX;
+        axisLock = null;
+      }
+
+      function onTouchMove(e) {
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+
+        if (axisLock === null) {
+          if (Math.abs(deltaX) < AXIS_THRESHOLD && Math.abs(deltaY) < AXIS_THRESHOLD) {
+            return; // ещё не понятно, куда жест — ждём
+          }
+          axisLock = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
+        }
+
+        if (axisLock === 'y') {
+          // вертикальный жест — ничего не делаем, отдаём браузеру/Lenis
+          console.log('[carousel debug] vertical gesture detected, не вмешиваемся. window.scrollY =', window.scrollY);
+          return;
+        }
+
+        // горизонтальный жест — двигаем трек вручную, страницу не трогаем
+        e.preventDefault();
+        const maxDrag = getMaxDrag();
+        let next = startTrackX + deltaX;
+        // лёгкое сопротивление за границами, без полной "резины"
+        if (next > 0) next = next * 0.3;
+        if (next < -maxDrag) next = -maxDrag + (next + maxDrag) * 0.3;
+        currentX = next;
+        gsap.set(track, { x: next });
+      }
+
+      function onTouchEnd() {
+        if (axisLock === 'x') {
+          const maxDrag = getMaxDrag();
+          const clamped = Math.min(0, Math.max(-maxDrag, currentX));
+          currentX = clamped;
+          gsap.to(track, { x: clamped, duration: 0.4, ease: 'power3.out' });
+
+          // дотащили трек до последнего блока — возвращаем дефолтный
+          // фон и больше не мешаем нормальному вертикальному скроллу
+          if (maxDrag > 0 && Math.abs(clamped + maxDrag) < 2) {
+            leaveDarkState();
+          } else if (Math.abs(clamped) < 2) {
+            // вернулись к первому блоку — снова тёмное состояние
+            enterDarkState();
+          }
+        }
+        axisLock = null;
+      }
+
+      track.addEventListener('touchstart', onTouchStart, { passive: true });
+      track.addEventListener('touchmove', onTouchMove, { passive: false });
+      track.addEventListener('touchend', onTouchEnd, { passive: true });
+      track.addEventListener('touchcancel', onTouchEnd, { passive: true });
+
+      // тёмное состояние включаем при входе в секцию (обычный
+      // вертикальный ScrollTrigger). Выключаем НЕ по позиции
+      // скролла (как было раньше — это не совпадало с прогрессом
+      // карусели), а явно из onTouchEnd выше, когда трек реально
+      // докручен до последнего блока. onLeave/onLeaveBack оставляем
+      // как страховку — если секция полностью ушла из вьюпорта,
+      // в любом случае сбрасываем фон.
       const trigger = ScrollTrigger.create({
         trigger: wrapper,
         start: 'top center',
@@ -157,30 +237,25 @@ mm.add(
 
       return () => {
         trigger.kill();
-        track.removeAttribute('data-lenis-prevent');
-        track.style.overflowX = '';
-        track.style.webkitOverflowScrolling = '';
-        track.style.scrollSnapType = '';
-        track.style.overscrollBehaviorX = '';
-        track.style.overscrollBehaviorY = '';
-        items.forEach((item) => {
-          item.style.scrollSnapAlign = '';
-        });
+        track.removeEventListener('touchstart', onTouchStart);
+        track.removeEventListener('touchmove', onTouchMove);
+        track.removeEventListener('touchend', onTouchEnd);
+        track.removeEventListener('touchcancel', onTouchEnd);
+        track.style.touchAction = '';
+        gsap.set(track, { clearProps: 'transform' });
       };
     }
   }
 );
 
-/* ---------------------------------------------------------
-   4. Пересчёт ScrollTrigger при загрузке/ресайзе.
-   matchMedia сам обрабатывает переход между брейкпоинтами,
-   но refresh() всё равно нужен на случай догрузки
-   картинок/видео, меняющих scrollWidth трека.
---------------------------------------------------------- */
-window.addEventListener('DOMContentLoaded', () => {
-  ScrollTrigger.refresh();
+ScrollTrigger.refresh();
 });
 
+/* ---------------------------------------------------------
+   4. Дополнительный пересчёт ScrollTrigger при полной загрузке
+   и ресайзе — на случай догрузки картинок/видео, меняющих
+   scrollWidth трека, либо смены ориентации экрана.
+--------------------------------------------------------- */
 window.addEventListener('load', () => {
   ScrollTrigger.refresh();
 });

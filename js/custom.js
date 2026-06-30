@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   smooth: true,
   lerp: 0.05,
  });
+ window.lenis = lenis;
 
  if (shouldStop) {
   lenis.stop();
