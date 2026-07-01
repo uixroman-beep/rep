@@ -20,8 +20,10 @@ function unlockScroll() {
     // начальное состояние меню
     gsap.set(".nav-overplay", {
         scaleY: 0,
-        rotation: -90
+
     });
+
+
     gsap.set(".nav-overplay a", {
         y: "100%",
         opacity: 0,
@@ -46,22 +48,18 @@ function unlockScroll() {
         ease: "power4.out"
     })
 
+
+
     .to(".nav-overplay", {
-        delay: 0.2,
-        rotation: 0, 
+        width: "100vw", 
         duration: 0.3,
         ease: "power4.out"
     })
 
     .to(".nav-overplay", {
-        width: "100vw", 
-        duration: 0.5,
-        ease: "power4.out"
-    })
-
-    .to(".nav-overplay", {
+        delay: 0.1,
         height: "100vh", 
-        duration: 0.5,
+        duration: 0.3,
         ease: "power4.out"
     })
 
@@ -74,7 +72,9 @@ function unlockScroll() {
         duration: 0.5,
         ease: "power4.out",
         stagger: 0.2,
-    }, )
+    })
+
+
 
 .to(".line-1", {
     y: 6,

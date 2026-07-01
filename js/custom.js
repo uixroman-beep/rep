@@ -24,9 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
  });
  gsap.ticker.lagSmoothing(0);
  ScrollTrigger.refresh();
+
+ lenis.scrollTo(0);
 });
 
-lenis.scrollTo(0);
+
 
 const observer = new MutationObserver((mutations) => {
  mutations.forEach((mutation) => {
