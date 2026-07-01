@@ -6,23 +6,32 @@ document.addEventListener("DOMContentLoaded", () => {
   let mouseY = 0;
   let zCounter = 1;
   const state = new Map();
+
   window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
   });
+
   rows.forEach((row) => {
     const preview = row.querySelector(".preview");
     const img = preview?.querySelector("img");
     if (!preview || !img) return;
+
     let w = 0;
     let h = 0;
+
     function updateSize() {
       if (!img.naturalWidth) return; // не считаем размеры, если картинка ещё не загружена/0x0
       w = img.offsetWidth / 2 || 0;
       h = img.offsetHeight / 2 || 0;
     }
+
     if (img.complete) updateSize();
     img.addEventListener("load", updateSize); // вешаем всегда, на случай если complete был true, но naturalWidth ещё 0
+
+    // стартовое состояние — скрыто
+    gsap.set(preview, { opacity: 0, scale: 0 });
+
     const xTo = gsap.quickTo(preview, "x", {
       duration: 0.2,
       ease: "power3.out",
@@ -31,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       duration: 0.2,
       ease: "power3.out",
     });
+
     state.set(row, {
       preview,
       xTo,
@@ -38,11 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
       w,
       h,
     });
+
     row.addEventListener("mouseenter", (e) => {
       activePreview = preview;
       activeRow = row;
       zCounter++;
       preview.style.zIndex = zCounter;
+
       updateSize();
       const data = state.get(row);
       data.w = w;
@@ -61,31 +73,33 @@ document.addEventListener("DOMContentLoaded", () => {
         opacity: 1,
         scale: 0,
       });
-      // Синхронизируем внутреннее состояние quickTo с уже выставленной позицией,
-      // иначе на следующем тике xTo/yTo может дёрнуть превью от старого значения.
+
+
       xTo(localX - w);
       yTo(localY - h);
 
       gsap.to(preview, {
         opacity: 1,
         scale: 1,
-        duration: 1,
-        ease: "power3.out",
+        duration: 2,
+        ease: "power4.out",
       });
     });
+
     row.addEventListener("mouseleave", () => {
       if (!preview) return;
       gsap.to(preview, {
         opacity: 1,
-        scale: 1.02,
-        duration: 0.35,
+        scale: 0,
+        duration: 1,
         delay: 2,
-        ease: "power3.out",
+        ease: "power4.out",
       });
       activePreview = null;
       activeRow = null;
     });
   });
+
   // единый render loop
   gsap.ticker.add(() => {
     if (!activePreview || !activeRow) return;
