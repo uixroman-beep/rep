@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
  ScrollTrigger.refresh();
 });
 
+lenis.scrollTo(0);
+
 const observer = new MutationObserver((mutations) => {
  mutations.forEach((mutation) => {
   if (mutation.attributeName === "class") {
