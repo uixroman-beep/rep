@@ -22,7 +22,7 @@ function unlockScroll() {
         scaleY: 0,
         rotation: -90
     });
-    gsap.set(".nav_item_block > div > a", {
+    gsap.set(".nav-overplay a", {
         y: "100%",
         opacity: 0,
         display: "block"
@@ -34,6 +34,8 @@ function unlockScroll() {
     });
 
     menuTl
+
+
     .to(".nav-overplay-absolute", {
         display: "flex"
     })
@@ -43,29 +45,36 @@ function unlockScroll() {
         duration: 0.3,
         ease: "power4.out"
     })
+
     .to(".nav-overplay", {
         delay: 0.2,
         rotation: 0, 
         duration: 0.3,
         ease: "power4.out"
     })
+
     .to(".nav-overplay", {
         width: "100vw", 
         duration: 0.5,
         ease: "power4.out"
     })
+
     .to(".nav-overplay", {
         height: "100vh", 
         duration: 0.5,
         ease: "power4.out"
     })
-    .to(".nav_item_block > div > a", {
+
+
+
+
+    .to(".nav-overplay a", {
         y: "0%", 
         opacity: 1,
-        duration: 1,
+        duration: 0.5,
         ease: "power4.out",
         stagger: 0.2,
-    }, "-=1")
+    }, )
 
 .to(".line-1", {
     y: 6,

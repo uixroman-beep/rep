@@ -36,11 +36,11 @@
       <div class="cursor"></div>
       <div
          class="
-         nav-overplay-absolute fixed inset-0 z-30 mix-blend-difference flex items-center justify-center hidden
+         nav-overplay-absolute fixed inset-0 z-30 flex items-center justify-center hidden
 
          "
          >
-         <div class="nav-overplay inset-0 z-30 bg-[#C6C6CE] h-[calc(400*var(--vw))] w-[calc(400*var(--vw))]">
+         <div class="nav-overplay inset-0 z-30  h-[calc(400*var(--vw))] w-[calc(400*var(--vw))]">
             <div
                class="flex flex-col justify-between h-full gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))]"
                >
@@ -49,8 +49,8 @@
                   class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"
                   ></div>
                <!-- Menu -->
-               <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block">
-                  <div class="overflow-hidden">
+               <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block text-white">
+                  <div class="overflow-hidden w-full text-left">
                      <a
                         href="studio.html"
                         class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full
@@ -59,16 +59,16 @@
                      Studio
                      </a>
                   </div>
-                  <div class="overflow-hidden">
+                  <div class="overflow-hidden w-full text-center">
                      <a
                         href="projects.html"
                         class="uppercase tracking-[.06em] underline hover:no-underline
-                        sm:text-[calc(72*var(--vw-sm))] "
+                        sm:text-[calc(72*var(--vw-sm))]  "
                         >
                      Projects
                      </a>
                   </div>
-                  <div class="overflow-hidden">
+                  <div class="overflow-hidden  w-full text-right">
                      <a
                         href="contact.html"
                         class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full
@@ -88,6 +88,7 @@
                </a>
             </div>
          </div>
+         
       </div>
 <!--       <div
          id="preloader_overplay"

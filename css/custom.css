@@ -111,12 +111,12 @@ will-change: transform;
 
 
 
-a {
-transition: 1.5s;
+a, .press_block, .projects_table > div {
+transition: 1s;
 }
 
-a:hover {
-transition: 1.5s;
+a:hover, .press_block:hover, .projects_table > div:hover {
+transition: 1s;
 }
 
 .project_carousel_image {
@@ -126,7 +126,27 @@ transition: 1.5s;
 }
 
 
-.black-theme .nav-overplay a{
+
+.nav-overplay{
+  background-color: black;
+
+}
+
+
+.nav-overplay a{
+  color: #C6C6CE;
+
+}
+
+
+.black-theme  .nav-overplay{
+  background-color: #C6C6CE;
+
+}
+
+
+.black-theme  .nav-overplay a{
   color: black;
 
 }
+
