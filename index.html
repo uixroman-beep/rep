@@ -1,1253 +1,714 @@
 <!doctype html>
 <html lang="ru">
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Tailwind + GSAP + VW/VH Engine</title>
-      <!-- Tailwind CDN -->
-      <script src="https://cdn.tailwindcss.com"></script>
-      <!-- GSAP CDN -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-      <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
-      <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet" />
-      <link
-         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-         rel="stylesheet"
-         />
-      <script>
-         tailwind.config = {
-             theme: {
-                 screens: {
-                     xl: { max: "1279px" },
-                     lg: { max: "1023px" },
-                     md: { max: "767px" },
-                     sm: { max: "639px" },
-                 },
-             },
-         };
-      </script>
-      <link
-         href="css/custom.css"
-         rel="stylesheet"
-         />
-   </head>
-
-
-
-   <body class="bg-[#C6C6CE] overflow-x-hidden inter-regular text-black body-main-page">
-      <div class="cursor"></div>
-      <div
-         class="
-         nav-overplay-absolute fixed inset-0 z-30 flex items-center justify-center hidden
-
-         "
-         >
-         <div class="nav-overplay inset-0 z-30  h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] sm:py-[calc(50*var(--vw-sm))]">
-            <div
-               class="flex flex-col justify-between h-full "
-               >
-               <!-- Logo -->
-               <div
-                  class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"
-                  ></div>
-               <!-- Menu -->
-               <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block text-white">
-                  <div class="overflow-hidden w-full text-left">
-                     <a
-                        href="studio.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full
-                        sm:text-[calc(72*var(--vw-sm))] "
-                        >
-                     Studio
-                     </a>
-                  </div>
-                  <div class="overflow-hidden w-full text-center">
-                     <a
-                        href="projects.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline
-                        sm:text-[calc(72*var(--vw-sm))]  "
-                        >
-                     Projects
-                     </a>
-                  </div>
-                  <div class="overflow-hidden  w-full text-right">
-                     <a
-                        href="contact.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full
-                        sm:text-[calc(72*var(--vw-sm))] "
-                        >
-                     Contact
-                     </a>
-                  </div>
-               </nav>
-               <!-- Language -->
-               <a
-                  href="#"
-                  class="inter-bold text-center underline hover:no-underline text-[calc(14*var(--vw))]
-                  sm:text-[calc(16*var(--vw-sm))] "
-                  >
-               UA
-               </a>
-            </div>
-         </div>
-         
-      </div>
-<div
-    id="preloader_overplay"
-    class="absolute inset-0 z-10 flex items-center justify-center w-dvw h-dvh bg-[#C6C6CE]"
->
-    <div
-        id="box"
-        class="w-[calc(400*var(--vw))] h-[calc(400*var(--vw))] bg-black opacity-0"
-    ></div>
-</div>
-      <div class="all_content opacity-0">
-         <div
-            class="
-            grid grid-cols-4 fixed z-30 inset-0 mix-blend-difference text-white h-10 header_nav gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))] 
-
-            md:p-[calc(8*var(--vw-md))]
-            sm:py-[calc(20*var(--vw-sm))]
-
-
-            "
-            >
-            <div
-               class="
-               text-[calc(16*var(--vw))]  leading-[calc(18*var(--vw))] roof_studio z-50
-               md:text-[calc(18*var(--vw-md))] md:leading-[calc(18*var(--vw-md))]
-               sm:text-[calc(18*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))] 
-               "
-               >
-               <a href="index.html">
-               <div class="overflow-hidden">
-                  <div>ROOF</div>
-               </div>
-               <div class="overflow-hidden">
-                  <div>STUDIO</div>
-               </div>
-
-               </a>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase">
-                  <a
-                     class="
-                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                     md:text-[calc(14*var(--vw-md))]
-                     sm:hidden
-                     "
-                     href="studio.html"
-                     >Studio</a
-                     >
-               </div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase">
-                  <a
-                     class="
-                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                     md:text-[calc(14*var(--vw-md))]
-                     sm:hidden
-                     "
-                     href="projects.html"
-                     >Projects</a
-                     >
-               </div>
-            </div>
-            <div class="uppercase justify-between flex contact_and_lang">
-               <div class="overflow-hidden">
-                  <div>
-                     <a
-                        class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                        md:text-[calc(14*var(--vw-md))]
-                        sm:hidden
-                        "
-                        href="contact.html"
-                        >Contact</a
-                        >
-                  </div>
-               </div>
-               <div class="overflow-hidden">
-                  <div>
-                     <a
-                        class="main_link inter-bold hover:underline underline hover:no-underline underline-offset-4 cursor-pointer 
-                        md:text-[calc(14*var(--vw-md))]
-                        sm:hidden
-                        "
-                        >UA</a
-                        >
-                     <a
-                        href=""
-                        class="
-                        menu-toggle relative block w-[calc(24*var(--vw-sm))] h-[calc(12*var(--vw-sm))] z-50 hidden
-                        sm:block
-                        "
-                        >
-                        <div class="line-1 absolute left-0 top-0 w-[100%] h-[1px] bg-white"></div>
-                        <div class="line-2 absolute left-0 top-[6px] w-[50%] h-[1px] bg-white"></div>
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-
-         <div class="
-         header mt-[calc(48*var(--vw))]
-         md:mt-[calc(60*var(--vw-md))]
-         sm:mt-[calc(70*var(--vw-sm))]
-         ">
-            <div
-               data-size
-               class="grid grid-cols-4 leading-[1] relative z-20 logo text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] "
-               >
-               <div class="overflow-hidden">
-                  <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
-               </div>
-               <div class="overflow-hidden">
-                  <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
-               </div>
-               <div class="overflow-hidden">
-                  <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
-               </div>
-               <div class="overflow-hidden">
-                  <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
-               </div>
-            </div>
-            <div class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]">
-               <div
-                  class="video_block relative w-full overflow-hidden col-span-4 opacity-0 z-20 h-screen mt-[calc(5*var(--vw))]
-                  md:h-[50vh] md:mt-[calc(18*var(--vw-md))]
-                  sm:mt-[calc(8*var(--vw-sm))]
-                  "
-                  >
-                  <video
-                     id="bgVideo"
-                     class="absolute top-0 left-0 w-full h-full object-cover"
-                     autoplay
-                     muted
-                     loop
-                     playsinline
-                     >
-                     <source src="videos/video_bg.mp4" type="video/mp4" />
-                  </video>
-               </div>
-            </div>
-         </div>
-         <section
-            id="studio"
-            class="
-            h-screen place-items-center grid text-white mix-blend-difference pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))]
-            md:h-full md:mix-blend-normal md:text-black md:mt-[calc(115*var(--vw-md))]
-
-            "
-            >
-            <div class="w-full justify-between flex items-center relative z-10 text-white title_studio">
-               <div
-                  class="inter-medium tracking-[-0.02em] text-[calc(32*var(--vw))]
-                  md:hidden"
-                  >
-                  Studio
-               </div>
-               <div
-                  class="inter-regular tracking-[-0.06em] text-[calc(14*var(--vw))] md:hidden"
-                  >
-                  Lviv, Ukraine
-               </div>
-            </div>
-            <div id="cursor-studio"></div>
-            <div class="text-center z-2 self-center">
-               <div
-                  class="
-                  tracking-[-0.05em] text-[calc(63*var(--vw))]  inter-semibol self-center we_are
-                  md:text-[calc(108*var(--vw-md))] md:text-justify
-                  sm:text-[calc(61*var(--vw-sm))] sm:leading-[1.2]
-                  "
-                  >
-                  We are architecture studio ROOF.<br />
-                  <span class="
-                  md:hidden
-                  ">Founded by Le Sauveterre.</span>
-               </div>
-            </div>
-            <div
-               class="
-               text-[calc(14*var(--vw))] inter-regular tracking-[-0.06em] self-end text-white Est relative
-               md:hidden
-               "
-               >
-               Est. 1992
-            </div>
-         </section>
-         <section id="projects" class="
-         mt-[calc(600*var(--vw))]
-         md:mt-[calc(250*var(--vw-md))]
-         ">
-            <div class="
-            title_projects justify-between text-center p-[calc(20*var(--vw))]
-            md:text-left 
-            ">
-               <div
-                  class="
-                  mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title
-                  md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))]
-                  sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]
-
-                  "
-                  >
-                  Projects
-               </div>
-            </div>
-            <div class="container_custom">
-               <div class="projects_table">
-                  <div
-                     class="grid grid-cols-4 gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] project_block"
-                     >
-
-                     <div
-                        class="
-                        col-start-2
-                        uppercase text-[calc(14*var(--vw))]
-                        inter-bold
-                        md:text-[calc(16*var(--vw-md))] md:col-start-3
-                        sm:hidden
-                        "
-                        >
-                        category
-                     </div>
-                     <div
-                        class="
-                        uppercase text-[calc(14*var(--vw))]
-                        inter-bold
-                        md:text-[calc(16*var(--vw-md))]
-                        sm:hidden
-                        "
-                        >
-                        location
-                     </div>
-                     <div
-                        class="
-                        uppercase text-[calc(14*var(--vw))]
-                        inter-bold
-                        md:hidden
-                        sm:hidden
-                        "
-                        >
-                        Year
-                     </div>
-                  </div>
-                  <!--             project start -->
-                  <div
-                     class="
-                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] cursor-pointer project_block
-                     tracking-[0.10em] text-[calc(14*var(--vw))] uppercase
-
-                     md:text-[calc(16*var(--vw-md))] md:tracking-[0em] 
-
-                     sm:items-center 
-                     "
-                  >
-                     <div class="
-                     md:col-span-2
-                     sm:col-span-3 sm:text-[calc(21*var(--vw-sm))]">
-                        <span class="sm:underline sm:hover:no-underline">SUSTAINABLE BUSINESS PARK</span>
-
-                        <div class="
-                        hidden
-                        sm:block  sm:text-[calc(10*var(--vw-sm))] no-underline
-                        ">
-                           Tbilisi, Georgia / 2021-2024
-                        </div>
-                     </div>
-
-                     <div class="
-                     uppercase
-                     
-                     sm:hidden">
-                        Architecture
-                     </div>
-                     <div class="sm:hidden">
-                        Tbilisi, Georgia
-                     </div>
-                     <div class="md:hidden">
-                        2020-2025
-                     </div>
-
-                     <div class="
-                     hidden text-right
-                     sm:block  sm:justify-self-end
-                     ">
-                         <svg xmlns="http://www.w3.org/2000/svg"  height="18" fill="none" viewBox="0 0 58 37">
-  <path fill="#000" d="M.64 18.727c0-3.409.43-6.629 1.292-9.659A34.554 34.554 0 0 1 5.639.545H7.94a25.937 25.937 0 0 0-1.903 3.793A37.131 37.131 0 0 0 4.56 8.855a41.753 41.753 0 0 0-.966 4.915 36.656 36.656 0 0 0-.341 4.957c0 2.188.199 4.394.596 6.62a40.807 40.807 0 0 0 1.648 6.335c.71 1.998 1.525 3.74 2.443 5.227h-2.3a34.807 34.807 0 0 1-3.708-8.537C1.07 25.342.639 22.127.639 18.727ZM31.622 31l-1.676-1.662 9.886-9.872H15.117v-2.387h24.716l-9.886-9.872 1.676-1.662L44.35 18.273 31.623 31Zm26.133-12.273c0 3.41-.431 6.63-1.293 9.66a34.557 34.557 0 0 1-3.707 8.522h-2.301c.69-1.117 1.32-2.381 1.889-3.792a35.56 35.56 0 0 0 1.491-4.518c.417-1.6.739-3.238.966-4.914.227-1.676.341-3.329.341-4.958 0-2.187-.199-4.394-.597-6.619a39.782 39.782 0 0 0-1.662-6.335c-.7-1.998-1.51-3.74-2.428-5.228h2.3a34.81 34.81 0 0 1 3.708 8.537c.862 3.03 1.293 6.246 1.293 9.645Z"/>
-</svg>
-
-                     </div>
-
-
-                     <div class="
-                     preview
-                     md:hidden
-                     ">
-                        <img src="images/projects_thumb/1.png" />
-                     </div>
-                  </div>
-                  <!--             project end -->
-
-
-
-                  <!--             project start -->
-                  <div
-                     class="
-                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] cursor-pointer project_block
-                     tracking-[0.10em] text-[calc(14*var(--vw))] uppercase
-
-                     md:text-[calc(16*var(--vw-md))] md:tracking-[0em] 
-
-                     sm:items-center 
-                     "
-                  >
-                     <div class="
-                     md:col-span-2
-                     sm:col-span-3 sm:text-[calc(21*var(--vw-sm))]">
-                        <span class="sm:underline sm:hover:no-underline">MIXED-USE URBAN DISTRICT </span>
-
-                        <div class="
-                        hidden
-                        sm:block  sm:text-[calc(10*var(--vw-sm))] no-underline
-                        ">
-                           WARSAW, POLAND / 2020–2024
-                        </div>
-                     </div>
-
-                     <div class="
-                     uppercase
-                     
-                     sm:hidden">
-                        MASTERPLANNING
-                     </div>
-                     <div class="sm:hidden">
-                        WARSAW, POLAND
-                     </div>
-                     <div class="md:hidden">
-                        2020–2024
-                     </div>
-
-                     <div class="
-                     hidden text-right
-                     sm:block  sm:justify-self-end
-                     ">
-                         <svg xmlns="http://www.w3.org/2000/svg"  height="18" fill="none" viewBox="0 0 58 37">
-  <path fill="#000" d="M.64 18.727c0-3.409.43-6.629 1.292-9.659A34.554 34.554 0 0 1 5.639.545H7.94a25.937 25.937 0 0 0-1.903 3.793A37.131 37.131 0 0 0 4.56 8.855a41.753 41.753 0 0 0-.966 4.915 36.656 36.656 0 0 0-.341 4.957c0 2.188.199 4.394.596 6.62a40.807 40.807 0 0 0 1.648 6.335c.71 1.998 1.525 3.74 2.443 5.227h-2.3a34.807 34.807 0 0 1-3.708-8.537C1.07 25.342.639 22.127.639 18.727ZM31.622 31l-1.676-1.662 9.886-9.872H15.117v-2.387h24.716l-9.886-9.872 1.676-1.662L44.35 18.273 31.623 31Zm26.133-12.273c0 3.41-.431 6.63-1.293 9.66a34.557 34.557 0 0 1-3.707 8.522h-2.301c.69-1.117 1.32-2.381 1.889-3.792a35.56 35.56 0 0 0 1.491-4.518c.417-1.6.739-3.238.966-4.914.227-1.676.341-3.329.341-4.958 0-2.187-.199-4.394-.597-6.619a39.782 39.782 0 0 0-1.662-6.335c-.7-1.998-1.51-3.74-2.428-5.228h2.3a34.81 34.81 0 0 1 3.708 8.537c.862 3.03 1.293 6.246 1.293 9.645Z"/>
-</svg>
-
-                     </div>
-
-
-                     <div class="
-                     preview
-                     md:hidden
-                     ">
-                        <img src="images/projects_thumb/2.png" />
-                     </div>
-                  </div>
-                  <!--             project end -->
-
-
-
-
-                  <!--             project start -->
-                  <div
-                     class="
-                     grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] cursor-pointer project_block
-                     tracking-[0.10em] text-[calc(14*var(--vw))] uppercase
-
-                     md:text-[calc(16*var(--vw-md))] md:tracking-[0em] 
-
-                     sm:items-center 
-                     "
-                  >
-                     <div class="
-                     md:col-span-2
-                     sm:col-span-3 sm:text-[calc(21*var(--vw-sm))]">
-                        <span class="sm:underline sm:hover:no-underline">INNOVATION OFFICE PARK</span>
-
-                        <div class="
-                        hidden
-                        sm:block  sm:text-[calc(10*var(--vw-sm))] no-underline
-                        ">
-                           BAKU, AZERBAIJAN / 2022–2026
-                        </div>
-                     </div>
-
-                     <div class="
-                     uppercase
-                     
-                     sm:hidden">
-                        ARCHITECTURE
-                     </div>
-                     <div class="sm:hidden">
-                        BAKU, AZERBAIJAN
-                     </div>
-                     <div class="md:hidden">
-                        2022–2026
-                     </div>
-
-                     <div class="
-                     hidden text-right
-                     sm:block  sm:justify-self-end
-                     ">
-                         <svg xmlns="http://www.w3.org/2000/svg"  height="18" fill="none" viewBox="0 0 58 37">
-  <path fill="#000" d="M.64 18.727c0-3.409.43-6.629 1.292-9.659A34.554 34.554 0 0 1 5.639.545H7.94a25.937 25.937 0 0 0-1.903 3.793A37.131 37.131 0 0 0 4.56 8.855a41.753 41.753 0 0 0-.966 4.915 36.656 36.656 0 0 0-.341 4.957c0 2.188.199 4.394.596 6.62a40.807 40.807 0 0 0 1.648 6.335c.71 1.998 1.525 3.74 2.443 5.227h-2.3a34.807 34.807 0 0 1-3.708-8.537C1.07 25.342.639 22.127.639 18.727ZM31.622 31l-1.676-1.662 9.886-9.872H15.117v-2.387h24.716l-9.886-9.872 1.676-1.662L44.35 18.273 31.623 31Zm26.133-12.273c0 3.41-.431 6.63-1.293 9.66a34.557 34.557 0 0 1-3.707 8.522h-2.301c.69-1.117 1.32-2.381 1.889-3.792a35.56 35.56 0 0 0 1.491-4.518c.417-1.6.739-3.238.966-4.914.227-1.676.341-3.329.341-4.958 0-2.187-.199-4.394-.597-6.619a39.782 39.782 0 0 0-1.662-6.335c-.7-1.998-1.51-3.74-2.428-5.228h2.3a34.81 34.81 0 0 1 3.708 8.537c.862 3.03 1.293 6.246 1.293 9.645Z"/>
-</svg>
-
-                     </div>
-
-
-                     <div class="
-                     preview
-                     md:hidden
-                     ">
-                        <img src="images/projects_thumb/3.png" />
-                     </div>
-                  </div>
-                  <!--             project end -->
-
-
-
-
-
-
-
-
-               </div>
-            </div>
-         </section>
-         <section class="
-         clients mt-[calc(500*var(--vw))]
-         md:mt-[calc(250*var(--vw-md))]
-         ">
-            <div class="container_custom p-[calc(20*var(--vw))]">
-               <div class="clients_title justify-between">
-                  <div
-                     class="
-                  mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title
-                  md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))]
-                  sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]
-                     "
-                     >
-                     Clients
-                  </div>
-               </div>
-               <div class="grid grid-cols-4 gap-[calc(104*var(--vw))]">
-                  <div class="
-                  col-span-3
-                  md:col-span-4
-                  ">
-                     <div class="
-                     clients_block leading-[1.2] text-[calc(89*var(--vw))]
-                     md:text-[calc(70*var(--vw-md))]
-
-
-
-                     ">
-                        <div>
-                           <a
-                              href="#"
-                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
-                              >SAGA DEVELOPMENT</a
-                              >
-                        </div>
-                        <div>
-                           <a
-                              href="#"
-                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
-                              >LVIV CITY COUNCIL</a
-                              >
-                        </div>
-                        <div>
-                           <a
-                              href="#"
-                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
-                              >UNIT.CITY</a
-                              >
-                        </div>
-                        <div>
-                           <a
-                              href="#"
-                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
-                              >KHORTYTSIA</a
-                              >
-                        </div>
-                        <div>
-                           <a
-                              href="#"
-                              class="hover:underline inter-medium tracking-[-0.06em]  underline hover:no-underline underline-offset-4"
-                              >NATIONAL RESERVE</a
-                              >
-                        </div>
-                     </div>
-                  </div>
-                  <div
-                     class="
-                     col-span-1 text-right text-[calc(14*var(--vw))] leading-[calc(30*var(--vw))]
-                     md:hidden
-                     "
-                     >
-                     <div class="statistic_block">
-                        <span class="inter-bold tracking-[-0.08em]">340 000 m²</span> built area
-                     </div>
-                     <div class="statistic_block">
-                        <span class="inter-bold tracking-[-0.08em]">12</span> awards
-                     </div>
-                     <div class="statistic_block">
-                        <span class="inter-bold tracking-[-0.08em]">7</span> countries
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </section>
-         <section class="
-         awards mt-[calc(400*var(--vw))]
-         md:mt-[calc(250*var(--vw-md))]
-         ">
-            <div class="container_custom p-[calc(20*var(--vw))]">
-               <div class="title justify-between awards_title">
-                  <div
-                     class="
-                  mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title
-                  md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))]
-                  sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]
-                     "
-                     >
-                     Awards
-                  </div>
-               </div>
-            </div>
-
-               <!-- award block start -->
-               <div
-                  class="grid award_and_year grid-cols-4 border-t border-black table_stroke gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]  uppercase 
-                  md:border-0 md:mb-[calc(104*var(--vw-md))]
-                  "
-                  >
-                  <div class="
-                  year col-span-1
-                  md:col-span-4 md:leading-[calc(180*var(--vw-md))] 
-
-                  ">
-                     <div class="
-                     -rotate-90 text-[calc(500*var(--vw))] -mt-[calc(16*var(--vw))]
-                     md:-rotate-0 md:text-[calc(223*var(--vw-md))] md:-mt-[calc(0*var(--vw))]
-
-
-                     ">26</div>
-                  </div>
-
-
-                  <div class="
-                  awards_block col-span-3  text-[calc(24*var(--vw))]
-                  md:col-span-4 md:text-[calc(24*var(--vw-md))]
-                  sm:text-[calc(21*var(--vw-sm))]
-
-                  ">
-
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">AIA Gold Medal</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Honorable Mention
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">Mies van der Rohe Award</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Winner
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-                  </div>
-
-
-
-               </div>
-
-               <!--end -->
-
-               <!-- award block start -->
-               <div
-                  class="grid award_and_year grid-cols-4 border-t border-black table_stroke gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]  uppercase 
-                  md:border-0 md:mb-[calc(104*var(--vw-md))]
-                  "
-                  >
-                  <div class="
-                  year col-span-1
-                  md:col-span-4 md:leading-[calc(180*var(--vw-md))] 
-
-                  ">
-                     <div class="
-                     -rotate-90 text-[calc(500*var(--vw))] -mt-[calc(19*var(--vw))]
-                     md:-rotate-0 md:text-[calc(223*var(--vw-md))] md:-mt-[calc(0*var(--vw))]
-
-
-                     ">25</div>
-                  </div>
-
-
-                  <div class="
-                  awards_block col-span-3  text-[calc(24*var(--vw))]
-                  md:col-span-4 md:text-[calc(24*var(--vw-md))]
-                  sm:text-[calc(21*var(--vw-sm))]
-
-                  ">
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">Aga Khan Award</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Finalist
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">World Architecture Festival</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Category Winner
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">Architizer A+Awards</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Jury Winner
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">Dezeen Awards</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Shortlisted
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-                  </div>
-
-
-
-               </div>
-
-               <!--end -->
-
-
-
-               <!-- award block start -->
-               <div
-                  class="grid award_and_year grid-cols-4 border-t border-black table_stroke gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]  uppercase 
-                  md:border-0 md:mb-[calc(104*var(--vw-md))]
-                  "
-                  >
-                  <div class="
-                  year col-span-1
-                  md:col-span-4 md:leading-[calc(180*var(--vw-md))] 
-
-                  ">
-                     <div class="
-                     -rotate-90 text-[calc(500*var(--vw))] mt-[calc(3*var(--vw))]
-                     md:-rotate-0 md:text-[calc(223*var(--vw-md))] 
-
-
-                     ">24</div>
-                  </div>
-
-
-                  <div class="
-                  awards_block col-span-3  text-[calc(24*var(--vw))]
-                  md:col-span-4 md:text-[calc(24*var(--vw-md))]
-                  sm:text-[calc(21*var(--vw-sm))]
-
-                  ">
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">LEAF Awards</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Highly Commended
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">Architecture MasterPrize</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Winner
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">European Architecture Prize</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Winner
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">Venice Architecture Biennale</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Shortlisted
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">German Design Award</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Shortlisted
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">Chicago Athenaeum Award</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Winner
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-
-
-                  <!-- award -->
-                     <div
-                        class="
-                        award_block flex justify-between py-[calc(5*var(--vw))]
-                        md:border-t md:border-black
-                        sm:grid sm:py-[calc(5*var(--vw-sm))]
-                        "
-                        >
-                        <div class="
-                        award_name
-                        sm:order-2
-                        ">Asia Architecture Prize</div>
-                        <div class="
-                        award_st inter-bold
-                        sm:text-[calc(10*var(--vw-sm))]
-                        sm:order-1
-
-                        ">Jury Selection
-                     </div>
-
-
-
-                     </div>
-                  <!-- end award -->
-
-                  </div>
-
-
-
-               </div>
-
-               <!--end -->
-
-
-
-         </section>
-         <section class="
-         contacts mt-[calc(100*var(--vw))] 
-         md:mt-[calc(250*var(--vw-md))]
-         ">
-            <div
-               class="container_custom p-[calc(20*var(--vw))] "
-               >
-               <div class="title justify-between">
-                  <div
-                     class="
-                  mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title
-                  md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))]
-                  sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]
-                     "
-                     >
-                     Contacts
-                  </div>
-               </div>
-               <div class="grid grid-cols-4 leading-[24px] grid-flow-row auto-rows-max gap-[calc(104*var(--vw))]">
-
-
-                  <div class="
-                     contact_block col-span-2
-                     sm:col-span-4
-                     ">
-                     <div class="mb-[calc(60*var(--vw))]">
-                        <label
-                           class="
-                           tracking-[-0.08em] text-[calc(78*var(--vw))]
-                           md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] 
-                           sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]
-
-                           "
-                           >
-
-                           Your Name: &nbsp;</label
-                           >
-                     </div>
-                     <input
-                        type="text"
-                        name="Name"
-                        class="
-                        w-full border-b border-black bg-transparent focus:outline-none pb-[calc(21*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em]
-                        md:text-[calc(14*var(--vw-md))] md:traking-[0.05em]
-                        sm:text-[calc(16*var(--vw-sm))]
-
-                        "
-                        placeholder="Enter your name"
-                        />
-                  </div>
-
-
-
-                  <div class="
-                     contact_block col-span-2
-                     sm:col-span-4
-                     sm:mt-[calc(40*var(--vw-sm))]
-                     ">
-                     <div class="mb-[calc(60*var(--vw))]">
-                        <label
-                           class="
-                           tracking-[-0.08em] text-[calc(78*var(--vw))]
-                           md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] 
-                           sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]
-
-                           "
-                           >
-
-                           Your Email: &nbsp;</label
-                           >
-                     </div>
-                     <input
-                        type="text"
-                        name="Name"
-                        class="
-                        w-full border-b border-black bg-transparent focus:outline-none pb-[calc(21*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em]
-                        md:text-[calc(14*var(--vw-md))] md:traking-[0.05em]
-                        sm:text-[calc(16*var(--vw-sm))]
-
-
-                        "
-                        placeholder="Enter email"
-                        />
-                  </div>
-
-
-                  <div class="
-                     contact_block col-span-3 col-start-2 mt-[calc(80*var(--vw))]
-                     md:col-span-4 
-                     sm:mt-[calc(40*var(--vw-sm))]
-                     ">
-                     <div class="mb-[calc(60*var(--vw))]">
-                        <label
-                           class="
-                           tracking-[-0.08em] text-[calc(78*var(--vw))]
-                           md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] 
-                           sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]
-
-                           "
-                           >
-
-                           Tell us about your project: &nbsp;</label
-                           >
-                     </div>
-                     <textarea class="w-full border-b border-black bg-transparent focus:outline-none pb-[calc(100*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em] md:text-[calc(14*var(--vw-md))] md:traking-[0.05em] sm:text-[calc(16*var(--vw-sm))]" placeholder="Enter your ideas"></textarea>
-                  </div>
-
-
-
-                  <div class="
-                     contact_block col-span-2 col-start-3 text-right 
-
-                     ">
-                        <a href="SEND" class="
-                        text-[calc(89*var(--vw))] uppercase underline hover:no-underline tracking-[-0.08em] inter-regular
-                        md:text-[calc(56*var(--vw-md))]
-                        sm:text-[calc(46*var(--vw-sm))]
-                        ">Send</a>
-                  </div>
-
-
-               </div>
-            </div>
-         </section>
-         <div
-            class="grid grid-cols-4 leading-[1] relative z-20 logo_footer text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(250*var(--vw))]"
-            >
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
-            </div>
-            <div
-               class="
-               col-span-4 text-[calc(18*var(--vw))] text-center mb-[calc(20*var(--vw))]
-               sm:text-[calc(16*var(--vw-sm))]
-               "
-               >
-               ROOF ©<br />2026 All rights reserved
-            </div>
-         </div>
-      </div>
-
-      <script src="js/menu_mobile.js"></script>
-      <script src="js/gsap_preloader.js"></script>
-      <script src="js/portfolio_hover.js"></script>
-      <script src="js/custom.js"></script>
-      <script>
-         if (window.innerWidth >= 1000) {
-             const desktopScripts = [
-                 "js/studio_section_interaction.js",
-                 "js/scroll_animation.js",
-             ];
-             desktopScripts.forEach((src) => {
-                 const script = document.createElement("script");
-                 script.src = src;
-                 script.async = true;
-                 document.body.appendChild(script);
-             });
-         }
-
+    <head>
+         <meta charset="UTF-8" />
+         <script>
            if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-  window.scrollTo(0, 0);
-      </script>
+             history.scrollRestoration = 'manual';
+           }
+           window.scrollTo(0, 0);
+         </script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tailwind + GSAP + VW/VH Engine</title>
+        <!-- Tailwind CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- GSAP CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet"
+        />
+        <script>
+            tailwind.config = {
+                theme: {
+                    screens: {
+                        xl: { max: "1279px" },
+                        lg: { max: "1023px" },
+                        md: { max: "767px" },
+                        sm: { max: "639px" },
+                    },
+                },
+            };
+        </script>
+        <link href="css/custom.css" rel="stylesheet" />
+    </head>
 
-   </body>
+    <body class="bg-[#C6C6CE] overflow-x-hidden inter-regular text-black body-main-page">
+        <div class="cursor"></div>
+        <div class="nav-overplay-absolute fixed inset-0 z-30 flex items-center justify-center hidden">
+            <div
+                class="nav-overplay inset-0 z-30 h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] sm:py-[calc(50*var(--vw-sm))]"
+            >
+                <div class="flex flex-col justify-between h-full">
+                    <!-- Logo -->
+                    <div class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"></div>
+                    <!-- Menu -->
+                    <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block text-white">
+                        <div class="overflow-hidden w-full text-left">
+                            <a
+                                href="studio.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Studio
+                            </a>
+                        </div>
+                        <div class="overflow-hidden w-full text-center">
+                            <a
+                                href="projects.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Projects
+                            </a>
+                        </div>
+                        <div class="overflow-hidden w-full text-right">
+                            <a
+                                href="contact.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Contact
+                            </a>
+                        </div>
+                    </nav>
+                    <!-- Language -->
+                    <a
+                        href="#"
+                        class="inter-bold text-center underline hover:no-underline text-[calc(14*var(--vw))] sm:text-[calc(16*var(--vw-sm))]"
+                    >
+                        UA
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div
+            id="preloader_overplay"
+            class="absolute inset-0 z-10 flex items-center justify-center w-dvw h-dvh bg-[#C6C6CE]"
+        >
+            <div id="box" class="w-[calc(400*var(--vw))] h-[calc(400*var(--vw))] bg-black opacity-0"></div>
+        </div>
+        <div class="all_content opacity-0">
+            <div
+                class="grid grid-cols-4 fixed z-30 inset-0 mix-blend-difference text-white h-10 header_nav gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))] md:p-[calc(8*var(--vw-md))] sm:py-[calc(20*var(--vw-sm))]"
+            >
+                <div
+                    class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))] roof_studio z-50 md:text-[calc(18*var(--vw-md))] md:leading-[calc(18*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))]"
+                >
+                    <a href="index.html">
+                        <div class="overflow-hidden">
+                            <div>ROOF</div>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div>STUDIO</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase">
+                        <a
+                            class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                            href="studio.html"
+                            >Studio</a
+                        >
+                    </div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase">
+                        <a
+                            class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                            href="projects.html"
+                            >Projects</a
+                        >
+                    </div>
+                </div>
+                <div class="uppercase justify-between flex contact_and_lang">
+                    <div class="overflow-hidden">
+                        <div>
+                            <a
+                                class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                href="contact.html"
+                                >Contact</a
+                            >
+                        </div>
+                    </div>
+                    <div class="overflow-hidden">
+                        <div>
+                            <a
+                                class="main_link inter-bold hover:underline underline hover:no-underline underline-offset-4 cursor-pointer md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                >UA</a
+                            >
+                            <a
+                                href=""
+                                class="menu-toggle relative block w-[calc(24*var(--vw-sm))] h-[calc(12*var(--vw-sm))] z-50 hidden sm:block"
+                            >
+                                <div class="line-1 absolute left-0 top-0 w-[100%] h-[1px] bg-white"></div>
+                                <div class="line-2 absolute left-0 top-[6px] w-[50%] h-[1px] bg-white"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header mt-[calc(48*var(--vw))] md:mt-[calc(60*var(--vw-md))] sm:mt-[calc(70*var(--vw-sm))]">
+                <div
+                    data-size
+                    class="grid grid-cols-4 leading-[1] relative z-20 logo text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]"
+                >
+                    <div class="overflow-hidden">
+                        <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+                    </div>
+                    <div class="overflow-hidden">
+                        <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+                    </div>
+                    <div class="overflow-hidden">
+                        <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+                    </div>
+                    <div class="overflow-hidden">
+                        <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]">
+                    <div
+                        class="video_block relative w-full overflow-hidden col-span-4 opacity-0 z-20 h-screen mt-[calc(5*var(--vw))] md:h-[50vh] md:mt-[calc(18*var(--vw-md))] sm:mt-[calc(8*var(--vw-sm))]"
+                    >
+                        <video
+                            id="bgVideo"
+                            class="absolute top-0 left-0 w-full h-full object-cover"
+                            autoplay
+                            muted
+                            loop
+                            playsinline
+                        >
+                            <source src="videos/video_bg.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <section
+                id="studio"
+                class="h-screen place-items-center grid text-white mix-blend-difference pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] md:h-full md:mix-blend-normal md:text-black md:mt-[calc(115*var(--vw-md))]"
+            >
+                <div class="w-full justify-between flex items-center relative z-10 text-white title_studio">
+                    <div class="inter-medium tracking-[-0.02em] text-[calc(32*var(--vw))] md:hidden">Studio</div>
+                    <div class="inter-regular tracking-[-0.06em] text-[calc(14*var(--vw))] md:hidden">
+                        Lviv, Ukraine
+                    </div>
+                </div>
+                <div id="cursor-studio"></div>
+                <div class="text-center z-2 self-center">
+                    <div
+                        class="tracking-[-0.05em] text-[calc(63*var(--vw))] inter-semibol self-center we_are md:text-[calc(108*var(--vw-md))] md:text-justify sm:text-[calc(61*var(--vw-sm))] sm:leading-[1.2]"
+                    >
+                        We are architecture studio ROOF.<br />
+                        <span class="md:hidden">Founded by Le Sauveterre.</span>
+                    </div>
+                </div>
+                <div
+                    class="text-[calc(14*var(--vw))] inter-regular tracking-[-0.06em] self-end text-white Est relative md:hidden"
+                >
+                    Est. 1992
+                </div>
+            </section>
+            <section id="projects" class="mt-[calc(600*var(--vw))] md:mt-[calc(250*var(--vw-md))]">
+                <div class="title_projects justify-between text-center p-[calc(20*var(--vw))] md:text-left">
+                    <div
+                        class="mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]"
+                    >
+                        Projects
+                    </div>
+                </div>
+                <div class="container_custom">
+                    <div class="projects_table">
+                        <div
+                            class="grid grid-cols-4 gap-[calc(104*var(--vw))] pt-[calc(10*var(--vw))] pb-[calc(10*var(--vw))] p-[calc(20*var(--vw))] project_block"
+                        >
+                            <div
+                                class="col-start-2 uppercase text-[calc(14*var(--vw))] inter-bold md:text-[calc(16*var(--vw-md))] md:col-start-3 sm:hidden"
+                            >
+                                category
+                            </div>
+                            <div
+                                class="uppercase text-[calc(14*var(--vw))] inter-bold md:text-[calc(16*var(--vw-md))] sm:hidden"
+                            >
+                                location
+                            </div>
+                            <div class="uppercase text-[calc(14*var(--vw))] inter-bold md:hidden sm:hidden">Year</div>
+                        </div>
+                        <!--             project start -->
+                        <div
+                            class="grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] cursor-pointer project_block tracking-[0.10em] text-[calc(14*var(--vw))] uppercase md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:items-center"
+                        >
+                            <div class="md:col-span-2 sm:col-span-3 sm:text-[calc(21*var(--vw-sm))]">
+                                <span class="sm:underline sm:hover:no-underline">SUSTAINABLE BUSINESS PARK</span>
+
+                                <div class="hidden sm:block sm:text-[calc(10*var(--vw-sm))] no-underline">
+                                    Tbilisi, Georgia / 2021-2024
+                                </div>
+                            </div>
+
+                            <div class="uppercase sm:hidden">Architecture</div>
+                            <div class="sm:hidden">Tbilisi, Georgia</div>
+                            <div class="md:hidden">2020-2025</div>
+
+                            <div class="hidden text-right sm:block sm:justify-self-end">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="18" fill="none" viewBox="0 0 58 37">
+                                    <path
+                                        fill="#000"
+                                        d="M.64 18.727c0-3.409.43-6.629 1.292-9.659A34.554 34.554 0 0 1 5.639.545H7.94a25.937 25.937 0 0 0-1.903 3.793A37.131 37.131 0 0 0 4.56 8.855a41.753 41.753 0 0 0-.966 4.915 36.656 36.656 0 0 0-.341 4.957c0 2.188.199 4.394.596 6.62a40.807 40.807 0 0 0 1.648 6.335c.71 1.998 1.525 3.74 2.443 5.227h-2.3a34.807 34.807 0 0 1-3.708-8.537C1.07 25.342.639 22.127.639 18.727ZM31.622 31l-1.676-1.662 9.886-9.872H15.117v-2.387h24.716l-9.886-9.872 1.676-1.662L44.35 18.273 31.623 31Zm26.133-12.273c0 3.41-.431 6.63-1.293 9.66a34.557 34.557 0 0 1-3.707 8.522h-2.301c.69-1.117 1.32-2.381 1.889-3.792a35.56 35.56 0 0 0 1.491-4.518c.417-1.6.739-3.238.966-4.914.227-1.676.341-3.329.341-4.958 0-2.187-.199-4.394-.597-6.619a39.782 39.782 0 0 0-1.662-6.335c-.7-1.998-1.51-3.74-2.428-5.228h2.3a34.81 34.81 0 0 1 3.708 8.537c.862 3.03 1.293 6.246 1.293 9.645Z"
+                                    />
+                                </svg>
+                            </div>
+
+                            <div class="preview md:hidden">
+                                <img src="images/projects_thumb/1.png" />
+                            </div>
+                        </div>
+                        <!--             project end -->
+
+                        <!--             project start -->
+                        <div
+                            class="grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] cursor-pointer project_block tracking-[0.10em] text-[calc(14*var(--vw))] uppercase md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:items-center"
+                        >
+                            <div class="md:col-span-2 sm:col-span-3 sm:text-[calc(21*var(--vw-sm))]">
+                                <span class="sm:underline sm:hover:no-underline">MIXED-USE URBAN DISTRICT </span>
+
+                                <div class="hidden sm:block sm:text-[calc(10*var(--vw-sm))] no-underline">
+                                    WARSAW, POLAND / 2020–2024
+                                </div>
+                            </div>
+
+                            <div class="uppercase sm:hidden">MASTERPLANNING</div>
+                            <div class="sm:hidden">WARSAW, POLAND</div>
+                            <div class="md:hidden">2020–2024</div>
+
+                            <div class="hidden text-right sm:block sm:justify-self-end">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="18" fill="none" viewBox="0 0 58 37">
+                                    <path
+                                        fill="#000"
+                                        d="M.64 18.727c0-3.409.43-6.629 1.292-9.659A34.554 34.554 0 0 1 5.639.545H7.94a25.937 25.937 0 0 0-1.903 3.793A37.131 37.131 0 0 0 4.56 8.855a41.753 41.753 0 0 0-.966 4.915 36.656 36.656 0 0 0-.341 4.957c0 2.188.199 4.394.596 6.62a40.807 40.807 0 0 0 1.648 6.335c.71 1.998 1.525 3.74 2.443 5.227h-2.3a34.807 34.807 0 0 1-3.708-8.537C1.07 25.342.639 22.127.639 18.727ZM31.622 31l-1.676-1.662 9.886-9.872H15.117v-2.387h24.716l-9.886-9.872 1.676-1.662L44.35 18.273 31.623 31Zm26.133-12.273c0 3.41-.431 6.63-1.293 9.66a34.557 34.557 0 0 1-3.707 8.522h-2.301c.69-1.117 1.32-2.381 1.889-3.792a35.56 35.56 0 0 0 1.491-4.518c.417-1.6.739-3.238.966-4.914.227-1.676.341-3.329.341-4.958 0-2.187-.199-4.394-.597-6.619a39.782 39.782 0 0 0-1.662-6.335c-.7-1.998-1.51-3.74-2.428-5.228h2.3a34.81 34.81 0 0 1 3.708 8.537c.862 3.03 1.293 6.246 1.293 9.645Z"
+                                    />
+                                </svg>
+                            </div>
+
+                            <div class="preview md:hidden">
+                                <img src="images/projects_thumb/2.png" />
+                            </div>
+                        </div>
+                        <!--             project end -->
+
+                        <!--             project start -->
+                        <div
+                            class="grid grid-cols-4 border-t border-black table_stroke hover:bg-black hover:text-white transition-all duration-400 ease-in-out gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] cursor-pointer project_block tracking-[0.10em] text-[calc(14*var(--vw))] uppercase md:text-[calc(16*var(--vw-md))] md:tracking-[0em] sm:items-center"
+                        >
+                            <div class="md:col-span-2 sm:col-span-3 sm:text-[calc(21*var(--vw-sm))]">
+                                <span class="sm:underline sm:hover:no-underline">INNOVATION OFFICE PARK</span>
+
+                                <div class="hidden sm:block sm:text-[calc(10*var(--vw-sm))] no-underline">
+                                    BAKU, AZERBAIJAN / 2022–2026
+                                </div>
+                            </div>
+
+                            <div class="uppercase sm:hidden">ARCHITECTURE</div>
+                            <div class="sm:hidden">BAKU, AZERBAIJAN</div>
+                            <div class="md:hidden">2022–2026</div>
+
+                            <div class="hidden text-right sm:block sm:justify-self-end">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="18" fill="none" viewBox="0 0 58 37">
+                                    <path
+                                        fill="#000"
+                                        d="M.64 18.727c0-3.409.43-6.629 1.292-9.659A34.554 34.554 0 0 1 5.639.545H7.94a25.937 25.937 0 0 0-1.903 3.793A37.131 37.131 0 0 0 4.56 8.855a41.753 41.753 0 0 0-.966 4.915 36.656 36.656 0 0 0-.341 4.957c0 2.188.199 4.394.596 6.62a40.807 40.807 0 0 0 1.648 6.335c.71 1.998 1.525 3.74 2.443 5.227h-2.3a34.807 34.807 0 0 1-3.708-8.537C1.07 25.342.639 22.127.639 18.727ZM31.622 31l-1.676-1.662 9.886-9.872H15.117v-2.387h24.716l-9.886-9.872 1.676-1.662L44.35 18.273 31.623 31Zm26.133-12.273c0 3.41-.431 6.63-1.293 9.66a34.557 34.557 0 0 1-3.707 8.522h-2.301c.69-1.117 1.32-2.381 1.889-3.792a35.56 35.56 0 0 0 1.491-4.518c.417-1.6.739-3.238.966-4.914.227-1.676.341-3.329.341-4.958 0-2.187-.199-4.394-.597-6.619a39.782 39.782 0 0 0-1.662-6.335c-.7-1.998-1.51-3.74-2.428-5.228h2.3a34.81 34.81 0 0 1 3.708 8.537c.862 3.03 1.293 6.246 1.293 9.645Z"
+                                    />
+                                </svg>
+                            </div>
+
+                            <div class="preview md:hidden">
+                                <img src="images/projects_thumb/3.png" />
+                            </div>
+                        </div>
+                        <!--             project end -->
+                    </div>
+                </div>
+            </section>
+            <section class="clients mt-[calc(500*var(--vw))] md:mt-[calc(250*var(--vw-md))]">
+                <div class="container_custom p-[calc(20*var(--vw))]">
+                    <div class="clients_title justify-between">
+                        <div
+                            class="mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]"
+                        >
+                            Clients
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-[calc(104*var(--vw))]">
+                        <div class="col-span-3 md:col-span-4">
+                            <div
+                                class="clients_block leading-[1.2] text-[calc(89*var(--vw))] md:text-[calc(70*var(--vw-md))]"
+                            >
+                                <div>
+                                    <a
+                                        href="#"
+                                        class="hover:underline inter-medium tracking-[-0.06em] underline hover:no-underline underline-offset-4"
+                                        >SAGA DEVELOPMENT</a
+                                    >
+                                </div>
+                                <div>
+                                    <a
+                                        href="#"
+                                        class="hover:underline inter-medium tracking-[-0.06em] underline hover:no-underline underline-offset-4"
+                                        >LVIV CITY COUNCIL</a
+                                    >
+                                </div>
+                                <div>
+                                    <a
+                                        href="#"
+                                        class="hover:underline inter-medium tracking-[-0.06em] underline hover:no-underline underline-offset-4"
+                                        >UNIT.CITY</a
+                                    >
+                                </div>
+                                <div>
+                                    <a
+                                        href="#"
+                                        class="hover:underline inter-medium tracking-[-0.06em] underline hover:no-underline underline-offset-4"
+                                        >KHORTYTSIA</a
+                                    >
+                                </div>
+                                <div>
+                                    <a
+                                        href="#"
+                                        class="hover:underline inter-medium tracking-[-0.06em] underline hover:no-underline underline-offset-4"
+                                        >NATIONAL RESERVE</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-span-1 text-right text-[calc(14*var(--vw))] leading-[calc(30*var(--vw))] md:hidden"
+                        >
+                            <div class="statistic_block">
+                                <span class="inter-bold tracking-[-0.08em]">340 000 m²</span> built area
+                            </div>
+                            <div class="statistic_block">
+                                <span class="inter-bold tracking-[-0.08em]">12</span> awards
+                            </div>
+                            <div class="statistic_block">
+                                <span class="inter-bold tracking-[-0.08em]">7</span> countries
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="awards mt-[calc(400*var(--vw))] md:mt-[calc(250*var(--vw-md))]">
+                <div class="container_custom p-[calc(20*var(--vw))]">
+                    <div class="title justify-between awards_title">
+                        <div
+                            class="mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]"
+                        >
+                            Awards
+                        </div>
+                    </div>
+                </div>
+
+                <!-- award block start -->
+                <div
+                    class="grid award_and_year grid-cols-4 border-t border-black table_stroke gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] uppercase md:border-0 md:mb-[calc(104*var(--vw-md))]"
+                >
+                    <div class="year col-span-1 md:col-span-4 md:leading-[calc(180*var(--vw-md))]">
+                        <div
+                            class="-rotate-90 text-[calc(500*var(--vw))] -mt-[calc(16*var(--vw))] md:-rotate-0 md:text-[calc(223*var(--vw-md))] md:-mt-[calc(0*var(--vw))]"
+                        >
+                            26
+                        </div>
+                    </div>
+
+                    <div
+                        class="awards_block col-span-3 text-[calc(24*var(--vw))] md:col-span-4 md:text-[calc(24*var(--vw-md))] sm:text-[calc(21*var(--vw-sm))]"
+                    >
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">AIA Gold Medal</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">
+                                Honorable Mention
+                            </div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">Mies van der Rohe Award</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">Winner</div>
+                        </div>
+                        <!-- end award -->
+                    </div>
+                </div>
+
+                <!--end -->
+
+                <!-- award block start -->
+                <div
+                    class="grid award_and_year grid-cols-4 border-t border-black table_stroke gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] uppercase md:border-0 md:mb-[calc(104*var(--vw-md))]"
+                >
+                    <div class="year col-span-1 md:col-span-4 md:leading-[calc(180*var(--vw-md))]">
+                        <div
+                            class="-rotate-90 text-[calc(500*var(--vw))] -mt-[calc(19*var(--vw))] md:-rotate-0 md:text-[calc(223*var(--vw-md))] md:-mt-[calc(0*var(--vw))]"
+                        >
+                            25
+                        </div>
+                    </div>
+
+                    <div
+                        class="awards_block col-span-3 text-[calc(24*var(--vw))] md:col-span-4 md:text-[calc(24*var(--vw-md))] sm:text-[calc(21*var(--vw-sm))]"
+                    >
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">Aga Khan Award</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">Finalist</div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">World Architecture Festival</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">
+                                Category Winner
+                            </div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">Architizer A+Awards</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">
+                                Jury Winner
+                            </div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">Dezeen Awards</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">
+                                Shortlisted
+                            </div>
+                        </div>
+                        <!-- end award -->
+                    </div>
+                </div>
+
+                <!--end -->
+
+                <!-- award block start -->
+                <div
+                    class="grid award_and_year grid-cols-4 border-t border-black table_stroke gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] uppercase md:border-0 md:mb-[calc(104*var(--vw-md))]"
+                >
+                    <div class="year col-span-1 md:col-span-4 md:leading-[calc(180*var(--vw-md))]">
+                        <div
+                            class="-rotate-90 text-[calc(500*var(--vw))] mt-[calc(3*var(--vw))] md:-rotate-0 md:text-[calc(223*var(--vw-md))]"
+                        >
+                            24
+                        </div>
+                    </div>
+
+                    <div
+                        class="awards_block col-span-3 text-[calc(24*var(--vw))] md:col-span-4 md:text-[calc(24*var(--vw-md))] sm:text-[calc(21*var(--vw-sm))]"
+                    >
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">LEAF Awards</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">
+                                Highly Commended
+                            </div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">Architecture MasterPrize</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">Winner</div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">European Architecture Prize</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">Winner</div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">Venice Architecture Biennale</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">
+                                Shortlisted
+                            </div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">German Design Award</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">
+                                Shortlisted
+                            </div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">Chicago Athenaeum Award</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">Winner</div>
+                        </div>
+                        <!-- end award -->
+
+                        <!-- award -->
+                        <div
+                            class="award_block flex justify-between py-[calc(5*var(--vw))] md:border-t md:border-black sm:grid sm:py-[calc(5*var(--vw-sm))]"
+                        >
+                            <div class="award_name sm:order-2">Asia Architecture Prize</div>
+                            <div class="award_st inter-bold sm:text-[calc(10*var(--vw-sm))] sm:order-1">
+                                Jury Selection
+                            </div>
+                        </div>
+                        <!-- end award -->
+                    </div>
+                </div>
+
+                <!--end -->
+            </section>
+            <section class="contacts mt-[calc(100*var(--vw))] md:mt-[calc(250*var(--vw-md))]">
+                <div class="container_custom p-[calc(20*var(--vw))]">
+                    <div class="title justify-between">
+                        <div
+                            class="mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]"
+                        >
+                            Contacts
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 leading-[24px] grid-flow-row auto-rows-max gap-[calc(104*var(--vw))]">
+                        <div class="contact_block col-span-2 sm:col-span-4">
+                            <div class="mb-[calc(60*var(--vw))]">
+                                <label
+                                    class="tracking-[-0.08em] text-[calc(78*var(--vw))] md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]"
+                                >
+                                    Your Name: &nbsp;</label
+                                >
+                            </div>
+                            <input
+                                type="text"
+                                name="Name"
+                                class="w-full border-b border-black bg-transparent focus:outline-none pb-[calc(21*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em] md:text-[calc(14*var(--vw-md))] md:traking-[0.05em] sm:text-[calc(16*var(--vw-sm))]"
+                                placeholder="Enter your name"
+                            />
+                        </div>
+
+                        <div class="contact_block col-span-2 sm:col-span-4 sm:mt-[calc(40*var(--vw-sm))]">
+                            <div class="mb-[calc(60*var(--vw))]">
+                                <label
+                                    class="tracking-[-0.08em] text-[calc(78*var(--vw))] md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]"
+                                >
+                                    Your Email: &nbsp;</label
+                                >
+                            </div>
+                            <input
+                                type="text"
+                                name="Name"
+                                class="w-full border-b border-black bg-transparent focus:outline-none pb-[calc(21*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em] md:text-[calc(14*var(--vw-md))] md:traking-[0.05em] sm:text-[calc(16*var(--vw-sm))]"
+                                placeholder="Enter email"
+                            />
+                        </div>
+
+                        <div
+                            class="contact_block col-span-3 col-start-2 mt-[calc(80*var(--vw))] md:col-span-4 sm:mt-[calc(40*var(--vw-sm))]"
+                        >
+                            <div class="mb-[calc(60*var(--vw))]">
+                                <label
+                                    class="tracking-[-0.08em] text-[calc(78*var(--vw))] md:tracking-[-0.05em] md:text-[calc(39*var(--vw-md))] sm:tracking-[-0.05em] sm:text-[calc(40*var(--vw-sm))]"
+                                >
+                                    Tell us about your project: &nbsp;</label
+                                >
+                            </div>
+                            <textarea
+                                class="w-full border-b border-black bg-transparent focus:outline-none pb-[calc(100*var(--vw))] text-[calc(14*var(--vw))] inter-regular tracking-[-0.08em] md:text-[calc(14*var(--vw-md))] md:traking-[0.05em] sm:text-[calc(16*var(--vw-sm))]"
+                                placeholder="Enter your ideas"
+                            ></textarea>
+                        </div>
+
+                        <div class="contact_block col-span-2 col-start-3 text-right">
+                            <a
+                                href="SEND"
+                                class="text-[calc(89*var(--vw))] uppercase underline hover:no-underline tracking-[-0.08em] inter-regular md:text-[calc(56*var(--vw-md))] sm:text-[calc(46*var(--vw-sm))]"
+                                >Send</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div
+                class="grid grid-cols-4 leading-[1] relative z-20 logo_footer text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(250*var(--vw))]"
+            >
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
+                </div>
+                <div
+                    class="col-span-4 text-[calc(18*var(--vw))] text-center mb-[calc(20*var(--vw))] sm:text-[calc(16*var(--vw-sm))]"
+                >
+                    ROOF ©<br />2026 All rights reserved
+                </div>
+            </div>
+        </div>
+
+        <script src="js/menu_mobile.js"></script>
+        <script src="js/gsap_preloader.js"></script>
+        <script src="js/portfolio_hover.js"></script>
+        <script src="js/custom.js"></script>
+        <script>
+            if (window.innerWidth >= 1000) {
+                const desktopScripts = ["js/studio_section_interaction.js", "js/scroll_animation.js"];
+                desktopScripts.forEach((src) => {
+                    const script = document.createElement("script");
+                    script.src = src;
+                    script.async = true;
+                    document.body.appendChild(script);
+                });
+            }
+         if ("scrollRestoration" in history) {
+             history.scrollRestoration = "manual";
+         }
+         window.addEventListener('pageshow', () => window.scrollTo(0, 0));
+
+        </script>
+    </body>
 </html>

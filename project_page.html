@@ -1,951 +1,606 @@
 <!doctype html>
 <html lang="ru">
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Tailwind + GSAP + VW/VH Engine</title>
-      <!-- Tailwind CDN -->
-      <script src="https://cdn.tailwindcss.com"></script>
-      <!-- GSAP CDN -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-      <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
-      <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet" />
-      <link
-         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-         rel="stylesheet"
-         />
-      <script>
-         tailwind.config = {
-             theme: {
-                 screens: {
-                     xl: { max: "1279px" },
-                     lg: { max: "1023px" },
-                     md: { max: "767px" },
-                     sm: { max: "639px" },
-                 },
-             },
-         };
-      </script>
-      <link
-         href="css/custom.css"
-         rel="stylesheet"
-         />
-   </head>
-   <body class="bg-[#C6C6CE] overflow-x-hidden inter-regular text-black">
-      <div class="cursor"></div>
-      <div
-         class="
-         nav-overplay-absolute fixed inset-0 z-30 flex items-center justify-center hidden
-
-         "
-         >
-         <div class="nav-overplay inset-0 z-30  h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] sm:py-[calc(50*var(--vw-sm))]">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tailwind + GSAP + VW/VH Engine</title>
+        <!-- Tailwind CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- GSAP CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet"
+        />
+        <script>
+            tailwind.config = {
+                theme: {
+                    screens: {
+                        xl: { max: "1279px" },
+                        lg: { max: "1023px" },
+                        md: { max: "767px" },
+                        sm: { max: "639px" },
+                    },
+                },
+            };
+        </script>
+        <link href="css/custom.css" rel="stylesheet" />
+    </head>
+    <body class="bg-[#C6C6CE] overflow-x-hidden inter-regular text-black">
+        <div class="cursor"></div>
+        <div class="nav-overplay-absolute fixed inset-0 z-30 flex items-center justify-center hidden">
             <div
-               class="flex flex-col justify-between h-full "
-               >
-               <!-- Logo -->
-               <div
-                  class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"
-                  ></div>
-               <!-- Menu -->
-               <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block text-white">
-                  <div class="overflow-hidden w-full text-left">
-                     <a
-                        href="studio.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full
-                        sm:text-[calc(72*var(--vw-sm))] "
-                        >
-                     Studio
-                     </a>
-                  </div>
-                  <div class="overflow-hidden w-full text-center">
-                     <a
-                        href="projects.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline
-                        sm:text-[calc(72*var(--vw-sm))]  "
-                        >
-                     Projects
-                     </a>
-                  </div>
-                  <div class="overflow-hidden  w-full text-right">
-                     <a
-                        href="contact.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full
-                        sm:text-[calc(72*var(--vw-sm))] "
-                        >
-                     Contact
-                     </a>
-                  </div>
-               </nav>
-               <!-- Language -->
-               <a
-                  href="#"
-                  class="inter-bold text-center underline hover:no-underline text-[calc(14*var(--vw))]
-                  sm:text-[calc(16*var(--vw-sm))] "
-                  >
-               UA
-               </a>
+                class="nav-overplay inset-0 z-30 h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] sm:py-[calc(50*var(--vw-sm))]"
+            >
+                <div class="flex flex-col justify-between h-full">
+                    <!-- Logo -->
+                    <div class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"></div>
+                    <!-- Menu -->
+                    <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block text-white">
+                        <div class="overflow-hidden w-full text-left">
+                            <a
+                                href="studio.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Studio
+                            </a>
+                        </div>
+                        <div class="overflow-hidden w-full text-center">
+                            <a
+                                href="projects.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Projects
+                            </a>
+                        </div>
+                        <div class="overflow-hidden w-full text-right">
+                            <a
+                                href="contact.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Contact
+                            </a>
+                        </div>
+                    </nav>
+                    <!-- Language -->
+                    <a
+                        href="#"
+                        class="inter-bold text-center underline hover:no-underline text-[calc(14*var(--vw))] sm:text-[calc(16*var(--vw-sm))]"
+                    >
+                        UA
+                    </a>
+                </div>
             </div>
-         </div>
-         
-      </div>
-<!--       <div
+        </div>
+        <!--       <div
          id="preloader_overplay"
          class="flex items-center justify-center h-screen w-screen bg-[#C6C6CE] absolute top-0 z-10"
          >
          <div id="box" class="bg-[#000000] h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] opacity-0"></div>
       </div> -->
-      <div class="all_content opacity-0">
-         <div
-            class="
-            grid grid-cols-4 fixed z-30 inset-0 mix-blend-difference text-white h-10 header_nav gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))] 
-
-            md:p-[calc(8*var(--vw-md))]
-            sm:py-[calc(20*var(--vw-sm))]
-
-
-
-            "
-            >
+        <div class="all_content opacity-0">
             <div
-               class="
-               text-[calc(16*var(--vw))]  leading-[calc(18*var(--vw))] roof_studio z-50
-               md:text-[calc(18*var(--vw-md))] md:leading-[calc(18*var(--vw-md))]
-               sm:text-[calc(18*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))] 
-               "
-               >
-               <a href="index.html">
-               <div class="overflow-hidden">
-                  <div>ROOF</div>
-               </div>
-               <div class="overflow-hidden">
-                  <div>STUDIO</div>
-               </div>
-
-               </a>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase">
-                  <a
-                     class="
-                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                     md:text-[calc(14*var(--vw-md))]
-                     sm:hidden
-                     "
-                     href="studio.html"
-                     >Studio</a
-                     >
-               </div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase">
-                  <a
-                     class="
-                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                     md:text-[calc(14*var(--vw-md))]
-                     sm:hidden
-                     "
-                     href="projects.html"
-                     >Projects</a
-                     >
-               </div>
-            </div>
-            <div class="uppercase justify-between flex contact_and_lang">
-               <div class="overflow-hidden">
-                  <div>
-                     <a
-                        class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                        md:text-[calc(14*var(--vw-md))]
-                        sm:hidden
-                        "
-                        href="contact.html"
-                        >Contact</a
-                        >
-                  </div>
-               </div>
-               <div class="overflow-hidden">
-                  <div>
-                     <a
-                        class="main_link inter-bold hover:underline underline hover:no-underline underline-offset-4 cursor-pointer 
-                        md:text-[calc(14*var(--vw-md))]
-                        sm:hidden
-                        "
-                        >UA</a
-                        >
-                     <a
-                        href=""
-                        class="
-                        menu-toggle relative block w-[calc(24*var(--vw-sm))] h-[calc(12*var(--vw-sm))] z-50 hidden
-                        sm:block
-                        "
-                        >
-                        <div class="line-1 absolute left-0 top-0 w-[100%] h-[1px] bg-white"></div>
-                        <div class="line-2 absolute left-0 top-[6px] w-[50%] h-[1px] bg-white"></div>
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-
-<!-- contect -->
-      
-         <section id="project_page" class="
-         mt-[calc(250*var(--vw))]
-         md:mt-[calc(250*var(--vw-md))]
-
-         ">
-            <div class="
-            title_projects justify-between 
-            md:text-left 
-            ">
-               <div
-                  class="
-                  mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]
-                  md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] md:flex-wrap md:justify-between
-                  sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]
-
-                  "
-                  >
-                  <div class="
-                  title-inner-page inter-regular text-[calc(14*var(--vw))]
-                  md:order-2   md:col-span-1 md:text-right md:text-[calc(14*var(--vw-md))]
-                  sm:order-1 sm:text-left sm:text-[calc(14*var(--vw-sm))]
-                  ">2024-2025</div>
-
-                  <div class="
-                  col-start-2 title-inner-page leading-[calc(32*var(--vw))]
-                  md:col-start-1 md:order-1 md:col-span-3 md:leading-[calc(32*var(--vw-md))]
-                  sm:order-2 sm:sm:text-[calc(32*var(--vw-sm))] sm:leading-[1]
-                  ">
-Costa <br>Navarino</div>
-
-                  <div class="
-                  col-start-4 title-inner-page text-right inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase leading-[calc(18*var(--vw))]
-                  md:block md:order-3 md:col-span-4 md:text-left md:text-[calc(14*var(--vw-md))] md:leading-[calc(18*var(--vw-md))]
-                  sm:order-3 sm:text-[calc(14*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))] sm:mt-[calc(18*var(--vw-sm))] 
-                  ">
-                     Architecture<br>
-                     Landscape Architecture<br>
-                     nterior Architecture
-
-</div>
-               </div>
-            </div>
-
-
-<div class="container_custom content_inner_page mt-[calc(50*var(--vw))]">
-
-
-            <div class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]">
-               <div
-                  class="
-                  video_block relative w-full overflow-hidden col-span-4  z-20 h-screen mt-[calc(5*var(--vw))] overflow-hidden
-                  md:h-[55vh]
-                  "
-                  >
-                  <video
-
-                     class="absolute top-0 left-0 w-full h-full object-cover video_inner_page"
-                     autoplay
-                     muted
-                     loop
-                     playsinline
-                     >
-                     <source src="videos/project_1.mp4" type="video/mp4" />
-                  </video>
-               </div>
-            </div>
-
-
-<div class="
-grid grid-cols-4
-gap-[calc(104*var(--vw))]
-px-[calc(20*var(--vw))]
-text-[calc(14*var(--vw))]
-tracking-[0.05em]
-my-[calc(200*var(--vw))]
-
-md:h-screen
-md:grid-rows-2
-md:py-[calc(60*var(--vw-md))]
-md:text-[calc(16*var(--vw-md))]
-sm:text-[calc(18*var(--vw-sm))]
-
-sm:h-auto sm:grid-rows-1
-">
-
-  <div class="
-    col-start-2 col-span-1
-    inner_page_text
-
-    md:col-start-1
-    md:col-span-2
-    md:row-start-1
-    md:self-start
-
-    sm:col-span-4
-
-
-  ">
-    The Hotel is perched on an outcrop overlooking the ancient town of Pylos and the Bay of Navarino in the Peloponnese. There are 39 rooms within the main building of the hotel that also houses the reception, various lounge and terrace spaces, a pool, a spa, a restaurant and a bar.
-  </div>
-
-  <div class="
-    col-start-3 col-span-1
-    inner_page_text
-
-    md:col-start-3
-    md:col-span-2
-    md:row-start-2
-    md:self-end
-    md:text-right
-    sm:col-span-4 sm:text-left
-
-  ">
-    Scattered on the hillside beneath this building are an additional 12 rooms and 48 private villas each with their own garden and pool.
-  </div>
-
-</div>
-
-
-
-<div class="
-grid
-grid-cols-4
-md:grid-cols-4
-gap-[calc(104*var(--vw))]
-px-[calc(20*var(--vw))]
-text-[calc(14*var(--vw))]
-mt-[calc(500*var(--vw))]
-h-full
-
-md:h-screen
-md:grid-rows-[auto_1fr_auto]
-md:relative
-md:py-[calc(70*var(--vw-md))]
-parameter_blocks
-">
-
-  <!-- LOCATION -->
-  <div class="
-  inter-light uppercase text-[calc(27*var(--vw))]
-  tracking-[-0.05em]
-  col-span-1 parameter_block
-
-  md:text-[calc(27*var(--vw-md))]
-  md:col-span-2
-  md:col-start-1
-  md:row-start-1
-    sm:text-[calc(27*var(--vw-sm))]
-  ">
-    Location
-    <div class="
-    text-[calc(14*var(--vw))]
-    inter-bold
-    tracking-[0.05em]
-    leading-[calc(18*var(--vw))]
-    mt-[calc(48*var(--vw))]
-    parameter_block_info
-
-    md:text-[calc(14*var(--vw-md))]
-    md:leading-[calc(18*var(--vw-md))]
-    sm:text-[calc(14*var(--vw-sm))]
-    sm:leading-[calc(18*var(--vw-sm))]
-    ">
-      Medora,<br>
-      North Dakota,<br>
-      USA
-    </div>
-  </div>
-
-  <!-- SCOPE -->
-  <div class="
-  inter-light uppercase text-[calc(27*var(--vw))]
-  tracking-[-0.05em]
-  col-span-1 parameter_block
-
-  md:text-[calc(27*var(--vw-md))]
-  md:col-span-2
-  md:col-start-3
-  md:row-start-1
-  md:text-right
-  sm:text-[calc(27*var(--vw-sm))]
-  ">
-    Scope
-    <div class="
-    text-[calc(14*var(--vw))]
-    inter-bold
-    tracking-[0.05em]
-    leading-[calc(18*var(--vw))]
-    mt-[calc(48*var(--vw))]
-    parameter_block_info
-
-    md:text-[calc(14*var(--vw-md))]
-    md:leading-[calc(18*var(--vw-md))]
-
-    sm:text-[calc(14*var(--vw-sm))]
-    sm:leading-[calc(18*var(--vw-sm))]
-    ">
-      Design Architect,<br>
-      Landscape Architect,<br>
-      Interior Architect
-    </div>
-  </div>
-
-  <!-- CENTER SQUARE (FIXED CENTER X/Y) -->
-  <div class="
-  hidden
-  md:block
-  md:col-start-1
-  md:col-span-4
-  md:self-center
-  md:justify-self-center
-  md:h-[3vh]
-  md:w-[3vh]
-  md:bg-black
-  md:z-10
-
-sm:h-[1vh] sm:w-[1vh]
-  "></div>
-
-  <!-- SIZE -->
-  <div class="
-  inter-light uppercase text-[calc(27*var(--vw))]
-  tracking-[-0.05em]
-  col-span-1 text-right parameter_block
-
-  md:text-[calc(27*var(--vw-md))]
-  md:col-start-1
-  md:col-span-2
-  md:row-start-3
-  md:text-left
-    sm:text-[calc(27*var(--vw-sm))]
-  ">
-    Size
-    <div class="
-    text-[calc(14*var(--vw))]
-    inter-bold
-    tracking-[0.05em]
-    leading-[calc(18*var(--vw))]
-    mt-[calc(48*var(--vw))]
-    parameter_block_info
-
-    md:text-[calc(14*var(--vw-md))]
-    md:leading-[calc(18*var(--vw-md))]
-
-    sm:text-[calc(14*var(--vw-sm))]
-    sm:leading-[calc(18*var(--vw-sm))]
-    ">
-      Design Architect
-    </div>
-  </div>
-
-  <!-- TYPOLOGIES -->
-  <div class="
-  inter-light uppercase text-[calc(27*var(--vw))]
-  tracking-[-0.05em]
-  col-span-1 text-right parameter_block
-
-  md:text-[calc(27*var(--vw-md))]
-  md:col-start-3
-  md:col-span-2
-  md:row-start-3
-  md:text-right
-    sm:text-[calc(27*var(--vw-sm))]
-  ">
-    Typologies
-    <div class="
-    text-[calc(14*var(--vw))]
-    inter-bold
-    tracking-[0.05em]
-    leading-[calc(18*var(--vw))]
-    mt-[calc(48*var(--vw))]
-    parameter_block_info
-
-    md:text-[calc(14*var(--vw-md))]
-    md:leading-[calc(18*var(--vw-md))]
-
-    sm:text-[calc(14*var(--vw-sm))]
-    sm:leading-[calc(18*var(--vw-sm))]
-    ">
-      Installation & Commissions <br>
-      Library <br>
-      Museum & Gallery <br>
-      Park & Garden <br>
-      Sustainability <br>
-      Education & Research
-    </div>
-  </div>
-
-</div>
-
-
- <div class="
- grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] inner_page_text mt-[calc(1000*var(--vw))]
-
-md:mt-[calc(200*var(--vw-md))]
- ">
-<div class="
-col-span-2 col-start-2
-md:text-[calc(16*var(--vw-md))]
-sm:text-[calc(18*var(--vw-sm))]
-sm:col-span-4 sm:col-start-1
-">
-The architectural concept draws inspiration from the local agricultural tradition of the Mandria – dry stone animal shelters built by hand by the farmers working the land. These spontaneously constructed enclosures are built of stone found in the ground of the site and take a simple, straightforward form that follows the natural topography of the land, including or excluding any obstacles such as trees or large rocks that lie in their path.
-<br><br>
-Naturally a hotel resort is a more complex building typology with more sophisticated requirements, but this land-led attitude to organic form-finding gave us our starting point.
-</div>
-</div>
-
-
-
-
-
-
- <div class="
- grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] mt-[calc(104*var(--vw))] 
-md:mt-[calc(204*var(--vw-md))] md:px-[0] md-gap[0]
-
- ">
-
-<div class="overflow-hidden col-span-4  ">
-<img src="images/project_1/image_1.png" class="w-full inner_page_img
-md:object-cover 
-md:h-[calc(500*var(--vw-sm))] md:object-left
-">
-</div>
-
-</div>
-
-
-
- <div class="
- grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] mt-[calc(200*var(--vw))]
-md:my-[calc(200*var(--vw-md))]
- ">
-
-<div class="
-col-span-2 col-start-2 inner_page_text
-md:col-span-4 md:text-[calc(16*var(--vw-md))]
-sm:text-[calc(18*var(--vw-sm))]
-">
-The hotel design is a sequence of Mandria-inspired stone ribbon enclosures connected by cast concrete plates, clustered together according to the topography of the site, in a horizontal arrangement on the top of the hill. Cascading from this castle-like formation is the ‘village’ of private villas, all brought together by a densely aromatic and slightly wild landscape.
-</div>
-
-</div>
-
- <div class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] mt-[calc(300*var(--vw))]
-md:gap-[calc(0*var(--vw))] md:px-[calc(0*var(--vw))]
- ">
-
-<div class="overflow-hidden 
-col-span-2 col-start-2
-md:col-span-4
-
-">
-                  <video
-                     id="bgVideo2"
-                     class=" video_inner_page"
-                     autoplay
-                     muted
-                     loop
-                     playsinline
-                     >
-                     <source src="videos/project_1__video_2.mp4" type="video/mp4" />
-                  </video>
-
-                  </div>
-</div>
-
-
- <div class="
-
- grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] mt-[calc(150*var(--vw))]
- md:text-[calc(16*var(--vw-md))]  md:my-[calc(100*var(--vw-md))]
- sm:text-[calc(18*var(--vw-sm))]
-
-
- ">
-
-
-
-<div class="
-col-start-2 col-span-1 inner_page_text
-md:col-span-2 md:col-start-1 md:mt-[calc(100*var(--vw-md))]
-sm:col-span-4 sm:col-start-1
-">
-Taking a closer look, the proximity of the stone enclosures to one another creates interesting moments of in-between space that are key to the design of the hotel layout. The Mandria provide solid boundary lines that are then punctuated with carefully placed openings to frame views whilst maintaining privacy for private spaces such as the rooms and spa. 
-</div>
-
-<div class="
-col-start-3 col-span-1 inner_page_text
-md:col-span-2 md:col-start-3 md:mt-[calc(450*var(--vw-md))] md:text-right
-sm:mt-[0] sm:col-span-4 sm:col-start-1 sm:text-left
-">
-The concrete slabs connect these stone boundaries horizontally and glazed thresholds blur them vertically by allowing continuous views from the entrance and reception across the lounge to the land beyond. Outside zinc-clad pergolas act like topographical exclamation marks, bridging the gap between internal and external space, providing shade and signaling key parts of the building such as the entrance and the pool terrace.
-</div>
-</div>
-
-
-
- <div class="
- grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] mt-[calc(250*var(--vw))]
-md:gap-[calc(0*var(--vw))] md:px-[calc(0*var(--vw))]   md:my-[calc(200*var(--vw-md))]
-
-
- ">
-
-<div class="overflow-hidden col-span-4  ">
-
-<img src="images/project_1/image_2.png" class="col-span-4 inner_page_img 
-md:object-cover 
-md:h-[calc(280*var(--vw-sm))]  md:object-left
-">
-</div>
-
-
-</div>
-
-
-
- <div class="
- grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] mt-[calc(250*var(--vw))]
- md:text-[calc(16*var(--vw-md))]
-sm:text-[calc(18*var(--vw-sm))] sm:mt-[calc(0*var(--vw))]
- ">
-
-
-
-<div class="
-
-col-start-2 col-span-1 inner_page_text
-md:col-span-2 md:col-start-1
-sm:col-span-4 sm:col-start-1
-">
-The architectural materiality comes from our effort to connect with the landscape and local materials. To give a sense of the resort having grown organically within the site we take our queue from the farmers and place the structures according to the lay of the land, building them with stone from within it. Internally the stone walls are treated with natural render; the concrete is left exposed and polished to showcase the purity of the construction of the slabs; and slender, anodized aluminium-framed glazing allows for uninterrupted views of the surrounding – and encroaching -landscape. 
-</div>
-
-<div class="
-col-start-3 col-span-1 inner_page_text
-md:col-span-2 md:col-start-3 md:mt-[calc(550*var(--vw-md))] md:text-right
-sm:col-span-4 sm:col-start-1 sm:mt-[calc(0*var(--vw-sm))] sm:text-left
-">
-An authentically verdant blend of olive and cypress, lavender and thyme surrounds, encroaches on and in places literally inhabits the building. This layer of green life overlaps and softens the built edges, tying the building down into the landscape and literally giving it roots.
-</div>
-</div>
-
-
-<div class="
-grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] mt-[calc(250*var(--vw))]
-md:my-[calc(200*var(--vw-md))]
-sm:h-[50vh]
-">
-  <div class="overflow-hidden col-span-2">
-    <img src="images/project_1/image_3.png" class="w-full h-full object-cover block inner_page_img md:h-auto sm:h-full">
-  </div>
-  <div class="overflow-hidden col-span-2 md:mt-[calc(350*var(--vw-md))] sm:mt-[calc(0*var(--vw-sm))]">
-    <img src="images/project_1/image_4.png" class="w-full h-full object-cover block inner_page_img">
-  </div>
-</div>
-
-
-
- <div class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] mt-[calc(250*var(--vw))]
-
-
-
- ">
-
-<div class="
-col-span-2 col-start-2 inner_page_text
-md:col-span-4 md:text-[calc(16*var(--vw-md))]
-sm:text-[calc(18*var(--vw-sm))]
-">
-The interior design concept aims to connect the complimentary conditions of near and far. The humble beauty of the surrounding landscape has inspired the form and materiality of the architecture and to this context we introduce a more refined and complex layer of finishes and decorations inspired by international travel. The overall impression is of a collection of discoveries that are arranged to achieve a balance of luxuriously soft depth and elegantly delicate details in each area, with a relaxed palette of natural tones that lift as you move from interior to exterior space, tying them together.
-</div>
-
-</div>
-
-<div class="
-border-t border-b border-black h-[90vh] project_carousel_wrapper overflow-hidden text-black mt-[calc(250*var(--vw))]
-md:mt-[calc(200*var(--vw-md))]
-sm:h-auto
-">
- <div class="
- flex px-[calc(60*var(--vw))] text-[calc(14*var(--vw))] project_carousel_track h-full
-
- ">
-<!-- project start -->
-   <div class="
-   project_block_carusel shrink-0 w-[50%] flex border-l border-black px-[calc(51*var(--vw))] transition-all ease-out duration-700 py-[5vh]
-
-   md:w-[100%] md:py-[10vh]
- sm:py-[5vh]
-
-
-   ">
-      <div class="flex w-full h-full gap-[calc(20*var(--vw))]
-
-      sm:flex-col">
-
-
-        <div class="
-        left w-[50%] flex flex-col justify-between h-full
-        md:justify-normal
-        sm:w-[100%] sm:h-auto
-        ">
-           <div class="
-           name_project text-[calc(78*var(--vw))] inner_page_text leading-[calc(85*var(--vw))]
-           md:text-[calc(32*var(--vw-md))]
-           sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(30*var(--vw-sm))] sm:leading-[calc(32*var(--vw-sm))]
-
-           ">
-              <a href="#" class="underline hover:no-underline">
-                 Nova Horizon Residence
-              </a>
-           </div>
-
-          <div class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] hidden
-          md:block md:text-left md:text-[calc(14*var(--vw-md))]
-          sm:hidden
-
-          ">
-            Architecture
-          </div>
-        </div>
-        <div class="right w-[50%] h-full flex flex-col justify-between origin-top
-
-                sm:w-[100%]  sm:h-auto
-
-                ">
-          <div class="image_project flex-1 min-h-0 overflow-hidden">
-
-            <img src="images/projects_thumb/1.png" class="
-            project_carousel_image w-full h-full  block 
-            sm:h-auto  sm:object-cover sm:w-[70vw]
-            ">
-
-          </div>
-
-          <div class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))]
-          
-
-          md:hidden
-          sm:block sm:text-left sm:text-[calc(14*var(--vw-sm))]
-          ">
-            Architecture
-          </div>
-
-
-        </div>
-      </div>
-   </div>
-<!-- project end -->
-
-<!-- project start -->
-   <div class="
-   project_block_carusel shrink-0 w-[50%] flex border-l border-black px-[calc(51*var(--vw))] transition-all ease-out duration-700 py-[5vh]
-
-   md:w-[100%] md:py-[10vh]
- sm:py-[5vh]
-
-
-   ">
-      <div class="flex w-full h-full gap-[calc(20*var(--vw))]
-
-      sm:flex-col">
-
-
-        <div class="
-        left w-[50%] flex flex-col justify-between h-full
-        md:justify-normal
-        sm:w-[100%] sm:h-auto
-        ">
-           <div class="
-           name_project text-[calc(78*var(--vw))] inner_page_text leading-[calc(85*var(--vw))]
-           md:text-[calc(32*var(--vw-md))]
-           sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(30*var(--vw-sm))] sm:leading-[calc(32*var(--vw-sm))]
-
-           ">
-              <a href="#" class="underline hover:no-underline">
-                 The Brickyard Pavilions
-              </a>
-           </div>
-
-          <div class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] hidden
-          md:block md:text-left md:text-[calc(14*var(--vw-md))]
-          sm:hidden
-
-          ">
-            Architecture<br>
-            Interior Architecture
-
-          </div>
-        </div>
-        <div class="right w-[50%] h-full flex flex-col justify-between origin-top
-
-                sm:w-[100%]  sm:h-auto
-
-                ">
-          <div class="image_project flex-1 min-h-0 overflow-hidden">
-
-            <img src="images/projects_thumb/2.png" class="
-            project_carousel_image w-full h-full  block 
-            sm:h-auto  sm:object-cover sm:w-[70vw]
-            ">
-
-          </div>
-
-          <div class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))]
-          
-
-          md:hidden
-          sm:block sm:text-left sm:text-[calc(14*var(--vw-sm))]
-          ">
-            Architecture<br>
-            Interior Architecture
-
-          </div>
-
-
-        </div>
-      </div>
-   </div>
-<!-- project end -->
-
-
-<!-- project start -->
-   <div class="
-   project_block_carusel shrink-0 w-[50%] flex border-l border-black px-[calc(51*var(--vw))] transition-all ease-out duration-700 py-[5vh]
-
-   md:w-[100%] md:py-[10vh]
- sm:py-[5vh]
-
-
-   ">
-      <div class="flex w-full h-full gap-[calc(20*var(--vw))]
-
-      sm:flex-col">
-
-
-        <div class="
-        left w-[50%] flex flex-col justify-between h-full
-        md:justify-normal
-        sm:w-[100%] sm:h-auto
-        ">
-           <div class="
-           name_project text-[calc(78*var(--vw))] inner_page_text leading-[calc(85*var(--vw))]
-           md:text-[calc(32*var(--vw-md))]
-           sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(30*var(--vw-sm))] sm:leading-[calc(32*var(--vw-sm))]
-
-           ">
-              <a href="#" class="underline hover:no-underline">
-                 Axis Cultural Center
-              </a>
-           </div>
-
-          <div class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] hidden
-          md:block md:text-left md:text-[calc(14*var(--vw-md))]
-          sm:hidden
-
-          ">
-            Architecture<br>
-            Landscape Architecture<br>
-            Interior Architecture
-          </div>
-        </div>
-        <div class="right w-[50%] h-full flex flex-col justify-between origin-top
-
-                sm:w-[100%]  sm:h-auto
-
-                ">
-          <div class="image_project flex-1 min-h-0 overflow-hidden">
-
-            <img src="images/projects_thumb/3.png" class="
-            project_carousel_image w-full h-full  block 
-            sm:h-auto  sm:object-cover sm:w-[70vw]
-            ">
-
-          </div>
-
-          <div class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))]
-          
-
-          md:hidden
-          sm:block sm:text-left sm:text-[calc(14*var(--vw-sm))]
-          ">
-            Architecture<br>
-            Landscape Architecture<br>
-            Interior Architecture
-          </div>
-
-
-        </div>
-      </div>
-   </div>
-<!-- project end -->
- </div>
-</div>
-
-</div>
-
-
-
-         </section>
-
-<!-- end contect -->
-         <div
-            class="grid grid-cols-4 leading-[1] relative z-20 logo_footer text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(250*var(--vw))]"
+                class="grid grid-cols-4 fixed z-30 inset-0 mix-blend-difference text-white h-10 header_nav gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))] md:p-[calc(8*var(--vw-md))] sm:py-[calc(20*var(--vw-sm))]"
             >
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+                <div
+                    class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))] roof_studio z-50 md:text-[calc(18*var(--vw-md))] md:leading-[calc(18*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))]"
+                >
+                    <a href="index.html">
+                        <div class="overflow-hidden">
+                            <div>ROOF</div>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div>STUDIO</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase">
+                        <a
+                            class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                            href="studio.html"
+                            >Studio</a
+                        >
+                    </div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase">
+                        <a
+                            class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                            href="projects.html"
+                            >Projects</a
+                        >
+                    </div>
+                </div>
+                <div class="uppercase justify-between flex contact_and_lang">
+                    <div class="overflow-hidden">
+                        <div>
+                            <a
+                                class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                href="contact.html"
+                                >Contact</a
+                            >
+                        </div>
+                    </div>
+                    <div class="overflow-hidden">
+                        <div>
+                            <a
+                                class="main_link inter-bold hover:underline underline hover:no-underline underline-offset-4 cursor-pointer md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                >UA</a
+                            >
+                            <a
+                                href=""
+                                class="menu-toggle relative block w-[calc(24*var(--vw-sm))] h-[calc(12*var(--vw-sm))] z-50 hidden sm:block"
+                            >
+                                <div class="line-1 absolute left-0 top-0 w-[100%] h-[1px] bg-white"></div>
+                                <div class="line-2 absolute left-0 top-[6px] w-[50%] h-[1px] bg-white"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
-            </div>
+
+            <!-- contect -->
+
+            <section id="project_page" class="mt-[calc(250*var(--vw))] md:mt-[calc(250*var(--vw-md))]">
+                <div class="title_projects justify-between md:text-left">
+                    <div
+                        class="mb-[calc(115*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] projects_title grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] md:flex-wrap md:justify-between sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]"
+                    >
+                        <div
+                            class="title-inner-page inter-regular text-[calc(14*var(--vw))] md:order-2 md:col-span-1 md:text-right md:text-[calc(14*var(--vw-md))] sm:order-1 sm:text-left sm:text-[calc(14*var(--vw-sm))]"
+                        >
+                            2024-2025
+                        </div>
+
+                        <div
+                            class="col-start-2 title-inner-page leading-[calc(32*var(--vw))] md:col-start-1 md:order-1 md:col-span-3 md:leading-[calc(32*var(--vw-md))] sm:order-2 sm:sm:text-[calc(32*var(--vw-sm))] sm:leading-[1]"
+                        >
+                            Costa <br />Navarino
+                        </div>
+
+                        <div
+                            class="col-start-4 title-inner-page text-right inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase leading-[calc(18*var(--vw))] md:block md:order-3 md:col-span-4 md:text-left md:text-[calc(14*var(--vw-md))] md:leading-[calc(18*var(--vw-md))] sm:order-3 sm:text-[calc(14*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))] sm:mt-[calc(18*var(--vw-sm))]"
+                        >
+                            Architecture<br />
+                            Landscape Architecture<br />
+                            nterior Architecture
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container_custom content_inner_page mt-[calc(50*var(--vw))]">
+                    <div class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]">
+                        <div
+                            class="video_block relative w-full overflow-hidden col-span-4 z-20 h-screen mt-[calc(5*var(--vw))] overflow-hidden md:h-[55vh]"
+                        >
+                            <video
+                                class="absolute top-0 left-0 w-full h-full object-cover video_inner_page"
+                                autoplay
+                                muted
+                                loop
+                                playsinline
+                            >
+                                <source src="videos/project_1.mp4" type="video/mp4" />
+                            </video>
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] my-[calc(200*var(--vw))] md:h-screen md:grid-rows-2 md:py-[calc(60*var(--vw-md))] md:text-[calc(16*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))] sm:h-auto sm:grid-rows-1"
+                    >
+                        <div
+                            class="col-start-2 col-span-1 inner_page_text md:col-start-1 md:col-span-2 md:row-start-1 md:self-start sm:col-span-4"
+                        >
+                            The Hotel is perched on an outcrop overlooking the ancient town of Pylos and the Bay of
+                            Navarino in the Peloponnese. There are 39 rooms within the main building of the hotel that
+                            also houses the reception, various lounge and terrace spaces, a pool, a spa, a restaurant
+                            and a bar.
+                        </div>
+
+                        <div
+                            class="col-start-3 col-span-1 inner_page_text md:col-start-3 md:col-span-2 md:row-start-2 md:self-end md:text-right sm:col-span-4 sm:text-left"
+                        >
+                            Scattered on the hillside beneath this building are an additional 12 rooms and 48 private
+                            villas each with their own garden and pool.
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 md:grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] mt-[calc(500*var(--vw))] h-full md:h-screen md:grid-rows-[auto_1fr_auto] md:relative md:py-[calc(70*var(--vw-md))] parameter_blocks"
+                    >
+                        <!-- LOCATION -->
+                        <div
+                            class="inter-light uppercase text-[calc(27*var(--vw))] tracking-[-0.05em] col-span-1 parameter_block md:text-[calc(27*var(--vw-md))] md:col-span-2 md:col-start-1 md:row-start-1 sm:text-[calc(27*var(--vw-sm))]"
+                        >
+                            Location
+                            <div
+                                class="text-[calc(14*var(--vw))] inter-bold tracking-[0.05em] leading-[calc(18*var(--vw))] mt-[calc(48*var(--vw))] parameter_block_info md:text-[calc(14*var(--vw-md))] md:leading-[calc(18*var(--vw-md))] sm:text-[calc(14*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))]"
+                            >
+                                Medora,<br />
+                                North Dakota,<br />
+                                USA
+                            </div>
+                        </div>
+
+                        <!-- SCOPE -->
+                        <div
+                            class="inter-light uppercase text-[calc(27*var(--vw))] tracking-[-0.05em] col-span-1 parameter_block md:text-[calc(27*var(--vw-md))] md:col-span-2 md:col-start-3 md:row-start-1 md:text-right sm:text-[calc(27*var(--vw-sm))]"
+                        >
+                            Scope
+                            <div
+                                class="text-[calc(14*var(--vw))] inter-bold tracking-[0.05em] leading-[calc(18*var(--vw))] mt-[calc(48*var(--vw))] parameter_block_info md:text-[calc(14*var(--vw-md))] md:leading-[calc(18*var(--vw-md))] sm:text-[calc(14*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))]"
+                            >
+                                Design Architect,<br />
+                                Landscape Architect,<br />
+                                Interior Architect
+                            </div>
+                        </div>
+
+                        <!-- CENTER SQUARE (FIXED CENTER X/Y) -->
+                        <div
+                            class="hidden md:block md:col-start-1 md:col-span-4 md:self-center md:justify-self-center md:h-[3vh] md:w-[3vh] md:bg-black md:z-10 sm:h-[1vh] sm:w-[1vh]"
+                        ></div>
+
+                        <!-- SIZE -->
+                        <div
+                            class="inter-light uppercase text-[calc(27*var(--vw))] tracking-[-0.05em] col-span-1 text-right parameter_block md:text-[calc(27*var(--vw-md))] md:col-start-1 md:col-span-2 md:row-start-3 md:text-left sm:text-[calc(27*var(--vw-sm))]"
+                        >
+                            Size
+                            <div
+                                class="text-[calc(14*var(--vw))] inter-bold tracking-[0.05em] leading-[calc(18*var(--vw))] mt-[calc(48*var(--vw))] parameter_block_info md:text-[calc(14*var(--vw-md))] md:leading-[calc(18*var(--vw-md))] sm:text-[calc(14*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))]"
+                            >
+                                Design Architect
+                            </div>
+                        </div>
+
+                        <!-- TYPOLOGIES -->
+                        <div
+                            class="inter-light uppercase text-[calc(27*var(--vw))] tracking-[-0.05em] col-span-1 text-right parameter_block md:text-[calc(27*var(--vw-md))] md:col-start-3 md:col-span-2 md:row-start-3 md:text-right sm:text-[calc(27*var(--vw-sm))]"
+                        >
+                            Typologies
+                            <div
+                                class="text-[calc(14*var(--vw))] inter-bold tracking-[0.05em] leading-[calc(18*var(--vw))] mt-[calc(48*var(--vw))] parameter_block_info md:text-[calc(14*var(--vw-md))] md:leading-[calc(18*var(--vw-md))] sm:text-[calc(14*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))]"
+                            >
+                                Installation & Commissions <br />
+                                Library <br />
+                                Museum & Gallery <br />
+                                Park & Garden <br />
+                                Sustainability <br />
+                                Education & Research
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] inner_page_text mt-[calc(1000*var(--vw))] md:mt-[calc(200*var(--vw-md))]"
+                    >
+                        <div
+                            class="col-span-2 col-start-2 md:text-[calc(16*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))] sm:col-span-4 sm:col-start-1"
+                        >
+                            The architectural concept draws inspiration from the local agricultural tradition of the
+                            Mandria – dry stone animal shelters built by hand by the farmers working the land. These
+                            spontaneously constructed enclosures are built of stone found in the ground of the site and
+                            take a simple, straightforward form that follows the natural topography of the land,
+                            including or excluding any obstacles such as trees or large rocks that lie in their path.
+                            <br /><br />
+                            Naturally a hotel resort is a more complex building typology with more sophisticated
+                            requirements, but this land-led attitude to organic form-finding gave us our starting point.
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] mt-[calc(104*var(--vw))] md:mt-[calc(204*var(--vw-md))] md:px-[0] md-gap[0]"
+                    >
+                        <div class="overflow-hidden col-span-4">
+                            <img
+                                src="images/project_1/image_1.png"
+                                class="w-full inner_page_img md:object-cover md:h-[calc(500*var(--vw-sm))] md:object-left"
+                            />
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] mt-[calc(200*var(--vw))] md:my-[calc(200*var(--vw-md))]"
+                    >
+                        <div
+                            class="col-span-2 col-start-2 inner_page_text md:col-span-4 md:text-[calc(16*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))]"
+                        >
+                            The hotel design is a sequence of Mandria-inspired stone ribbon enclosures connected by cast
+                            concrete plates, clustered together according to the topography of the site, in a horizontal
+                            arrangement on the top of the hill. Cascading from this castle-like formation is the
+                            ‘village’ of private villas, all brought together by a densely aromatic and slightly wild
+                            landscape.
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] mt-[calc(300*var(--vw))] md:gap-[calc(0*var(--vw))] md:px-[calc(0*var(--vw))]"
+                    >
+                        <div class="overflow-hidden col-span-2 col-start-2 md:col-span-4">
+                            <video id="bgVideo2" class="video_inner_page" autoplay muted loop playsinline>
+                                <source src="videos/project_1__video_2.mp4" type="video/mp4" />
+                            </video>
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] mt-[calc(150*var(--vw))] md:text-[calc(16*var(--vw-md))] md:my-[calc(100*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))]"
+                    >
+                        <div
+                            class="col-start-2 col-span-1 inner_page_text md:col-span-2 md:col-start-1 md:mt-[calc(100*var(--vw-md))] sm:col-span-4 sm:col-start-1"
+                        >
+                            Taking a closer look, the proximity of the stone enclosures to one another creates
+                            interesting moments of in-between space that are key to the design of the hotel layout. The
+                            Mandria provide solid boundary lines that are then punctuated with carefully placed openings
+                            to frame views whilst maintaining privacy for private spaces such as the rooms and spa.
+                        </div>
+
+                        <div
+                            class="col-start-3 col-span-1 inner_page_text md:col-span-2 md:col-start-3 md:mt-[calc(450*var(--vw-md))] md:text-right sm:mt-[0] sm:col-span-4 sm:col-start-1 sm:text-left"
+                        >
+                            The concrete slabs connect these stone boundaries horizontally and glazed thresholds blur
+                            them vertically by allowing continuous views from the entrance and reception across the
+                            lounge to the land beyond. Outside zinc-clad pergolas act like topographical exclamation
+                            marks, bridging the gap between internal and external space, providing shade and signaling
+                            key parts of the building such as the entrance and the pool terrace.
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] mt-[calc(250*var(--vw))] md:gap-[calc(0*var(--vw))] md:px-[calc(0*var(--vw))] md:my-[calc(200*var(--vw-md))]"
+                    >
+                        <div class="overflow-hidden col-span-4">
+                            <img
+                                src="images/project_1/image_2.png"
+                                class="col-span-4 inner_page_img md:object-cover md:h-[calc(280*var(--vw-sm))] md:object-left"
+                            />
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] mt-[calc(250*var(--vw))] md:text-[calc(16*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))] sm:mt-[calc(0*var(--vw))]"
+                    >
+                        <div
+                            class="col-start-2 col-span-1 inner_page_text md:col-span-2 md:col-start-1 sm:col-span-4 sm:col-start-1"
+                        >
+                            The architectural materiality comes from our effort to connect with the landscape and local
+                            materials. To give a sense of the resort having grown organically within the site we take
+                            our queue from the farmers and place the structures according to the lay of the land,
+                            building them with stone from within it. Internally the stone walls are treated with natural
+                            render; the concrete is left exposed and polished to showcase the purity of the construction
+                            of the slabs; and slender, anodized aluminium-framed glazing allows for uninterrupted views
+                            of the surrounding – and encroaching -landscape.
+                        </div>
+
+                        <div
+                            class="col-start-3 col-span-1 inner_page_text md:col-span-2 md:col-start-3 md:mt-[calc(550*var(--vw-md))] md:text-right sm:col-span-4 sm:col-start-1 sm:mt-[calc(0*var(--vw-sm))] sm:text-left"
+                        >
+                            An authentically verdant blend of olive and cypress, lavender and thyme surrounds,
+                            encroaches on and in places literally inhabits the building. This layer of green life
+                            overlaps and softens the built edges, tying the building down into the landscape and
+                            literally giving it roots.
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[0.05em] mt-[calc(250*var(--vw))] md:my-[calc(200*var(--vw-md))] sm:h-[50vh]"
+                    >
+                        <div class="overflow-hidden col-span-2">
+                            <img
+                                src="images/project_1/image_3.png"
+                                class="w-full h-full object-cover block inner_page_img md:h-auto sm:h-full"
+                            />
+                        </div>
+                        <div
+                            class="overflow-hidden col-span-2 md:mt-[calc(350*var(--vw-md))] sm:mt-[calc(0*var(--vw-sm))]"
+                        >
+                            <img
+                                src="images/project_1/image_4.png"
+                                class="w-full h-full object-cover block inner_page_img"
+                            />
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] text-[calc(14*var(--vw))] tracking-[-0.05em] mt-[calc(250*var(--vw))]"
+                    >
+                        <div
+                            class="col-span-2 col-start-2 inner_page_text md:col-span-4 md:text-[calc(16*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))]"
+                        >
+                            The interior design concept aims to connect the complimentary conditions of near and far.
+                            The humble beauty of the surrounding landscape has inspired the form and materiality of the
+                            architecture and to this context we introduce a more refined and complex layer of finishes
+                            and decorations inspired by international travel. The overall impression is of a collection
+                            of discoveries that are arranged to achieve a balance of luxuriously soft depth and
+                            elegantly delicate details in each area, with a relaxed palette of natural tones that lift
+                            as you move from interior to exterior space, tying them together.
+                        </div>
+                    </div>
+
+                    <div
+                        class="border-t border-b border-black h-[90vh] project_carousel_wrapper overflow-hidden text-black mt-[calc(250*var(--vw))] md:mt-[calc(200*var(--vw-md))] sm:h-auto"
+                    >
+                        <div
+                            class="flex px-[calc(60*var(--vw))] text-[calc(14*var(--vw))] project_carousel_track h-full"
+                        >
+                            <!-- project start -->
+                            <div
+                                class="project_block_carusel shrink-0 w-[50%] flex border-l border-black px-[calc(51*var(--vw))] transition-all ease-out duration-700 py-[5vh] md:w-[100%] md:py-[10vh] sm:py-[5vh]"
+                            >
+                                <div class="flex w-full h-full gap-[calc(20*var(--vw))] sm:flex-col">
+                                    <div
+                                        class="left w-[50%] flex flex-col justify-between h-full md:justify-normal sm:w-[100%] sm:h-auto"
+                                    >
+                                        <div
+                                            class="name_project text-[calc(78*var(--vw))] inner_page_text leading-[calc(85*var(--vw))] md:text-[calc(32*var(--vw-md))] sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(30*var(--vw-sm))] sm:leading-[calc(32*var(--vw-sm))]"
+                                        >
+                                            <a href="#" class="underline hover:no-underline">
+                                                Nova Horizon Residence
+                                            </a>
+                                        </div>
+
+                                        <div
+                                            class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] hidden md:block md:text-left md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                        >
+                                            Architecture
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="right w-[50%] h-full flex flex-col justify-between origin-top sm:w-[100%] sm:h-auto"
+                                    >
+                                        <div class="image_project flex-1 min-h-0 overflow-hidden">
+                                            <img
+                                                src="images/projects_thumb/1.png"
+                                                class="project_carousel_image w-full h-full block sm:h-auto sm:object-cover sm:w-[70vw]"
+                                            />
+                                        </div>
+
+                                        <div
+                                            class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] md:hidden sm:block sm:text-left sm:text-[calc(14*var(--vw-sm))]"
+                                        >
+                                            Architecture
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- project end -->
+
+                            <!-- project start -->
+                            <div
+                                class="project_block_carusel shrink-0 w-[50%] flex border-l border-black px-[calc(51*var(--vw))] transition-all ease-out duration-700 py-[5vh] md:w-[100%] md:py-[10vh] sm:py-[5vh]"
+                            >
+                                <div class="flex w-full h-full gap-[calc(20*var(--vw))] sm:flex-col">
+                                    <div
+                                        class="left w-[50%] flex flex-col justify-between h-full md:justify-normal sm:w-[100%] sm:h-auto"
+                                    >
+                                        <div
+                                            class="name_project text-[calc(78*var(--vw))] inner_page_text leading-[calc(85*var(--vw))] md:text-[calc(32*var(--vw-md))] sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(30*var(--vw-sm))] sm:leading-[calc(32*var(--vw-sm))]"
+                                        >
+                                            <a href="#" class="underline hover:no-underline">
+                                                The Brickyard Pavilions
+                                            </a>
+                                        </div>
+
+                                        <div
+                                            class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] hidden md:block md:text-left md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                        >
+                                            Architecture<br />
+                                            Interior Architecture
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="right w-[50%] h-full flex flex-col justify-between origin-top sm:w-[100%] sm:h-auto"
+                                    >
+                                        <div class="image_project flex-1 min-h-0 overflow-hidden">
+                                            <img
+                                                src="images/projects_thumb/2.png"
+                                                class="project_carousel_image w-full h-full block sm:h-auto sm:object-cover sm:w-[70vw]"
+                                            />
+                                        </div>
+
+                                        <div
+                                            class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] md:hidden sm:block sm:text-left sm:text-[calc(14*var(--vw-sm))]"
+                                        >
+                                            Architecture<br />
+                                            Interior Architecture
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- project end -->
+
+                            <!-- project start -->
+                            <div
+                                class="project_block_carusel shrink-0 w-[50%] flex border-l border-black px-[calc(51*var(--vw))] transition-all ease-out duration-700 py-[5vh] md:w-[100%] md:py-[10vh] sm:py-[5vh]"
+                            >
+                                <div class="flex w-full h-full gap-[calc(20*var(--vw))] sm:flex-col">
+                                    <div
+                                        class="left w-[50%] flex flex-col justify-between h-full md:justify-normal sm:w-[100%] sm:h-auto"
+                                    >
+                                        <div
+                                            class="name_project text-[calc(78*var(--vw))] inner_page_text leading-[calc(85*var(--vw))] md:text-[calc(32*var(--vw-md))] sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(30*var(--vw-sm))] sm:leading-[calc(32*var(--vw-sm))]"
+                                        >
+                                            <a href="#" class="underline hover:no-underline"> Axis Cultural Center </a>
+                                        </div>
+
+                                        <div
+                                            class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] hidden md:block md:text-left md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                        >
+                                            Architecture<br />
+                                            Landscape Architecture<br />
+                                            Interior Architecture
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="right w-[50%] h-full flex flex-col justify-between origin-top sm:w-[100%] sm:h-auto"
+                                    >
+                                        <div class="image_project flex-1 min-h-0 overflow-hidden">
+                                            <img
+                                                src="images/projects_thumb/3.png"
+                                                class="project_carousel_image w-full h-full block sm:h-auto sm:object-cover sm:w-[70vw]"
+                                            />
+                                        </div>
+
+                                        <div
+                                            class="des_project inter-regular text-[calc(14*var(--vw))] tracking-[0.11em] uppercase text-right mt-[calc(90*var(--vw))] md:hidden sm:block sm:text-left sm:text-[calc(14*var(--vw-sm))]"
+                                        >
+                                            Architecture<br />
+                                            Landscape Architecture<br />
+                                            Interior Architecture
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- project end -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- end contect -->
             <div
-               class="
-               col-span-4 text-[calc(18*var(--vw))] text-center mb-[calc(20*var(--vw))]
-               sm:text-[calc(16*var(--vw-sm))]
-               "
-               >
-               ROOF ©<br />2026 All rights reserved
+                class="grid grid-cols-4 leading-[1] relative z-20 logo_footer text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(250*var(--vw))]"
+            >
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
+                </div>
+                <div
+                    class="col-span-4 text-[calc(18*var(--vw))] text-center mb-[calc(20*var(--vw))] sm:text-[calc(16*var(--vw-sm))]"
+                >
+                    ROOF ©<br />2026 All rights reserved
+                </div>
             </div>
-         </div>
-      </div>
+        </div>
 
+        <script src="js/menu_mobile.js"></script>
+        <script src="js/gsap_preloader_inner_page.js"></script>
+        <script src="js/portfolio_hover.js"></script>
+        <script src="js/custom.js"></script>
+        <script src="js/project_page_carusel.js"></script>
 
-      <script src="js/menu_mobile.js"></script>
-      <script src="js/gsap_preloader_inner_page.js"></script>
-      <script src="js/portfolio_hover.js"></script>
-      <script src="js/custom.js"></script>
-      <script src="js/project_page_carusel.js"></script>
-
-
-      <script>
-         if (window.innerWidth >= 1000) {
-             const desktopScripts = [
-                 "js/scroll_inner_page.js",
-
-             ];
-             desktopScripts.forEach((src) => {
-                 const script = document.createElement("script");
-                 script.src = src;
-                 script.async = true;
-                 document.body.appendChild(script);
-             });
-         }
-      </script>
-
-
-
-   </body>
+        <script>
+            if (window.innerWidth >= 1000) {
+                const desktopScripts = ["js/scroll_inner_page.js"];
+                desktopScripts.forEach((src) => {
+                    const script = document.createElement("script");
+                    script.src = src;
+                    script.async = true;
+                    document.body.appendChild(script);
+                });
+            }
+        </script>
+    </body>
 </html>

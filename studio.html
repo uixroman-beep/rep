@@ -1,516 +1,295 @@
 <!doctype html>
 <html lang="ru">
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Tailwind + GSAP + VW/VH Engine</title>
-      <!-- Tailwind CDN -->
-      <script src="https://cdn.tailwindcss.com"></script>
-      <!-- GSAP CDN -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-      <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
-      <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet" />
-      <link
-         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-         rel="stylesheet"
-         />
-      <script>
-         tailwind.config = {
-             theme: {
-                 screens: {
-                     xl: { max: "1279px" },
-                     lg: { max: "1023px" },
-                     md: { max: "767px" },
-                     sm: { max: "639px" },
-                 },
-             },
-         };
-      </script>
-      <link
-         href="css/custom.css"
-         rel="stylesheet"
-         />
-   </head>
-   <body class="bg-[black] overflow-x-hidden inter-regular text-[#C6C6CE]  studio-page black-theme">
-      <div class="cursor"></div>
-      <div
-         class="
-         nav-overplay-absolute fixed inset-0 z-30 flex items-center justify-center hidden
-
-         "
-         >
-         <div class="nav-overplay inset-0 z-30  h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] sm:py-[calc(50*var(--vw-sm))]">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tailwind + GSAP + VW/VH Engine</title>
+        <!-- Tailwind CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- GSAP CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet"
+        />
+        <script>
+            tailwind.config = {
+                theme: {
+                    screens: {
+                        xl: { max: "1279px" },
+                        lg: { max: "1023px" },
+                        md: { max: "767px" },
+                        sm: { max: "639px" },
+                    },
+                },
+            };
+        </script>
+        <link href="css/custom.css" rel="stylesheet" />
+    </head>
+    <body class="bg-[black] overflow-x-hidden inter-regular text-[#C6C6CE] studio-page black-theme">
+        <div class="cursor"></div>
+        <div class="nav-overplay-absolute fixed inset-0 z-30 flex items-center justify-center hidden">
             <div
-               class="flex flex-col justify-between h-full "
-               >
-               <!-- Logo -->
-               <div
-                  class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"
-                  ></div>
-               <!-- Menu -->
-               <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block text-white">
-                  <div class="overflow-hidden w-full text-left">
-                     <a
-                        href="studio.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full
-                        sm:text-[calc(72*var(--vw-sm))] "
-                        >
-                     Studio
-                     </a>
-                  </div>
-                  <div class="overflow-hidden w-full text-center">
-                     <a
-                        href="projects.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline
-                        sm:text-[calc(72*var(--vw-sm))]  "
-                        >
-                     Projects
-                     </a>
-                  </div>
-                  <div class="overflow-hidden  w-full text-right">
-                     <a
-                        href="contact.html"
-                        class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full
-                        sm:text-[calc(72*var(--vw-sm))] "
-                        >
-                     Contact
-                     </a>
-                  </div>
-               </nav>
-               <!-- Language -->
-               <a
-                  href="#"
-                  class="inter-bold text-center underline hover:no-underline text-[calc(14*var(--vw))]
-                  sm:text-[calc(16*var(--vw-sm))] "
-                  >
-               UA
-               </a>
+                class="nav-overplay inset-0 z-30 h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] sm:py-[calc(50*var(--vw-sm))]"
+            >
+                <div class="flex flex-col justify-between h-full">
+                    <!-- Logo -->
+                    <div class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))]"></div>
+                    <!-- Menu -->
+                    <nav class="flex flex-col items-center text-center gap-4 w-full nav_item_block text-white">
+                        <div class="overflow-hidden w-full text-left">
+                            <a
+                                href="studio.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline text-left w-full sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Studio
+                            </a>
+                        </div>
+                        <div class="overflow-hidden w-full text-center">
+                            <a
+                                href="projects.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Projects
+                            </a>
+                        </div>
+                        <div class="overflow-hidden w-full text-right">
+                            <a
+                                href="contact.html"
+                                class="uppercase tracking-[.06em] underline hover:no-underline text-right w-full sm:text-[calc(72*var(--vw-sm))]"
+                            >
+                                Contact
+                            </a>
+                        </div>
+                    </nav>
+                    <!-- Language -->
+                    <a
+                        href="#"
+                        class="inter-bold text-center underline hover:no-underline text-[calc(14*var(--vw))] sm:text-[calc(16*var(--vw-sm))]"
+                    >
+                        UA
+                    </a>
+                </div>
             </div>
-         </div>
-         
-      </div>
-<!--       <div
+        </div>
+        <!--       <div
          id="preloader_overplay"
          class="flex items-center justify-center h-screen w-screen bg-[#C6C6CE] absolute top-0 z-10"
          >
          <div id="box" class="bg-[#000000] h-[calc(400*var(--vw))] w-[calc(400*var(--vw))] opacity-0"></div>
       </div> -->
-      <div class="all_content opacity-0">
-         <div
-            class="
-            grid grid-cols-4 fixed z-30 inset-0 mix-blend-difference text-white h-10 header_nav gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))] 
-
-            md:p-[calc(8*var(--vw-md))]
-            sm:py-[calc(20*var(--vw-sm))]
-
-
-            "
-            >
+        <div class="all_content opacity-0">
             <div
-               class="
-               text-[calc(16*var(--vw))]  leading-[calc(18*var(--vw))] roof_studio z-50
-               md:text-[calc(18*var(--vw-md))] md:leading-[calc(18*var(--vw-md))]
-               sm:text-[calc(18*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))] 
-               "
-               >
-               <a href="index.html">
-               <div class="overflow-hidden">
-                  <div>ROOF</div>
-               </div>
-               <div class="overflow-hidden">
-                  <div>STUDIO</div>
-               </div>
-
-               </a>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase">
-                  <a
-                     class="
-                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                     md:text-[calc(14*var(--vw-md))]
-                     sm:hidden
-                     "
-                     href="studio.html"
-                     >Studio</a
-                     >
-               </div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase">
-                  <a
-                     class="
-                     main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                     md:text-[calc(14*var(--vw-md))]
-                     sm:hidden
-                     "
-                     href="projects.html"
-                     >Projects</a
-                     >
-               </div>
-            </div>
-            <div class="uppercase justify-between flex contact_and_lang">
-               <div class="overflow-hidden">
-                  <div>
-                     <a
-                        class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4
-                        md:text-[calc(14*var(--vw-md))]
-                        sm:hidden
-                        "
-                        href="contact.html"
-                        >Contact</a
-                        >
-                  </div>
-               </div>
-               <div class="overflow-hidden">
-                  <div>
-                     <a
-                        class="main_link inter-bold hover:underline underline hover:no-underline underline-offset-4 cursor-pointer 
-                        md:text-[calc(14*var(--vw-md))]
-                        sm:hidden
-                        "
-                        >UA</a
-                        >
-                     <a
-                        href=""
-                        class="
-                        menu-toggle relative block w-[calc(24*var(--vw-sm))] h-[calc(12*var(--vw-sm))] z-50 hidden
-                        sm:block
-                        "
-                        >
-                        <div class="line-1 absolute left-0 top-0 w-[100%] h-[1px] bg-white"></div>
-                        <div class="line-2 absolute left-0 top-[6px] w-[50%] h-[1px] bg-white"></div>
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-
-<!-- contect -->
-      
-         <section id="studio" class="
-         mt-[calc(200*var(--vw))]
-         md:mt-[calc(200*var(--vw-md))]
-
-
-         ">
-            <div class="
-            justify-between 
-            md:text-left 
-            ">
-            <div id="cursor-studio"></div>
-               <div
-                  class="
-                  mb-[calc(115*var(--vw))] text-[calc(78*var(--vw))] inter-medium tracking-[-0.02em] projects_title grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))]
-                  md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))]
-                  sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]
-
-                  "
-                  >
-                  <div class="title-inner-page inter-bold
-                  sm:hidden
-                  ">Roof</div>
-
-
-
-                  <div class="col-start-2 col-span-3  content_inner_page inter-bold  mix-blend-difference text-[calc(78*var(--vw))]  
-
-                  md:mix-blend-normal 
-                  sm:col-start-1 sm:col-span-4 sm:text-[calc(32*var(--vw-sm))] 
-                  ">
-<span class="hidden sm:inline">ROOF</span> is the ultimate intersection of shelter, sophistication, and structural art.
-<br><br>
-Historically the symbol of protection and completeness, for us the roof represents the highest point of design excellence. We focus on bold minimalism, spatial intelligence, and context-driven architecture that redefines the skyline while honoring its surroundings.
-<br><br>
-We don’t just build walls — we craft atmospheres, balance light, and bridge the gap between human experience and the physical world.
-                  </div>
-
-
-
-               </div>
-            </div>
-
-
-            </div>
-         </section>
-
-
-         <section id="press" class="
-         mt-[calc(200*var(--vw))]
-         md:mt-[calc(200*var(--vw-md))] 
-
-         ">
-            <div class="
-            title_press justify-between text-left grid grid-cols-4 gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))]
- 
-            ">
-               <div
-                  class="
-                  mb-[calc(85*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] press_title col-start-2 col-span-3
-                  md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] md:col-start-1 md:col-span-4
-                  sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))] 
-
-                  "
-                  >
-                  Selected Press 
-               </div>
-            </div>
-
-<!-- press start -->
-
-<div class="
-
-press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black 
-
-md:text-[calc(21*var(--vw-md))]
-
-sm:text-[calc(21*var(--vw-sm))]
-
-">
-
-   <div class="col-start-2 col-span-2 
-
-   md:col-start-1 
-
-   ">
-
-      ArchDaily
-
-   </div>
-
-   <div class="
-
-   col-span-1
-
-   md:col-span-2
-
-   text-right
-
-   ">
-
-      <a href="#" class="underline hover:no-underline">House Pines</a>
-
-   </div>
-
-</div>
-
-<!-- end press start -->
-
-
-<!-- press start -->
-
-<div class="
-
-press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black 
-
-md:text-[calc(21*var(--vw-md))]
-
-sm:text-[calc(21*var(--vw-sm))]
-
-">
-
-   <div class="col-start-2 col-span-2 
-
-   md:col-start-1 
-
-   ">
-
-      Dezeen
-
-   </div>
-
-   <div class="
-
-   col-span-1
-
-   md:col-span-2
-
-   text-right
-
-   ">
-
-      <a href="#" class="underline hover:no-underline">Concrete & Light</a>
-
-   </div>
-
-</div>
-
-<!-- end press start -->
-
-
-<!-- press start -->
-
-<div class="
-
-press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black 
-
-md:text-[calc(21*var(--vw-md))]
-
-sm:text-[calc(21*var(--vw-sm))]
-
-">
-
-   <div class="col-start-2 col-span-2 
-
-   md:col-start-1 
-
-   ">
-
-      Designboom
-
-   </div>
-
-   <div class="
-
-   col-span-1
-
-   md:col-span-2
-
-   text-right
-
-   ">
-
-      <a href="#" class="underline hover:no-underline">The Quiet Pavilion</a>
-
-   </div>
-
-</div>
-
-<!-- end press start -->
-
-
-<!-- press start -->
-
-<div class="
-
-press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black 
-
-md:text-[calc(21*var(--vw-md))]
-
-sm:text-[calc(21*var(--vw-sm))]
-
-">
-
-   <div class="col-start-2 col-span-2 
-
-   md:col-start-1 
-
-   ">
-
-      Wallpaper*
-
-   </div>
-
-   <div class="
-
-   col-span-1
-
-   md:col-span-2
-
-   text-right
-
-   ">
-
-      <a href="#" class="underline hover:no-underline">Minimal Living</a>
-
-   </div>
-
-</div>
-
-<!-- end press start -->
-
-
-<!-- press start -->
-
-<div class="
-
-press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black 
-
-md:text-[calc(21*var(--vw-md))]
-
-sm:text-[calc(21*var(--vw-sm))]
-
-">
-
-   <div class="col-start-2 col-span-2 
-
-   md:col-start-1 
-
-   ">
-
-      The Architectural Review
-
-   </div>
-
-   <div class="
-
-   col-span-1
-
-   md:col-span-2
-
-   text-right
-
-   ">
-
-      <a href="#" class="underline hover:no-underline">Reframing the Landscape</a>
-
-   </div>
-
-</div>
-
-<!-- end press start -->
-
-         </section>
-
-
-<!-- end contect -->
-         <div
-            class="grid grid-cols-4 leading-[1] relative z-20 logo_footer text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(250*var(--vw))]"
+                class="grid grid-cols-4 fixed z-30 inset-0 mix-blend-difference text-white h-10 header_nav gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] text-[calc(14*var(--vw))] md:p-[calc(8*var(--vw-md))] sm:py-[calc(20*var(--vw-sm))]"
             >
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+                <div
+                    class="text-[calc(16*var(--vw))] leading-[calc(18*var(--vw))] roof_studio z-50 md:text-[calc(18*var(--vw-md))] md:leading-[calc(18*var(--vw-md))] sm:text-[calc(18*var(--vw-sm))] sm:leading-[calc(18*var(--vw-sm))]"
+                >
+                    <a href="index.html">
+                        <div class="overflow-hidden">
+                            <div>ROOF</div>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div>STUDIO</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase">
+                        <a
+                            class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                            href="studio.html"
+                            >Studio</a
+                        >
+                    </div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase">
+                        <a
+                            class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                            href="projects.html"
+                            >Projects</a
+                        >
+                    </div>
+                </div>
+                <div class="uppercase justify-between flex contact_and_lang">
+                    <div class="overflow-hidden">
+                        <div>
+                            <a
+                                class="main_link underline hover:no-underline tracking-[.05em] underline-offset-4 md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                href="contact.html"
+                                >Contact</a
+                            >
+                        </div>
+                    </div>
+                    <div class="overflow-hidden">
+                        <div>
+                            <a
+                                class="main_link inter-bold hover:underline underline hover:no-underline underline-offset-4 cursor-pointer md:text-[calc(14*var(--vw-md))] sm:hidden"
+                                >UA</a
+                            >
+                            <a
+                                href=""
+                                class="menu-toggle relative block w-[calc(24*var(--vw-sm))] h-[calc(12*var(--vw-sm))] z-50 hidden sm:block"
+                            >
+                                <div class="line-1 absolute left-0 top-0 w-[100%] h-[1px] bg-white"></div>
+                                <div class="line-2 absolute left-0 top-[6px] w-[50%] h-[1px] bg-white"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
-            </div>
-            <div class="overflow-hidden">
-               <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
-            </div>
+
+            <!-- contect -->
+
+            <section id="studio" class="mt-[calc(200*var(--vw))] md:mt-[calc(200*var(--vw-md))]">
+                <div class="justify-between md:text-left">
+                    <div id="cursor-studio"></div>
+                    <div
+                        class="mb-[calc(115*var(--vw))] text-[calc(78*var(--vw))] inter-medium tracking-[-0.02em] projects_title grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]"
+                    >
+                        <div class="title-inner-page inter-bold sm:hidden">Roof</div>
+
+                        <div
+                            class="col-start-2 col-span-3 content_inner_page inter-bold mix-blend-difference text-[calc(78*var(--vw))] md:mix-blend-normal sm:col-start-1 sm:col-span-4 sm:text-[calc(32*var(--vw-sm))]"
+                        >
+                            <span class="hidden sm:inline">ROOF</span> is the ultimate intersection of shelter,
+                            sophistication, and structural art. <br /><br />
+                            Historically the symbol of protection and completeness, for us the roof represents the
+                            highest point of design excellence. We focus on bold minimalism, spatial intelligence, and
+                            context-driven architecture that redefines the skyline while honoring its surroundings.
+                            <br /><br />
+                            We don’t just build walls — we craft atmospheres, balance light, and bridge the gap between
+                            human experience and the physical world.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="press" class="mt-[calc(200*var(--vw))] md:mt-[calc(200*var(--vw-md))]">
+                <div
+                    class="title_press justify-between text-left grid grid-cols-4 gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))]"
+                >
+                    <div
+                        class="mb-[calc(85*var(--vw))] text-[calc(32*var(--vw))] inter-medium tracking-[-0.02em] press_title col-start-2 col-span-3 md:text-[calc(32*var(--vw-md))] md:mb-[calc(64*var(--vw-md))] md:col-start-1 md:col-span-4 sm:text-[calc(32*var(--vw-sm))] sm:mb-[calc(50*var(--vw-sm))]"
+                    >
+                        Selected Press
+                    </div>
+                </div>
+
+                <!-- press start -->
+
+                <div
+                    class="press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black md:text-[calc(21*var(--vw-md))] sm:text-[calc(21*var(--vw-sm))]"
+                >
+                    <div class="col-start-2 col-span-2 md:col-start-1">ArchDaily</div>
+
+                    <div class="col-span-1 md:col-span-2 text-right">
+                        <a href="#" class="underline hover:no-underline">House Pines</a>
+                    </div>
+                </div>
+
+                <!-- end press start -->
+
+                <!-- press start -->
+
+                <div
+                    class="press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black md:text-[calc(21*var(--vw-md))] sm:text-[calc(21*var(--vw-sm))]"
+                >
+                    <div class="col-start-2 col-span-2 md:col-start-1">Dezeen</div>
+
+                    <div class="col-span-1 md:col-span-2 text-right">
+                        <a href="#" class="underline hover:no-underline">Concrete & Light</a>
+                    </div>
+                </div>
+
+                <!-- end press start -->
+
+                <!-- press start -->
+
+                <div
+                    class="press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black md:text-[calc(21*var(--vw-md))] sm:text-[calc(21*var(--vw-sm))]"
+                >
+                    <div class="col-start-2 col-span-2 md:col-start-1">Designboom</div>
+
+                    <div class="col-span-1 md:col-span-2 text-right">
+                        <a href="#" class="underline hover:no-underline">The Quiet Pavilion</a>
+                    </div>
+                </div>
+
+                <!-- end press start -->
+
+                <!-- press start -->
+
+                <div
+                    class="press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black md:text-[calc(21*var(--vw-md))] sm:text-[calc(21*var(--vw-sm))]"
+                >
+                    <div class="col-start-2 col-span-2 md:col-start-1">Wallpaper*</div>
+
+                    <div class="col-span-1 md:col-span-2 text-right">
+                        <a href="#" class="underline hover:no-underline">Minimal Living</a>
+                    </div>
+                </div>
+
+                <!-- end press start -->
+
+                <!-- press start -->
+
+                <div
+                    class="press_block border-t border-[#C6C6CE] grid grid-cols-4 gap-[calc(104*var(--vw))] px-[calc(20*var(--vw))] py-[calc(5*var(--vw))] text-[calc(30*var(--vw))] hover:bg-[#C6C6CE] hover:text-black md:text-[calc(21*var(--vw-md))] sm:text-[calc(21*var(--vw-sm))]"
+                >
+                    <div class="col-start-2 col-span-2 md:col-start-1">The Architectural Review</div>
+
+                    <div class="col-span-1 md:col-span-2 text-right">
+                        <a href="#" class="underline hover:no-underline">Reframing the Landscape</a>
+                    </div>
+                </div>
+
+                <!-- end press start -->
+            </section>
+
+            <!-- end contect -->
             <div
-               class="
-               col-span-4 text-[calc(18*var(--vw))] text-center mb-[calc(20*var(--vw))]
-               sm:text-[calc(16*var(--vw-sm))]
-               "
-               >
-               ROOF ©<br />2026 All rights reserved
+                class="grid grid-cols-4 leading-[1] relative z-20 logo_footer text-[calc(307.8*var(--vw))] gap-[calc(104*var(--vw))] p-[calc(20*var(--vw))] mt-[calc(250*var(--vw))]"
+            >
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-18.3*var(--vw))]">R</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-8*var(--vw))]">O</div>
+                </div>
+                <div class="overflow-hidden">
+                    <div class="uppercase bbh-bartle-regular ml-[calc(-18*var(--vw))]">F</div>
+                </div>
+                <div
+                    class="col-span-4 text-[calc(18*var(--vw))] text-center mb-[calc(20*var(--vw))] sm:text-[calc(16*var(--vw-sm))]"
+                >
+                    ROOF ©<br />2026 All rights reserved
+                </div>
             </div>
-         </div>
-      </div>
+        </div>
 
-      <script src="js/menu_mobile.js"></script>
-      <script src="js/gsap_preloader_inner_page.js"></script>
+        <script src="js/menu_mobile.js"></script>
+        <script src="js/gsap_preloader_inner_page.js"></script>
 
-      <script src="js/custom.js"></script>
+        <script src="js/custom.js"></script>
 
-      <script>
-         if (window.innerWidth >= 1000) {
-             const desktopScripts = [
-                 "js/studio_section_interaction.js",
-
-             ];
-             desktopScripts.forEach((src) => {
-                 const script = document.createElement("script");
-                 script.src = src;
-                 script.async = true;
-                 document.body.appendChild(script);
-             });
-         }
-      </script>
-
-   </body>
+        <script>
+            if (window.innerWidth >= 1000) {
+                const desktopScripts = ["js/studio_section_interaction.js"];
+                desktopScripts.forEach((src) => {
+                    const script = document.createElement("script");
+                    script.src = src;
+                    script.async = true;
+                    document.body.appendChild(script);
+                });
+            }
+        </script>
+    </body>
 </html>
