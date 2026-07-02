@@ -33,9 +33,8 @@
          />
    </head>
 
-   <script>
-      window.scrollTo(0, 0);
-   </script>
+
+
    <body class="bg-[#C6C6CE] overflow-x-hidden inter-regular text-black body-main-page">
       <div class="cursor"></div>
       <div
@@ -1243,6 +1242,12 @@
                  document.body.appendChild(script);
              });
          }
+
+           if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
       </script>
+
    </body>
 </html>
