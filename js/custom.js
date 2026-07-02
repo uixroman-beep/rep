@@ -1,6 +1,6 @@
  
 
-window.scrollTo(0, 0);
+
 
 let lenis;
 let shouldStop = document.body.classList.contains("no-scroll");
